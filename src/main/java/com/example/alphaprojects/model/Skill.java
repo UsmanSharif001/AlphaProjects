@@ -9,6 +9,10 @@ public class Skill {
 
     }
 
+    public Skill(String skillName){
+        this.skillName = skillName;
+    }
+
     public Skill(int skillID, String skillName) {
         this.skillID = skillID;
         this.skillName = skillName;

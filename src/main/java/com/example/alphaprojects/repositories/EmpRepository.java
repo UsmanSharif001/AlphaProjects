@@ -28,12 +28,12 @@ public class EmpRepository {
         Emp emp = null;
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String sql = """
-                SELECT emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password, skill.skill_id, skill.skill_name
+                SELECT emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password,skill.skill_name
                 FROM emp
                 JOIN emp_skills on emp.emp_id = emp_skills.emp_id
                 JOIN skill on emp_skills.skill_id = skill.skill_id
                 WHERE
-                emp_email = ? and emp_password = ? 
+                emp_email = ? and emp_password = ?
                 """;
         try (PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -47,7 +47,7 @@ public class EmpRepository {
                 String empName = rs.getString("emp_name");
                 String empEmail = rs.getString("emp_email");
                 String empPassword = rs.getString("emp_password");
-                Skill skill = new Skill(rs.getInt("skill_id"), rs.getString("skill_name"));
+                Skill skill = new Skill(rs.getString("skill_name"));
                 if (empName.equals(currentEmpName)) {
                     emp.addSkill(skill);
                 } else {
@@ -63,4 +63,26 @@ public class EmpRepository {
 
         return emp;
     }
+
+    public List<Skill> getSkills() {
+        List<Skill> skills = new ArrayList<>();
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+        String SQL = """
+                SELECT * FROM skill
+                """;
+        try(PreparedStatement ps = con.prepareStatement(SQL)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                skills.add(new Skill(
+                        rs.getInt("skill_id"),
+                        rs.getString("skill_name"))
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return skills;
+    }
+
+
 }
