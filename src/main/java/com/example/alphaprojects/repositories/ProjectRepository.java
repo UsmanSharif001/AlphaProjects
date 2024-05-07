@@ -1,6 +1,7 @@
 package com.example.alphaprojects.repositories;
 
 import com.example.alphaprojects.model.Project;
+import com.example.alphaprojects.interfaces.ProjectInterface;
 import com.example.alphaprojects.model.Status;
 import com.example.alphaprojects.util.ConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class ProjectRepository {
+public class ProjectRepository implements ProjectInterface {
 
     @Value("${spring.datasource.url}")
     private String db_url;
@@ -24,6 +25,7 @@ public class ProjectRepository {
     @Value("${spring.datasource.password}")
     private String pwd;
 
+    @Override
     public List<Project> getListOfProjects() {
         List<Project> projectList = new ArrayList<>();
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
@@ -50,6 +52,7 @@ public class ProjectRepository {
         return projectList;
     }
 
+    @Override
     public String getProjectManagerName(int empID) {
         String projectManager = "";
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
