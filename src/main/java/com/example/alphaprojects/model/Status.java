@@ -1,9 +1,9 @@
 package com.example.alphaprojects.model;
 public enum Status {
-    NOT_STARTED("Not Started"),
-    IN_PROGRESS("In Progress"),
-    DONE("Done"),
-    ARCHIVED("Archived");
+    NOT_STARTED("Ikke startet"),
+    IN_PROGRESS("Igangværende"),
+    DONE("Afsluttet"),
+    ARCHIVED("Arkiveret");
 
     private final String displayName;
     Status(String displayName) {
