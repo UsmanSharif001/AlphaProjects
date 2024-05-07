@@ -10,7 +10,6 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>AlphaProjects</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>AlphaProjects</name>
     <description>AlphaProjects</description>
     <properties>
@@ -25,14 +24,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-    </dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
 
+    </dependencies>
     <build>
         <plugins>
             <plugin>
