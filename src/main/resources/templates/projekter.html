@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
+    <title>Projekter</title>
+</head>
+<body>
+<h1>Projektoversigt</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Projekt:</th>
+        <th>Projektleder</th>
+        <th>Deadline</th>
+        <th>Tidsestimat</th>
+        <th>Tidsforbrug</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="project : ${projects}">
+        <td>
+            <button type="button"><span th th:text="${project.getProjectName()}"></span></button>
+        </td>
+        <td th:text="${project.getProjectManagerName()}"></td>
+        <td th:text="${project.getProjectDeadline()}"></td>
+        <td th:text="${project.getProjectTimeEstimate()}"></td>
+        <td th:text="${project.getProjectDedicatedHours()}"></td>
+        <td th:text="${project.getProjectStatus()}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
