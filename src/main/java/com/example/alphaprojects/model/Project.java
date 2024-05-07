@@ -6,6 +6,7 @@ public class Project {
 
 private int projectID;
 private int projectManagerID;
+private String projectManagerName;
 private String projectName;
 private String projectDescription;
 private int projectTimeEstimate;
@@ -13,9 +14,10 @@ private int projectDedicatedHours;
 private LocalDate projectDeadline;
 private Status projectStatus;
 
-    public Project(int projectID, int projectManagerID, String projectName, String projectDescription, int projectTimeEstimate, int projectDedicatedHours, LocalDate projectDeadline, Status projectStatus) {
+    public Project(int projectID, int projectManagerID, String projectManagerName, String projectName, String projectDescription, int projectTimeEstimate, int projectDedicatedHours, LocalDate projectDeadline, Status projectStatus) {
         this.projectID = projectID;
         this.projectManagerID = projectManagerID;
+        this.projectManagerName = projectManagerName;
         this.projectName = projectName;
         this.projectDescription = projectDescription;
         this.projectTimeEstimate = projectTimeEstimate;
@@ -34,6 +36,14 @@ private Status projectStatus;
 
     public int getProjectManagerID() {
         return projectManagerID;
+    }
+
+    public String getProjectManagerName() {
+        return projectManagerName;
+    }
+
+    public void setProjectManagerName(String projectManagerName) {
+        this.projectManagerName = projectManagerName;
     }
 
     public void setProjectManagerID(int projectManagerID) {

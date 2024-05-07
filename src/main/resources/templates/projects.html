@@ -10,17 +10,24 @@
 <table>
     <thead>
     <tr>
-        <th>Projekter: </th>
+        <th>Projekter:</th>
+        <th>Projektleder</th>
+        <th>Deadline</th>
+        <th>Tidsestimat</th>
+        <th>Tidsforbrug</th>
+        <th>Status</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="project : ${projects}">
         <td>
-            <a th:href="@{/{projectname}/subprojects(projectname=${project.getName()})}">
-                <button type="button"><span th th:text="${project.name}"></span>></button>
-            </a>
+            <button type="button"><span th th:text="${project.getProjectName()}"></span></button>
         </td>
-
+        <td th:text="${project.getProjectManagerName()}"></td>
+        <td th:text="${project.getProjectDeadline()}"></td>
+        <td th:text="${project.getProjectTimeEstimate()}"></td>
+        <td th:text="${project.getProjectDedicatedHours()}"></td>
+        <td th:text="${project.getProjectStatus()}"></td>
     </tr>
 
     </tbody>

@@ -33,6 +33,7 @@ public class ProjectRepository {
             while (projectsResultSet.next()) {
                 int projectID = projectsResultSet.getInt("project_id");
                 int managerID = projectsResultSet.getInt("project_manager_id");
+                String managerName = getProjectManagerName(managerID);
                 String name = projectsResultSet.getString("project_name");
                 String description = projectsResultSet.getString("project_description");
                 int timeEstimate = projectsResultSet.getInt("project_time_estimate");
@@ -40,7 +41,7 @@ public class ProjectRepository {
                 LocalDate deadline = projectsResultSet.getDate("project_deadline").toLocalDate();
                 String statusString = projectsResultSet.getString("project_status");
                 Status status = Status.valueOf(statusString.toUpperCase());
-                Project project = new Project(projectID, managerID, name, description, timeEstimate, dedicatedHours, deadline, status);
+                Project project = new Project(projectID, managerID, managerName, name, description, timeEstimate, dedicatedHours, deadline, status);
                 projectList.add(project);
             }
         } catch (SQLException e) {
@@ -52,7 +53,7 @@ public class ProjectRepository {
     public String getProjectManagerName(int empID) {
         String projectManager = "";
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "SELECT SELECT emp_name FROM AlphaSolution_db.emp WHERE emp_id = ?";
+        String SQL = "SELECT emp_name FROM AlphaSolution_db.emp WHERE emp_id = ?";
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ps.setInt(1, empID);
             ResultSet rs = ps.executeQuery();
