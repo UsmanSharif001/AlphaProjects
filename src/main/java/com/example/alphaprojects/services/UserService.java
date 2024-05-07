@@ -1,13 +1,15 @@
 package com.example.alphaprojects.services;
 
-import com.example.alphaprojects.repositories.UserRepository;
+import com.example.alphaprojects.repositories.EmpRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    private UserRepository userRepository;
+    private EmpRepository empRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserService(EmpRepository empRepository) {
+        this.empRepository = empRepository;
     }
+
+
 }

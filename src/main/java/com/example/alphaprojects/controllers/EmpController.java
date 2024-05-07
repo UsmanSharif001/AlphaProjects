@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("")
-public class UserController {
+public class EmpController {
     private UserService userService;
 
-    public UserController(UserService userService) {
+    public EmpController(UserService userService) {
         this.userService = userService;
     }
+
+
 }
