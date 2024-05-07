@@ -1,5 +1,6 @@
 package com.example.alphaprojects.repositories;
 
+import com.example.alphaprojects.interfaces.EmployeeInterface;
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.Skill;
 import com.example.alphaprojects.util.ConnectionManager;
@@ -15,7 +16,7 @@ import java.util.List;
 
 
 @Repository
-public class EmpRepository {
+public class EmpRepository implements EmployeeInterface {
 
     @Value("${spring.datasource.url}")
     private String db_url;
