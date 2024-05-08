@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
+    <title>Opret nyt projekt</title>
+</head>
+<body>
+<form th:action="@{/gemprojekt}" th:method="POST" th:object="${newProject}">
+
+    <label for="projectName">Name</label>
+    <input type="text" id="projectName" name="projectName" class="form-control" th:field="*{Project.projectName}"
+           placeholder="Input project name" required autofocus>
+    <p>
+        <label for="projectDescription"> Projektets beskrivelse:</label>
+        <input id="projectDescription" type="text" th:field="*{Project.projectDescription}"/>
+    </p>
+    <p>
+        <label for="timeEstimate"> Estimeret totalt timeforbrug:</label>
+        <input id="timeEstimate" type="text" th:field="*{Project.projectTimeEstimate}"/>
+    </p>
+    <label>Projektleder:</label>
+    <label>
+        <select th:field="*{Project.projectManagerName}">
+            <option value=""> Vælg projektleder</option>
+            <option th:each="projectManager: ${projectManagers}" th:value="${projectManager}"
+                    th:text="${projectManager}"></option>
+        </select>
+    </label>
+    <label>Status</label>
+    <label>
+        <select th:field="*{Project.projectStatus}">
+            <option value=""> Vælg by</option>
+            <option th:each="status: ${projectStatusOptions}" th:value="${status}"
+                    th:text="${status}"></option>
+        </select>
+    </label>
+
+    <label for="datepicker">Select a date:</label>
+    <input type="date" id="datepicker" name="datepicker" th:value="${projectDeadline}">
+
+<!--    <span class="input-group-text">Deadline</span>-->
+<!--    <input type="date" th:min="${#temporals.format(#temporals.createNow(),'yyyy-MM-dd')}" th:max="9999-12-31"-->
+<!--           id="deadline" name="deadline" class="form-control" th:field="*{newProject.projectDeadline}">-->
+
+    <p>
+        <button type="submit">Opret projekt</button>
+        <a th:href="@{/projekter}">
+            <button type="button">Tilbage</button>
+        </a>
+    </p>
+
+</form>
+</body>
+</html>

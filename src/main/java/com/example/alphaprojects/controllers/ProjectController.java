@@ -5,6 +5,8 @@ import com.example.alphaprojects.services.ProjectService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
@@ -22,5 +24,17 @@ public class ProjectController {
         List<Project> projectList = projectService.getListOfProjects();
         model.addAttribute("projects", projectList);
         return "projekter";
+    }
+
+    @GetMapping("/opretprojekt")
+    private String createProject(Model model) {
+        model.addAttribute("newProject", new Project());
+        return "opretProjekt";
+    }
+
+    @PostMapping("/gemprojekt")
+    private String saveProject(@ModelAttribute Project newProject) {
+        projectService.addNewProject(newProject);
+        return "redirect:/projekter";
     }
 }

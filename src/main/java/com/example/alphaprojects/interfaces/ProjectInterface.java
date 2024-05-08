@@ -6,8 +6,12 @@ import java.util.List;
 
 public interface ProjectInterface {
 
-    public List<Project> getListOfProjects();
+    List<Project> getListOfProjects();
+    String getProjectManagerName(int empID);
 
-    public String getProjectManagerName(int empID);
+    int calculateProjectDedicatedHours(int projectID);
 
+    int getManagerID(String managerName);
+
+    void addNewProject(Project newProject);
 }
