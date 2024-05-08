@@ -4,10 +4,10 @@ import java.util.List;
 
 public class Emp {
 
-    private int userID;
+    private int empID;
+    private String name;
     private String email;
     private String password;
-    private String name;
     private List<Skill> skillList;
 
 
@@ -15,11 +15,11 @@ public class Emp {
 
     }
 
-    public Emp(int userID, String email, String password, String name, List<Skill> skillList) {
-        this.userID = userID;
+    public Emp(int empID, String name, String email, String password,  List<Skill> skillList) {
+        this.empID = empID;
+        this.name = name;
         this.email = email;
         this.password = password;
-        this.name = name;
         this.skillList = skillList;
     }
 
@@ -55,12 +55,12 @@ public class Emp {
         this.skillList = skillList;
     }
 
-    public int getUserID() {
-        return userID;
+    public int getEmpID() {
+        return empID;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setEmpID(int empID) {
+        this.empID = empID;
     }
 
     public void addSkill(Skill skill) {
