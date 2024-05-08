@@ -1,6 +1,5 @@
 package com.example.alphaprojects.controllers;
 
-import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.Project;
 import com.example.alphaprojects.model.Status;
 import com.example.alphaprojects.services.ProjectService;
@@ -41,11 +40,11 @@ public class ProjectController {
     private String createProject(Model model, HttpSession session) {
         if (isLoggedIn(session)) {
             List<String> projectManagers = projectService.getListOfProjectManagers();
-            List<Status> statuses = projectService.getStatusses();
+            List<Status> statuses = projectService.getStatuses();
             model.addAttribute("newProject", new Project());
             model.addAttribute("projectManagers", projectManagers);
-            model.addAttribute("Statusses", statuses);
-            return "opretProjekt";
+            model.addAttribute("statuses", statuses);
+            return "opretprojekt";
         }
         return "redirect:/login";
     }

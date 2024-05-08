@@ -1,6 +1,5 @@
 package com.example.alphaprojects.services;
 
-import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.Project;
 import com.example.alphaprojects.model.Status;
 import com.example.alphaprojects.repositories.ProjectRepository;
@@ -32,7 +31,7 @@ public class ProjectService {
         return projectRepository.getListOfProjectManagers();
     }
 
-    public List<Status> getStatusses() {
+    public List<Status> getStatuses() {
         return projectRepository.getStatusses();
     }
 }
