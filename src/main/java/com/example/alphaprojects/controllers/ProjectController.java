@@ -2,6 +2,7 @@ package com.example.alphaprojects.controllers;
 
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.Project;
+import com.example.alphaprojects.model.Status;
 import com.example.alphaprojects.services.ProjectService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import java.util.List;
 
 @Controller
@@ -36,14 +38,24 @@ public class ProjectController {
     }
 
     @GetMapping("/opretprojekt")
-    private String createProject(Model model) {
-        model.addAttribute("newProject", new Project());
-        return "opretProjekt";
+    private String createProject(Model model, HttpSession session) {
+        if (isLoggedIn(session)) {
+            List<String> projectManagers = projectService.getListOfProjectManagers();
+            List<Status> statuses = projectService.getStatusses();
+            model.addAttribute("newProject", new Project());
+            model.addAttribute("projectManagers", projectManagers);
+            model.addAttribute("Statusses", statuses);
+            return "opretProjekt";
+        }
+        return "redirect:/login";
     }
 
     @PostMapping("/gemprojekt")
-    private String saveProject(@ModelAttribute Project newProject) {
-        projectService.addNewProject(newProject);
-        return "redirect:/projekter";
+    private String saveProject(@ModelAttribute Project project, HttpSession session) {
+        if (isLoggedIn(session)) {
+            projectService.addNewProject(project);
+            return "redirect:/projekter";
+        }
+        return "redirect:/login";
     }
 }

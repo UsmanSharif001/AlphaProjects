@@ -1,6 +1,8 @@
 package com.example.alphaprojects.services;
 
+import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.Project;
+import com.example.alphaprojects.model.Status;
 import com.example.alphaprojects.repositories.ProjectRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +26,13 @@ public class ProjectService {
 
     public void addNewProject(Project newProject) {
         projectRepository.addNewProject(newProject);
+    }
+
+    public List<String> getListOfProjectManagers() {
+        return projectRepository.getListOfProjectManagers();
+    }
+
+    public List<Status> getStatusses() {
+        return projectRepository.getStatusses();
     }
 }
