@@ -14,6 +14,12 @@ private int projectDedicatedHours;
 private LocalDate projectDeadline;
 private Status projectStatus;
 
+//Ingen parametre
+public Project(){
+
+}
+
+//Alle parametre
     public Project(int projectID, int projectManagerID, String projectManagerName, String projectName, String projectDescription, int projectTimeEstimate, int projectDedicatedHours, LocalDate projectDeadline, Status projectStatus) {
         this.projectID = projectID;
         this.projectManagerID = projectManagerID;

@@ -21,4 +21,8 @@ public class ProjectService {
     public String getProjectManager(int empID) {
         return projectRepository.getProjectManagerName(empID);
     }
+
+    public void addNewProject(Project newProject) {
+        projectRepository.addNewProject(newProject);
+    }
 }
