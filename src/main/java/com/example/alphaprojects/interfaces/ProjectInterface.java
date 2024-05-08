@@ -1,6 +1,7 @@
 package com.example.alphaprojects.interfaces;
 
 import com.example.alphaprojects.model.Project;
+import com.example.alphaprojects.model.ProjectManagerDTO;
 import com.example.alphaprojects.model.Status;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 public interface ProjectInterface {
 
     List<Project> getListOfProjects();
+
     String getProjectManagerName(int empID);
 
     int calculateProjectDedicatedHours(int projectID);
@@ -16,7 +18,7 @@ public interface ProjectInterface {
 
     void addNewProject(Project newProject);
 
-    List<String> getListOfProjectManagers();
+    List<ProjectManagerDTO> getProjectManagers();
 
-    List<Status> getStatusses();
+    List<Status> getStatuses();
 }

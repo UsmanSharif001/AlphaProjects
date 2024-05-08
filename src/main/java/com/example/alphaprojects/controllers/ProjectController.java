@@ -1,7 +1,7 @@
 package com.example.alphaprojects.controllers;
 
 import com.example.alphaprojects.model.Project;
-import com.example.alphaprojects.model.Status;
+import com.example.alphaprojects.model.ProjectManagerDTO;
 import com.example.alphaprojects.services.ProjectService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -39,11 +39,9 @@ public class ProjectController {
     @GetMapping("/opretprojekt")
     private String createProject(Model model, HttpSession session) {
         if (isLoggedIn(session)) {
-            List<String> projectManagers = projectService.getListOfProjectManagers();
-            List<Status> statuses = projectService.getStatuses();
+            List<ProjectManagerDTO> projectManagers = projectService.getProjectManagers();
             model.addAttribute("newProject", new Project());
             model.addAttribute("projectManagers", projectManagers);
-            model.addAttribute("statuses", statuses);
             return "opretprojekt";
         }
         return "redirect:/login";
@@ -53,6 +51,7 @@ public class ProjectController {
     private String saveProject(@ModelAttribute Project project, HttpSession session) {
         if (isLoggedIn(session)) {
             projectService.addNewProject(project);
+            System.out.println(project);
             return "redirect:/projekter";
         }
         return "redirect:/login";
