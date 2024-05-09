@@ -20,6 +20,10 @@ public class EmpService {
       return empRepository.getEmp(username,password);
     }
 
+    public Emp addEmp(Emp emp) {
+        return empRepository.addEmp(emp);
+    }
+
     public List<Skill> getSkills(){
         return empRepository.getSkills();
     }
