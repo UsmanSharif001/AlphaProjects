@@ -25,6 +25,8 @@ public class EmpRepository implements EmployeeInterface {
     @Value("${spring.datasource.password}")
     private String pwd;
 
+
+    @Override
     public Emp getEmp(String email, String password) {
         Emp emp = null;
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
@@ -65,13 +67,50 @@ public class EmpRepository implements EmployeeInterface {
         return emp;
     }
 
+    @Override
+    public Emp addEmp(Emp emp) {
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+        String SQL = """
+                INSERT INTO emp (emp_id, emp_name, emp_email, emp_password) VALUES (?, ?, ?, ?)
+                """;
+        try (PreparedStatement ps = con.prepareStatement(SQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+            int empID = 0;
+            if (generatedKeys.next()) {
+                empID = generatedKeys.getInt(0);
+                ps.setInt(1, empID);
+            }
+            ps.setString(2, emp.getName());
+            ps.setString(3, emp.getEmail());
+            ps.setString(4, emp.getPassword());
+            ps.executeUpdate();
+
+            //Associate the new emp with the skills
+            String skillSQL = "INSERT INTO emp_skills(skill_id,emp_id) VALUES(?,?)";
+            PreparedStatement psSkill = con.prepareStatement(skillSQL);
+            for (Skill skill : emp.getSkillList()) {
+                int skillID = getSkillIdFromSkillTable(skill.getSkillName());
+                psSkill.setInt(1, skillID);
+                psSkill.setInt(2, empID);
+                psSkill.executeUpdate();
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return emp;
+    }
+
+    @Override
     public List<Skill> getSkills() {
         List<Skill> skills = new ArrayList<>();
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
                 SELECT * FROM skill
                 """;
-        try(PreparedStatement ps = con.prepareStatement(SQL)) {
+        try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 skills.add(new Skill(
@@ -83,6 +122,27 @@ public class EmpRepository implements EmployeeInterface {
             throw new RuntimeException(e);
         }
         return skills;
+    }
+
+
+    @Override
+    public int getSkillIdFromSkillTable(String skillName) {
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+
+        String SQL = "SELECT skill_id FROM skills WHERE skill_name = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(SQL)) {
+            ps.setString(1, skillName);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("skill_id");
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
     }
 
 

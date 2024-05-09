@@ -10,4 +10,8 @@ public interface EmployeeInterface {
     Emp getEmp(String email, String password);
 
     List<Skill> getSkills();
+
+    Emp addEmp(Emp emp);
+
+    int getSkillIdFromSkillTable(String skillName);
 }

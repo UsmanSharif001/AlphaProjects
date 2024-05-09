@@ -26,9 +26,8 @@ public class EmpController {
 
     /*-----------------------------Login--------------------------*/
 
-    @GetMapping()
-    public String loginForm(HttpSession session) {
-        session.invalidate();
+    @GetMapping(value = {"","/","/login"})
+    public String loginForm() {
         return "login";
     }
 
