@@ -71,25 +71,27 @@ public class EmpRepository implements EmployeeInterface {
     public Emp addEmp(Emp emp) {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
-                INSERT INTO emp (emp_id, emp_name, emp_email, emp_password) VALUES (?, ?, ?, ?)
+                INSERT INTO emp (emp_name, emp_email, emp_password) VALUES (?, ?, ?)
                 """;
         try (PreparedStatement ps = con.prepareStatement(SQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            ResultSet generatedKeys = ps.getGeneratedKeys();
-            int empID = 0;
-            if (generatedKeys.next()) {
-                empID = generatedKeys.getInt(0);
-                ps.setInt(1, empID);
-            }
-            ps.setString(2, emp.getName());
-            ps.setString(3, emp.getEmail());
-            ps.setString(4, emp.getPassword());
+
+            ps.setString(1, emp.getName());
+            ps.setString(2, emp.getEmail());
+            ps.setString(3, emp.getPassword());
             ps.executeUpdate();
+
+            //Get the generated key
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+            int empID = -1;
+            if (generatedKeys.next()) {
+                empID = generatedKeys.getInt(1);
+            }
 
             //Associate the new emp with the skills
             String skillSQL = "INSERT INTO emp_skills(skill_id,emp_id) VALUES(?,?)";
             PreparedStatement psSkill = con.prepareStatement(skillSQL);
             for (Skill skill : emp.getSkillList()) {
-                int skillID = getSkillIdFromSkillTable(skill.getSkillName());
+                int skillID = skill.getSkillID();
                 psSkill.setInt(1, skillID);
                 psSkill.setInt(2, empID);
                 psSkill.executeUpdate();
@@ -125,8 +127,8 @@ public class EmpRepository implements EmployeeInterface {
     }
 
 
-    @Override
-    public int getSkillIdFromSkillTable(String skillName) {
+    //hjælpe metode der måske ikke skal bruges.
+    private int getSkillIdFromSkillTable(String skillName) {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
 
         String SQL = "SELECT skill_id FROM skills WHERE skill_name = ?";

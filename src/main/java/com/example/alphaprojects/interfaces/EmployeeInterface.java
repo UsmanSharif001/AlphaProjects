@@ -13,5 +13,5 @@ public interface EmployeeInterface {
 
     Emp addEmp(Emp emp);
 
-    int getSkillIdFromSkillTable(String skillName);
+
 }
