@@ -102,19 +102,4 @@ public Project(){
     public void setProjectStatus(String projectStatus) {
         this.projectStatus = projectStatus;
     }
-
-    @Override
-    public String toString() {
-        return "Project{" +
-                "projectID=" + projectID +
-                ", projectManagerID=" + projectManagerID +
-                ", projectManagerName='" + projectManagerName + '\'' +
-                ", projectName='" + projectName + '\'' +
-                ", projectDescription='" + projectDescription + '\'' +
-                ", projectTimeEstimate=" + projectTimeEstimate +
-                ", projectDedicatedHours=" + projectDedicatedHours +
-                ", projectDeadline=" + projectDeadline +
-                ", projectStatus='" + projectStatus + '\'' +
-                '}';
-    }
 }

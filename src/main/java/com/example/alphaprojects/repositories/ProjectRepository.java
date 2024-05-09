@@ -54,15 +54,16 @@ public class ProjectRepository implements ProjectInterface {
     @Override
     public void addNewProject(Project newProject) {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "INSERT INTO project (project_manager_id, project_name, project_description, project_time_estimate, project_deadline, project_status) VALUES (?, ?, ?, ?, ?, ?)";
+        String SQL = "INSERT INTO project (project_manager_id, project_name, project_description, project_time_estimate, project_dedicated_hours, project_deadline, project_status) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
 
             ps.setInt(1, newProject.getProjectManagerID());
             ps.setString(2, newProject.getProjectName());
             ps.setString(3, newProject.getProjectDescription());
             ps.setInt(4, newProject.getProjectTimeEstimate());
-            ps.setDate(5, Date.valueOf(newProject.getProjectDeadline()));
-            ps.setString(6, newProject.getProjectStatus());
+            ps.setInt(5, 0);
+            ps.setDate(6, Date.valueOf(newProject.getProjectDeadline()));
+            ps.setString(7, newProject.getProjectStatus());
             ps.executeUpdate();
 
         } catch (SQLException e) {

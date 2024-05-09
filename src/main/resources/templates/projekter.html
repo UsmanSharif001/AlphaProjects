@@ -6,9 +6,12 @@
     <title>Projekter</title>
 </head>
 <body>
-<h1>Projektoversigt</h1>
-<a th:href="@{/opretprojekt}"> <button type="submit"> Opret projekt</button></a>
-
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <h1 style="margin: 0;">Projektoversigt</h1>
+    <a th:href="@{/opretprojekt}">
+            <button style="margin: 0;" type="submit"> Opret projekt</button>
+    </a>
+</div>
 <table>
     <thead>
     <tr>
@@ -29,7 +32,13 @@
         <td th:text="${project.getProjectDeadline()}"></td>
         <td th:text="${project.getProjectTimeEstimate()}"></td>
         <td th:text="${project.getProjectDedicatedHours()}"></td>
-        <td th:text="${project.getProjectStatus()}"></td>
+        <td th:switch="${project.getProjectStatus().toUpperCase()}">
+            <span th:case="NOT_STARTED" title="Ikke påbegyndt">🔴</span>
+            <span th:case="IN_PROGRESS" title="Igangværende">🟡</span>
+            <span th:case="DONE" title="Afsluttet">🟢</span>
+            <span th:case="ARCHIVED" title="Arkiveret">⚪️</span>
+            <span th:case="*" th:text="${project.getProjectStatus()}"></span>
+        </td>
     </tr>
     </tbody>
 </table>

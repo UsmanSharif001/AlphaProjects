@@ -28,6 +28,6 @@ public class ProjectManagerDTO {
 
     @Override
     public String toString() {
-        return projectManagerID + ", " + projectManagerName;
+        return projectManagerName;
     }
 }
