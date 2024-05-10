@@ -1,54 +1,69 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
-    <title>Opret nyt projekt</title>
-</head>
-<body>
-<form th:action="@{/gemprojekt}" th:method="POST" th:object="${newProject}">
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
 
-    <label for="projectName">Name</label>
-    <input type="text" id="projectName" name="projectName" class="form-control" th:field="*{Project.projectName}"
-           placeholder="Input project name" required autofocus>
-    <p>
-        <label for="projectDescription"> Projektets beskrivelse:</label>
-        <input id="projectDescription" type="text" th:field="*{Project.projectDescription}"/>
-    </p>
-    <p>
-        <label for="timeEstimate"> Estimeret totalt timeforbrug:</label>
-        <input id="timeEstimate" type="text" th:field="*{Project.projectTimeEstimate}"/>
-    </p>
-    <label>Projektleder:</label>
-    <label>
-        <select th:field="*{Project.projectManagerName}">
-            <option value=""> Vælg projektleder</option>
-            <option th:each="projectManager: ${projectManagers}" th:value="${projectManager}"
-                    th:text="${projectManager}"></option>
+<div style="width: 100%; display: flex; flex-direction: column; gap: 32px; align-items: center;"
+     layout:fragment="content">
+    <h1 style="align-self: flex-start;">Opret projekt</h1>
+
+    <form th:action="@{/gemprojekt}" th:method="POST" th:object="${newProject}"
+          style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
+        <label for="name">Navn:</label>
+        <input type="text" th:field="*{projectName}" placeholder="Projektets navn…" id="name"/>
+
+        <!-- Beskrivelse -->
+
+        <label for="description">Beskrivelse:</label>
+        <textarea id="description" th:field="*{projectDescription}"
+                  placeholder="Beskrivelse af projektet…"></textarea>
+
+        <!-- Projektleder - Drop down menu -->
+
+        <label for="project-manager-name">Projektleder:</label>
+        <select th:field="*{projectManagerID}" id="project-manager-name">
+            <option th:each="projectmanager: ${projectManagers}" th:value="${projectmanager.projectManagerID}"
+                    th:text="${projectmanager}"></option>
         </select>
-    </label>
-    <label>Status</label>
-    <label>
-        <select th:field="*{Project.projectStatus}">
-            <option value=""> Vælg by</option>
-            <option th:each="status: ${projectStatusOptions}" th:value="${status}"
-                    th:text="${status}"></option>
-        </select>
-    </label>
 
-    <label for="datepicker">Select a date:</label>
-    <input type="date" id="datepicker" name="datepicker" th:value="${projectDeadline}">
+        <!-- Deadline - datepicker -->
 
-<!--    <span class="input-group-text">Deadline</span>-->
-<!--    <input type="date" th:min="${#temporals.format(#temporals.createNow(),'yyyy-MM-dd')}" th:max="9999-12-31"-->
-<!--           id="deadline" name="deadline" class="form-control" th:field="*{newProject.projectDeadline}">-->
+        <label for="deadline">Deadline:</label>
+        <input type="date" th:field="*{projectDeadline}"
+               th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" id="deadline"/>
 
-    <p>
-        <button type="submit">Opret projekt</button>
-        <a th:href="@{/projekter}">
-            <button type="button">Tilbage</button>
-        </a>
-    </p>
+        <!-- Tidsestimat - heltal -->
 
-</form>
-</body>
-</html>
+        <label for="estimatedTime">Tidsestimat:</label>
+        <div style="display: flex; gap: 8px; align-items: baseline;">
+            <input type="number" th:field="*{projectTimeEstimate}" value="1" id="estimatedTime"/> <span>time(r)</span>
+        </div>
+
+        <!-- Status - checkbox hvor man kun kan vælge én.-->
+
+        <fieldset>
+            <legend>Status:</legend>
+            <div>
+                <input type="radio" id="not-started" checked name="status" th:field="*{projectStatus}"
+                       th:value="NOT_STARTED">
+                <label for="not-started">🔴 Ikke påbegyndt</label>
+            </div>
+            <div>
+                <input type="radio" id="in-progress" name="status" th:field="*{projectStatus}"
+                       th:value="IN_PROGRESS">
+                <label for="in-progress">🟡 Igangværende</label>
+            </div>
+            <div>
+                <input type="radio" id="done" name="status" th:field="*{projectStatus}" th:value="DONE">
+                <label for="done">🟢 Afsluttet</label>
+            </div>
+        </fieldset>
+
+        <div style="display: flex; gap: 16px;">
+            <button type="button" class="secondary" style="width: 100%;" onclick="window.location.href='/projekter'">
+                Annuller
+            </button>
+            <button type="submit" style="width: 100%;">Tilføj projekt</button>
+        </div>
+    </form>
+</div>
