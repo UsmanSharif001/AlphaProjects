@@ -1,37 +1,54 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
-    <title>Projekter</title>
-</head>
-<body>
-<h1>Projektoversigt</h1>
-<a th:href="@{/opretprojekt}"> <button type="submit"> Opret projekt</button></a>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
 
-<table>
-    <thead>
-    <tr>
-        <th>Projekt:</th>
-        <th>Projektleder</th>
-        <th>Deadline</th>
-        <th>Tidsestimat</th>
-        <th>Tidsforbrug</th>
-        <th>Status</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="project : ${projects}">
-        <td>
-            <button type="button"><span th th:text="${project.getProjectName()}"></span></button>
-        </td>
-        <td th:text="${project.getProjectManagerName()}"></td>
-        <td th:text="${project.getProjectDeadline()}"></td>
-        <td th:text="${project.getProjectTimeEstimate()}"></td>
-        <td th:text="${project.getProjectDedicatedHours()}"></td>
-        <td th:text="${project.getProjectStatus()}"></td>
-    </tr>
-    </tbody>
-</table>
-</body>
+<div layout:fragment="content">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+        <h1 style="margin: 0;">Projektoversigt</h1>
+        <a th:href="@{/opretprojekt}">
+            <button style="margin: 0;" type="submit"> Opret projekt</button>
+        </a>
+    </div>
+
+    <div class="overflow-auto">
+        <table>
+            <thead>
+            <tr>
+                <th>Projekt:</th>
+                <th>Projektleder</th>
+                <th>Deadline</th>
+                <th>Tidsestimat</th>
+                <th>Tidsforbrug</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="project : ${projects}">
+                <td>
+                    <button type="button" style="width: 100%"><span th th:text="${project.getProjectName()}"></span>
+                    </button>
+                </td>
+                <td th:text="${project.getProjectManagerName()}"></td>
+                <td th:text="${project.getProjectDeadline()}"></td>
+                <td th:text="${project.getProjectTimeEstimate()}"></td>
+                <td th:text="${project.getProjectDedicatedHours()}"></td>
+                <td th:switch="${project.getProjectStatus().toUpperCase()}">
+                    <span th:case="NOT_STARTED" title="Ikke påbegyndt">🔴</span>
+                    <span th:case="IN_PROGRESS" title="Igangværende">🟡</span>
+                    <span th:case="DONE" title="Afsluttet">🟢</span>
+                    <span th:case="ARCHIVED" title="Arkiveret">⚪️</span>
+                    <span th:case="*" th:text="${project.getProjectStatus()}"></span>
+                </td>
+                <td >
+                    <button type="button" disabled>✏️</button>
+                    <button type="button" disabled>🔭</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </html>
