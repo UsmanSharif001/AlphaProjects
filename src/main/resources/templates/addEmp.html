@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
+<div style="width: 100%; display: flex; flex-direction: column; gap: 32px; align-items: center;"
+     layout:fragment="content">
+    <h1 style="align-self: flex-start;">Tilføj medarbejder</h1>
+
+    <form th:action="@{gemmedarbejder}" th:method="POST" th:object="${emp}"
+          style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
+
+        <label for="name">Navn</label>
+        <input id="name" type="text" th:field="*{name}" placeholder="Medarbejderens navn"/>
+
+        <label for="email">Email</label>
+        <input id="email" type="email" th:field="*{email}" placeholder="Navn@Alphasolutions.com"/>
+
+        <label for="password">Password</label>
+        <input id="password" type="password" th:field="*{password}"/>
+
+        <label>Skills</label>
+        <div th:each="skill : ${skillList}">
+            <input type="checkbox"
+                   th:field="*{skillList}"
+                   th:value="${skill.skillName}">
+            <label th:text="${skill}"></label>
+        </div>
+        <button type="submit">Tilføj</button>
+
+    </form>
+    <a th:hre="@{/projekter}"> <button> Tilbage</button></a>
+</div>
+</html>
