@@ -74,7 +74,22 @@ public class ProjectRepository implements ProjectInterface {
 
     @Override
     public void editProject(Project project) {
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+        String SQL = "UPDATE project SET project_manager_id = ?, project_name = ?, project_description = ?, project_time_estimate = ?, project_deadline = ?, project_status = ? WHERE project_id = ?;";
 
+        try (PreparedStatement ps = con.prepareStatement(SQL)) {
+            ps.setInt(1, project.getProjectManagerID());
+            ps.setString(2, project.getProjectName());
+            ps.setString(3, project.getProjectDescription());
+            ps.setInt(4, project.getProjectTimeEstimate());
+            ps.setDate(5, Date.valueOf(project.getProjectDeadline()));
+            ps.setString(6, project.getProjectStatus());
+            ps.setInt(7, project.getProjectID());
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to edit project: " + project.getProjectName() + e);
+        }
     }
 
     @Override
@@ -104,7 +119,6 @@ public class ProjectRepository implements ProjectInterface {
         }
         return projectManagerList;
     }
-
 
     // Hjælpemetoder
     @Override
@@ -187,7 +201,7 @@ public class ProjectRepository implements ProjectInterface {
                 String description = rs.getString("project_description");
                 int timeEstimate = rs.getInt("project_time_estimate");
                 int dedicatedHours = calculateProjectDedicatedHours(projectID);
-                LocalDate deadline = rs.getDate("project_deadline").toLocalDate();
+                LocalDate deadline = LocalDate.parse(rs.getString("project_deadline"));
                 String status = rs.getString("project_status");
                 project = new Project(projectID, managerID, managerName, name, description, timeEstimate, dedicatedHours, deadline, status);
                 return project;
@@ -197,7 +211,4 @@ public class ProjectRepository implements ProjectInterface {
         }
         return null;
     }
-
-
-
 }

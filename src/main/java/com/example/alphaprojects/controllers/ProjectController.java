@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -62,8 +64,11 @@ public class ProjectController {
     private String updateProject(@PathVariable int projectID, Model model, HttpSession session){
         if (isLoggedIn(session)) {
             Project updateProject = projectService.getProjectFromProjectID(projectID);
+            List<ProjectManagerDTO> projectManagers = projectService.getProjectManagers();
             model.addAttribute("projectID", projectID);
-            model.addAttribute("project", updateProject);
+            model.addAttribute("updateProject", updateProject);
+            session.setAttribute("projectDeadline", updateProject.getProjectDeadline());
+            model.addAttribute("projectManagers", projectManagers);
             return "/redigerprojekt";
         }
         return "redirect:/login";
