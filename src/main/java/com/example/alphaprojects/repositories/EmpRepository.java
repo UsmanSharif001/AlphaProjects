@@ -91,7 +91,7 @@ public class EmpRepository implements EmployeeInterface {
             String skillSQL = "INSERT INTO emp_skills(skill_id,emp_id) VALUES(?,?)";
             PreparedStatement psSkill = con.prepareStatement(skillSQL);
             for (Skill skill : emp.getSkillList()) {
-                int skillID = skill.getSkillID();
+                int skillID = getSkillIdFromSkillTable(skill.getSkillName());
                 psSkill.setInt(1, skillID);
                 psSkill.setInt(2, empID);
                 psSkill.executeUpdate();
@@ -131,7 +131,7 @@ public class EmpRepository implements EmployeeInterface {
     private int getSkillIdFromSkillTable(String skillName) {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
 
-        String SQL = "SELECT skill_id FROM skills WHERE skill_name = ?";
+        String SQL = "SELECT skill_id FROM skill WHERE skill_name = ?";
 
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ps.setString(1, skillName);
