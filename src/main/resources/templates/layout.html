@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/pico.blue.min.css">
+    <link rel="icon" href="favicon.svg">
+    <title>Alpha Projects</title>
+    <style>
+        :root {
+            --pico-font-family: "Kaisei Decol", serif;
+        }
+        html {
+            height: 100%;
+        }
+        body {
+            min-height: 100%;
+            background: url("/background.jpg") var(--pico-background-color);
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+<main class="container">
+    <div layout:fragment="content">
+    </div>
+</main>
+</body>
+</html>

@@ -2,6 +2,7 @@ package com.example.alphaprojects.repositories;
 
 import com.example.alphaprojects.model.Project;
 import com.example.alphaprojects.interfaces.ProjectInterface;
+import com.example.alphaprojects.model.ProjectManagerDTO;
 import com.example.alphaprojects.model.Status;
 import com.example.alphaprojects.util.ConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,8 +39,9 @@ public class ProjectRepository implements ProjectInterface {
                 int timeEstimate = projectsResultSet.getInt("project_time_estimate");
                 int dedicatedHours = calculateProjectDedicatedHours(projectID);
                 LocalDate deadline = projectsResultSet.getDate("project_deadline").toLocalDate();
-                String statusString = projectsResultSet.getString("project_status");
-                Status status = Status.valueOf(statusString.toUpperCase());
+                String status = projectsResultSet.getString("project_status");
+              //  String statusString = projectsResultSet.getString("project_status");
+              //  Status status = Status.valueOf(statusString.toUpperCase());
                 Project project = new Project(projectID, managerID, managerName, name, description, timeEstimate, dedicatedHours, deadline, status);
                 projectList.add(project);
             }
@@ -47,6 +49,57 @@ public class ProjectRepository implements ProjectInterface {
             throw new RuntimeException(e);
         }
         return projectList;
+    }
+
+    @Override
+    public void addNewProject(Project newProject) {
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+        String SQL = "INSERT INTO project (project_manager_id, project_name, project_description, project_time_estimate, project_dedicated_hours, project_deadline, project_status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = con.prepareStatement(SQL)) {
+
+            ps.setInt(1, newProject.getProjectManagerID());
+            ps.setString(2, newProject.getProjectName());
+            ps.setString(3, newProject.getProjectDescription());
+            ps.setInt(4, newProject.getProjectTimeEstimate());
+            ps.setInt(5, 0);
+            ps.setDate(6, Date.valueOf(newProject.getProjectDeadline()));
+            ps.setString(7, newProject.getProjectStatus());
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<ProjectManagerDTO> getProjectManagers() {
+        List<ProjectManagerDTO> projectManagerList = new ArrayList<>();
+        ProjectManagerDTO projectManagerDTO = null;
+        String projectManagerName = "";
+        int projectManagerID = 0;
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+        String SQL = "SELECT emp_id FROM AlphaSolution_db.emp_skills WHERE skill_id = 2;";
+        try (PreparedStatement ps = con.prepareStatement(SQL)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                projectManagerID = rs.getInt("emp_id");
+                projectManagerName = getProjectManagerName(rs.getInt("emp_id"));
+                projectManagerDTO = new ProjectManagerDTO(projectManagerID, projectManagerName);
+                projectManagerList.add(projectManagerDTO);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return projectManagerList;
+    }
+
+    @Override
+    public List<Status> getStatuses() {
+        List<Status> statuses = new ArrayList<>();
+        for (Status status : Status.class.getEnumConstants()) {
+            statuses.add(status);
+        }
+        return statuses;
     }
 
 
@@ -106,30 +159,5 @@ public class ProjectRepository implements ProjectInterface {
             throw new RuntimeException(e);
         }
         return managerID;
-    }
-
-    @Override
-    public void addNewProject(Project newProject) {
-        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "INSERT INTO project (Project_id, project_manager_id, project_name, project_description, project_time_estimate, project_deadline, project_status) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        try (PreparedStatement ps = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
-            ResultSet generatedKeys = ps.getGeneratedKeys();
-            // Set project ID
-            int projectID;
-            if (generatedKeys.next()) {
-                projectID = generatedKeys.getInt(0);
-                ps.setInt(1, projectID);
-            }
-            ps.setInt(2, getManagerID(newProject.getProjectManagerName()));
-            ps.setString(3, newProject.getProjectName());
-            ps.setString(4, newProject.getProjectDescription());
-            ps.setInt(5, newProject.getProjectTimeEstimate());
-            ps.setObject(6, newProject.getProjectDeadline().toString());
-            ps.setObject(7, newProject.getProjectStatus().toString());
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
