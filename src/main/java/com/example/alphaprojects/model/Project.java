@@ -16,7 +16,6 @@ private String projectStatus;
 
 //Ingen parametre
 public Project(){
-
 }
 
 //Alle parametre

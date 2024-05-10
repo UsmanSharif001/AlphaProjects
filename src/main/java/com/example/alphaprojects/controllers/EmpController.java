@@ -2,14 +2,14 @@ package com.example.alphaprojects.controllers;
 
 
 import com.example.alphaprojects.model.Emp;
+import com.example.alphaprojects.model.Skill;
 import com.example.alphaprojects.services.EmpService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("")
@@ -26,9 +26,8 @@ public class EmpController {
 
     /*-----------------------------Login--------------------------*/
 
-    @GetMapping()
-    public String loginForm(HttpSession session) {
-        session.invalidate();
+    @GetMapping(value = {"","/","/login"})
+    public String loginForm() {
         return "login";
     }
 
@@ -45,6 +44,27 @@ public class EmpController {
         return "login";
     }
 
+    /*-----------------------------Add Emp--------------------------*/
+
+    @GetMapping("/tilføjmedarbejder")
+    public String addEmp(HttpSession session, Model model) {
+    if(isLoggedIn(session)){
+        model.addAttribute("emp", new Emp());
+        List<Skill> skillList = empService.getSkills();
+        model.addAttribute("skillList", skillList);
+        return "addEmp";
+    }
+    return "redirect:/login";
+    }
+
+    @PostMapping("/gemmedarbejder")
+    public String saveEmp(@ModelAttribute Emp emp, HttpSession session) {
+        if(isLoggedIn(session)){
+        empService.addEmp(emp);
+        return "redirect:/projekter";
+        }
+        return "redirect:/login";
+    }
 
 
 }
