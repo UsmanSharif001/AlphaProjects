@@ -127,7 +127,7 @@ public class EmpRepository implements EmployeeInterface {
     }
 
 
-    //hjælpe metode der måske ikke skal bruges.
+    //Method to get the skill ID, used in the addEmp method.
     private int getSkillIdFromSkillTable(String skillName) {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
 
