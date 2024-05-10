@@ -202,7 +202,7 @@ public class ProjectRepository implements ProjectInterface {
                 int timeEstimate = rs.getInt("project_time_estimate");
                 int dedicatedHours = calculateProjectDedicatedHours(projectID);
                 LocalDate deadline = LocalDate.parse(rs.getString("project_deadline"));
-                String status = rs.getString("project_status");
+                String status = rs.getString("project_status").toUpperCase();
                 project = new Project(projectID, managerID, managerName, name, description, timeEstimate, dedicatedHours, deadline, status);
                 return project;
             }
