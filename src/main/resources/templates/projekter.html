@@ -10,9 +10,6 @@
         <a th:href="@{/opretprojekt}">
             <button style="margin: 0;" type="submit"> Opret projekt</button>
         </a>
-        <a th:href="@{tilføjmedarbejder}">
-            <button style="margin: 0;">Tilføj medarbejder</button>
-        </a>
     </div>
 
     <div class="overflow-auto">
@@ -39,16 +36,19 @@
                 <td th:text="${project.getProjectTimeEstimate()}"></td>
                 <td th:text="${project.getProjectDedicatedHours()}"></td>
                 <td th:switch="${project.getProjectStatus().toUpperCase()}">
-                    <span th:case="NOT_STARTED" title="Ikke påbegyndt">🔴</span>
-                    <span th:case="IN_PROGRESS" title="Igangværende">🟡</span>
-                    <span th:case="DONE" title="Afsluttet">🟢</span>
-                    <span th:case="ARCHIVED" title="Arkiveret">⚪️</span>
+                    <span th:case="NOT_STARTED" data-tooltip="Ikke påbegyndt" style="border: none;">🔴</span>
+                    <span th:case="IN_PROGRESS" data-tooltip="Igangværende" style="border: none;">🟡</span>
+                    <span th:case="DONE" data-tooltip="Afsluttet" style="border: none;">🟢</span>
+                    <span th:case="ARCHIVED" data-tooltip="Arkiveret" style="border: none;">⚪️</span>
                     <span th:case="*" th:text="${project.getProjectStatus()}"></span>
                 </td>
-                <td >
-                    <button type="button" disabled>✏️</button>
+                <td>
+                    <a th:href="@{/{projectID}/redigerprojekt(projectID=${project.getProjectID()})}">
+                        <button type="button">✏️</button>
+                    </a>
                     <button type="button" disabled>🔭</button>
                 </td>
+                <td th:text="${project.getProjectID()}" hidden></td>
             </tr>
             </tbody>
         </table>

@@ -1,16 +1,20 @@
 package com.example.alphaprojects.controllers;
 
+import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.Project;
 import com.example.alphaprojects.model.ProjectManagerDTO;
 import com.example.alphaprojects.services.ProjectService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -51,9 +55,33 @@ public class ProjectController {
     private String saveProject(@ModelAttribute Project project, HttpSession session) {
         if (isLoggedIn(session)) {
             projectService.addNewProject(project);
-            System.out.println(project);
             return "redirect:/projekter";
         }
         return "redirect:/login";
     }
+
+    @GetMapping("/{projectID}/redigerprojekt")
+    private String updateProject(@PathVariable int projectID, Model model, HttpSession session){
+        if (isLoggedIn(session)) {
+            Project updateProject = projectService.getProjectFromProjectID(projectID);
+            List<ProjectManagerDTO> projectManagers = projectService.getProjectManagers();
+            model.addAttribute("projectID", projectID);
+            model.addAttribute("updateProject", updateProject);
+            session.setAttribute("projectDeadline", updateProject.getProjectDeadline());
+            model.addAttribute("projectManagers", projectManagers);
+            return "/redigerprojekt";
+        }
+        return "redirect:/login";
+    }
+
+    @PostMapping("/{projectID}/opdaterprojekt")
+    public String updateProject(@ModelAttribute Project updateProject, @PathVariable int projectID, HttpSession session){
+        if (isLoggedIn(session)){
+            updateProject.setProjectID(projectID);
+            projectService.editProject(updateProject);
+            return "redirect:/projekter";
+        }
+        return "redirect:/login";
+    }
+
 }

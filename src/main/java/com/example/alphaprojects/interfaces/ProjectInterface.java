@@ -18,7 +18,9 @@ public interface ProjectInterface {
 
     void addNewProject(Project newProject);
 
+    void editProject(Project project);
+
     List<ProjectManagerDTO> getProjectManagers();
 
-    List<Status> getStatuses();
+    Project getProjectFromProjectID(int projectID);
 }

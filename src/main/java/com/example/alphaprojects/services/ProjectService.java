@@ -2,7 +2,6 @@ package com.example.alphaprojects.services;
 
 import com.example.alphaprojects.model.Project;
 import com.example.alphaprojects.model.ProjectManagerDTO;
-import com.example.alphaprojects.model.Status;
 import com.example.alphaprojects.repositories.ProjectRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,7 @@ public class ProjectService {
         return projectRepository.getListOfProjects();
     }
 
-    public String getProjectManagers(int empID) {
+    public String getProjectManager(int empID) {
         return projectRepository.getProjectManagerName(empID);
     }
 
@@ -32,7 +31,11 @@ public class ProjectService {
         return projectRepository.getProjectManagers();
     }
 
-    public List<Status> getStatuses() {
-        return projectRepository.getStatuses();
+    public void editProject(Project updateProject) {
+        projectRepository.editProject(updateProject);
+    }
+
+    public Project getProjectFromProjectID(int projectID) {
+        return projectRepository.getProjectFromProjectID(projectID);
     }
 }
