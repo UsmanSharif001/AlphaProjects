@@ -4,6 +4,7 @@ import com.example.alphaprojects.model.Subproject;
 import com.example.alphaprojects.repositories.SubprojectRepository;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -14,7 +15,7 @@ public class SubprojectService {
         this.subprojectRepository = subprojectRepository;
     }
 
-    public List<Subproject> getSubprojects(int projectID){
+    public List<Subproject> getSubprojects(int projectID) throws SQLException {
         return subprojectRepository.getSubprojects(projectID);
     }
 }
