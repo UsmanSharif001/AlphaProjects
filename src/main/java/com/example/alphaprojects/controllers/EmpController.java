@@ -5,6 +5,7 @@ import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.Skill;
 import com.example.alphaprojects.services.EmpService;
 import jakarta.servlet.http.HttpSession;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -66,5 +67,26 @@ public class EmpController {
         return "redirect:/login";
     }
 
+    /*-----------------------------Logout--------------------------*/
+
+    //Not tested and have to figure out where it should redirect to
+    @GetMapping("/sletmedarbejder")
+    public String deleteEmp(HttpSession session){
+        if(isLoggedIn(session)){
+            Emp emp = (Emp) session.getAttribute("emp");
+            empService.deleteEmp(emp.getEmpID());
+            return "redirect:/projekter";
+        }
+        return "redirect:/login";
+    }
+
+
+    /*-----------------------------Logout--------------------------*/
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
+    }
 
 }

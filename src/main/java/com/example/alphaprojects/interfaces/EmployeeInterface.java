@@ -13,5 +13,6 @@ public interface EmployeeInterface {
 
     Emp addEmp(Emp emp);
 
+    void deleteEmp(int empID);
 
 }

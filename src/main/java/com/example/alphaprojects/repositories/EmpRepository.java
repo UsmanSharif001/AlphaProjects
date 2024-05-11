@@ -126,6 +126,25 @@ public class EmpRepository implements EmployeeInterface {
         return skills;
     }
 
+    public void deleteEmp(int empID){
+    Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+
+    String SQLdeleteFromEmpSkill = "DELETE FROM emp_skills WHERE emp_id = ?";
+    try(PreparedStatement ps = con.prepareStatement(SQLdeleteFromEmpSkill)) {
+        ps.setInt(1, empID);
+        ps.executeUpdate();
+
+        String SQLdeleteFromEmp = "DELETE FROM emp WHERE emp_id = ?";
+        PreparedStatement psDelete = con.prepareStatement(SQLdeleteFromEmp);
+        psDelete.setInt(1, empID);
+        psDelete.executeUpdate();
+
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+
+    }
+
 
     //Method to get the skill ID, used in the addEmp method.
     private int getSkillIdFromSkillTable(String skillName) {
