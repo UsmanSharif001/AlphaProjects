@@ -26,11 +26,22 @@
         <td th:text="${subproject.dedicatedHours}"></td>
         <td th:text="${subproject.deadline}"></td>
         <td th:text="${subproject.status}"></td>
-        <td></td>
+        <td>
+            <a th:href="@{'/' + ${subproject.getSubprojectID()} + '/editsubproject'}">
+                <button type="submit"> Ret Subprojekt</button>
+            </a>
+            <a th:href="@{'/' + ${subproject.getSubprojectID()} + '/deletesubproject'}">
+                <button type="submit"> Slet Subprojekt</button>
+            </a>
+        </td>
     </tr>
     </tbody>
 
 </table>
+<a th:href="@{/{projectid}/createsubproject(projectid=${projectid})}">
+    <button type="submit"> Tilføj Subprojekt</button>
+</a>
+<a th:href=""> Tilbage (til projekter, mangler ref)</a>
 
 </body>
 </html>

@@ -21,14 +21,15 @@ public SubprojectController(SubprojectService subprojectService) {
     public String getSubprojects(@PathVariable int projectid, Model model){
         List<Subproject> subprojectList = subprojectService.getSubprojects(projectid);
         model.addAttribute("subprojects", subprojectList);
+        model.addAttribute("projectid", projectid);
         return "subproject";
 }
 
-@GetMapping("/{subprojectid}/createsubproject")
-    public String createSubproject(@PathVariable int subprojectid, Model model){
+@GetMapping("/{projectid}/createsubproject")
+    public String createSubproject(@PathVariable int projectid, Model model){
     model.addAttribute("subproject", new Subproject());
-    model.addAttribute("subprojectid", subprojectid);
-    return "createSubproject";
+    model.addAttribute("projectid", projectid);
+    return "createSubproject"; //mangler tilbageknap
 }
 
 @PostMapping("/{subprojectid}/savesubproject")
@@ -42,7 +43,7 @@ public SubprojectController(SubprojectService subprojectService) {
     public String editSubproject(@PathVariable int subprojectid, Model model){
     Subproject editSubproject = subprojectService.getSubprojectFromSubprojectID(subprojectid);
     model.addAttribute("subproject", editSubproject);
-    return "editsubproject";
+    return "editsubproject"; //mangler tilbageknap
 }
 
 @PostMapping("/{subprojectid}/updatesubproject")

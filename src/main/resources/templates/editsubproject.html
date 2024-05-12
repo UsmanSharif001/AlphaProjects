@@ -1,10 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
+    <title>Ret Subprojekt</title>
 </head>
 <body>
+<form th:action="@{/{subprojectid}/updatesubproject(subprojectid=${subprojectid})}" th:method="POST" th:object="${subproject}">
+    <p>
+        <label for="name">Navn</label>
+        <input id="name" type="text" th:value="*{name}">
+    </p>
+    <p>
+        <label for="description">Beskrivelse:</label>
+        <input id="description" type="text" th:field="*{description}"/>
+    </p>
+    <p>
+        <label for="timeEstimate">Tidsestimat:</label>
+        <input id="timeEstimate" type="text" th:field="*{timeEstimate}"/>
+    </p>
+    <p>
+        <label for="dedicatedHours">Tidsforbrug:</label>
+        <input id="dedicatedHours" type="text" th:field="*{dedicatedHours}"/>
+    </p>
+    <p>
+        <label for="deadline">Deadline:</label>
+        <input id="deadline" type="text" th:field="*{deadline}"/>
+    </p>
+    <p>
+        <label for="status">Status:</label>
+        <input id="status" type="text" th:field="*{status}"/>
+    </p>
+    <p>
+        <input type="hidden" id="projectid" th:field="*{projectID}">
+    </p>
+    <p>
+        <input type="hidden" id="subprojectid" th:field="*{subprojectID}">
+    </p>
+    <button type="submit">Tilføj opdateringer</button>
+</form>
 
 </body>
 </html>

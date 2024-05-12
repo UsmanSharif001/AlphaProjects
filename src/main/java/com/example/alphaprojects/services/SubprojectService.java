@@ -4,14 +4,13 @@ import com.example.alphaprojects.model.Subproject;
 import com.example.alphaprojects.repositories.SubprojectRepository;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Service
 public class SubprojectService {
     private SubprojectRepository subprojectRepository;
 
-    public SubprojectService(SubprojectRepository subprojectRepository) {
+    public SubprojectService(SubprojectRepository subprojectRepository) { //inject interface
         this.subprojectRepository = subprojectRepository;
     }
 
