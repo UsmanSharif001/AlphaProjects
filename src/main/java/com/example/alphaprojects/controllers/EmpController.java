@@ -67,14 +67,35 @@ public class EmpController {
         return "redirect:/login";
     }
 
-    /*-----------------------------Logout--------------------------*/
+    /*-----------------------------Delete Emp--------------------------*/
 
-    //Not tested and have to figure out where it should redirect to
+    //TODO Not tested and have to figure out where it should redirect to
     @GetMapping("/sletmedarbejder")
     public String deleteEmp(HttpSession session){
         if(isLoggedIn(session)){
             Emp emp = (Emp) session.getAttribute("emp");
             empService.deleteEmp(emp.getEmpID());
+            return "redirect:/projekter";
+        }
+        return "redirect:/login";
+    }
+
+    /*-----------------------------Skills--------------------------*/
+    //TODO have to figure out where these redirect to, not tested
+
+    @GetMapping("/tilføjnyskill")
+    public String addSKill(HttpSession session, Model model) {
+        if(isLoggedIn(session)){
+            model.addAttribute("skill", new Skill());
+        }
+        return "addSKill";
+    }
+
+
+    @PostMapping("/gemskill")
+    public String saveSkill(@ModelAttribute Skill skill, HttpSession session) {
+        if(isLoggedIn(session)){
+            empService.addSkill(skill);
             return "redirect:/projekter";
         }
         return "redirect:/login";

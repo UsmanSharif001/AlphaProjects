@@ -15,4 +15,6 @@ public interface EmployeeInterface {
 
     void deleteEmp(int empID);
 
+    Skill addSkill(Skill skill);
+
 }
