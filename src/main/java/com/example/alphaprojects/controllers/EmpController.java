@@ -105,6 +105,8 @@ public class EmpController {
 
     /*-----------------------------Logout--------------------------*/
 
+    //TODO have to figure out if we can make a logout button that works on all html pages
+    //TODO instead of inserting it on every HTML page
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
