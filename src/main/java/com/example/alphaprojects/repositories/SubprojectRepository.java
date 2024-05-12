@@ -1,6 +1,6 @@
 package com.example.alphaprojects.repositories;
 
-import com.example.alphaprojects.interfaces.SubprojectInterface;
+import com.example.alphaprojects.interfaces.SubprojectRepositoryInterface;
 import com.example.alphaprojects.model.Subproject;
 import com.example.alphaprojects.util.ConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class SubprojectRepository implements SubprojectInterface {
+public class SubprojectRepository implements SubprojectRepositoryInterface {
 
     @Value("${spring.datasource.url}")
     private String db_url;
@@ -106,6 +106,7 @@ public class SubprojectRepository implements SubprojectInterface {
         }
     }
 
+    //Hjælpemetode til at finde et subproject ud fra subprojectID
     public Subproject getSubprojectFromSubprojectID(int subprojectID){
         Subproject foundSubproject;
         Connection connection = ConnectionManager.getConnection(db_url, username,pwd);

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Controller
@@ -36,7 +35,7 @@ public SubprojectController(SubprojectService subprojectService) {
     public String saveSubproject(@PathVariable int subprojectid, @ModelAttribute Subproject newSubproject){
     newSubproject.setSubprojectID(subprojectid);
     subprojectService.createSubproject(newSubproject);
-    return "redirect:/" + subprojectid + "/subprojects";
+    return "redirect:/" + newSubproject.getProjectID() + "/subprojects";
 }
 
 @GetMapping("/{subprojectid}/editsubproject")
@@ -50,14 +49,14 @@ public SubprojectController(SubprojectService subprojectService) {
     public String updateSubproject(@ModelAttribute Subproject subproject, @PathVariable int subprojectid){
     subproject.setSubprojectID(subprojectid);
     subprojectService.editSubproject(subproject);
-    return "redirect:/" + subprojectid + "/subprojects"; // CANNOT FIND?
+    return "redirect:/" + subproject.getProjectID() + "/subproject"; // CANNOT FIND?
 }
 
 @GetMapping("/{subprojectid}/deletesubproject")
     public String deleteSubproject(@PathVariable int subprojectid, Model model){
     subprojectService.deleteSubproject(subprojectid);
     //model.addAttribute("subprojectid", subprojectid);
-    return "redirect:/" + subprojectid + "/subprojects";
+    return "redirect:/" + subprojectid + "/subproject";
 }
 
 }
