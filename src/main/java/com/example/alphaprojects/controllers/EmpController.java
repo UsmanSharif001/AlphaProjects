@@ -77,6 +77,7 @@ public class EmpController {
             empService.deleteEmp(emp.getEmpID());
             return "redirect:/projekter";
         }
+
         return "redirect:/login";
     }
 
