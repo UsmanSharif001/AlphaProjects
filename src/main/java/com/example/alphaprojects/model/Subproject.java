@@ -25,6 +25,9 @@ public class Subproject {
         this.status = status;
     }
 
+    public Subproject(){
+    }
+
     public int getSubprojectID() {
         return subprojectID;
     }

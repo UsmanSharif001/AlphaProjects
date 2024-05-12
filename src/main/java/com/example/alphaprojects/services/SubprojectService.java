@@ -15,7 +15,23 @@ public class SubprojectService {
         this.subprojectRepository = subprojectRepository;
     }
 
-    public List<Subproject> getSubprojects(int projectID) throws SQLException {
+    public List<Subproject> getSubprojects(int projectID) {
         return subprojectRepository.getSubprojects(projectID);
+    }
+
+    public void createSubproject(Subproject subproject){
+        subprojectRepository.createSubproject(subproject);
+    }
+
+    public void editSubproject(Subproject subproject){
+        subprojectRepository.editSubproject(subproject);
+    }
+
+    public void deleteSubproject(int subprojectID){
+        subprojectRepository.deleteSubproject(subprojectID);
+    }
+
+    public Subproject getSubprojectFromSubprojectID(int subprojectID){
+        return subprojectRepository.getSubprojectFromSubprojectID(subprojectID);
     }
 }

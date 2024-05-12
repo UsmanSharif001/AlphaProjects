@@ -22,7 +22,7 @@ public class SubprojectRepository implements SubprojectInterface {
     private String pwd;
 
     //List of subprojects of specific projectID
-    public List<Subproject> getSubprojects(int projectID) throws SQLException {
+    public List<Subproject> getSubprojects(int projectID) {
         List<Subproject> subprojectList = new ArrayList<>();
         subprojectList.add(new Subproject(1,1,"subproject1","beskrivelse af..", 100, 25, LocalDate.of(2024,10,10), "In progress"));
         /*Connection connection = DriverManager.getConnection(db_url, username, pwd);
@@ -85,6 +85,8 @@ public class SubprojectRepository implements SubprojectInterface {
             ps.setString(5, subproject.getDeadline().toString());
             ps.setString(6, subproject.getStatus());
 
+            ps.executeUpdate();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -92,6 +94,45 @@ public class SubprojectRepository implements SubprojectInterface {
 
     //Delete subproject
     public void deleteSubproject(int subprojectID){
+        Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
+        String SQL = "DELETE FROM subproject WHERE subproject_id = ?;";
 
+        try (PreparedStatement ps = connection.prepareStatement(SQL)){
+            ps.setInt(1, subprojectID);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Subproject getSubprojectFromSubprojectID(int subprojectID){
+        Subproject foundSubproject;
+        Connection connection = ConnectionManager.getConnection(db_url, username,pwd);
+
+        String SQL = "SELECT project_id, name, description, time_estimate, dedicated_hours, deadline, status FROM subproject WHERE subproject_id = ?;";
+
+        try (PreparedStatement ps = connection.prepareStatement(SQL)){
+            ps.setInt(1, subprojectID);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()){
+                int projectID = rs.getInt("project_id");
+                String name = rs.getString("name");
+                String description = rs.getString("description");
+                int timeEstimate = rs.getInt("time_estimate");
+                int dedicatedHours = rs.getInt("dedicated_hours");
+                LocalDate deadline = LocalDate.parse(rs.getString("deadline"));
+                String status = rs.getString("status");
+
+                foundSubproject = new Subproject(subprojectID, projectID, name, description, timeEstimate, dedicatedHours, deadline, status);
+
+                return foundSubproject;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 }
