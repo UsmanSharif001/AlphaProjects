@@ -8,28 +8,28 @@
 <body>
 <form th:action="@{/{subprojectid}/updatesubproject(subprojectid=${subprojectid})}" th:method="POST" th:object="${subproject}">
     <p>
-        <label for="name">Navn</label>
-        <input id="name" type="text" th:value="*{name}">
+        <label for="subprojectName">Navn</label>
+        <input id="subprojectName" type="text" th:field="*{subprojectName}">
     </p>
     <p>
-        <label for="description">Beskrivelse:</label>
-        <input id="description" type="text" th:field="*{description}"/>
+        <label for="subprojectDescription">Beskrivelse:</label>
+        <input id="subprojectDescription" type="text" th:field="*{subprojectDescription}"/>
     </p>
     <p>
-        <label for="timeEstimate">Tidsestimat:</label>
-        <input id="timeEstimate" type="text" th:field="*{timeEstimate}"/>
+        <label for="subprojectTimeEstimate">Tidsestimat:</label>
+        <input id="subprojectTimeEstimate" type="text" th:field="*{subprojectTimeEstimate}"/>
     </p>
     <p>
-        <label for="dedicatedHours">Tidsforbrug:</label>
-        <input id="dedicatedHours" type="text" th:field="*{dedicatedHours}"/>
+        <label for="subprojectDedicatedHours">Tidsforbrug:</label>
+        <input id="subprojectDedicatedHours" type="text" th:field="*{subprojectDedicatedHours}"/>
     </p>
     <p>
-        <label for="deadline">Deadline:</label>
-        <input id="deadline" type="text" th:field="*{deadline}"/>
+        <label for="subprojectDeadline">Deadline:</label>
+        <input id="subprojectDeadline" type="text" th:field="*{subprojectDeadline}"/>
     </p>
     <p>
-        <label for="status">Status:</label>
-        <input id="status" type="text" th:field="*{status}"/>
+        <label for="subprojectStatus">Status:</label>
+        <input id="subprojectStatus" type="text" th:field="*{subprojectStatus}"/>
     </p>
     <p>
         <input type="hidden" id="projectid" th:field="*{projectID}">
@@ -39,6 +39,8 @@
     </p>
     <button type="submit">Tilføj opdateringer</button>
 </form>
-
+<p>
+    <a th:href="@{/{projectid}/subprojects(projectid=${projectid})}"> <button type="button">Tilbage</button> </a>
+</p>
 </body>
 </html>

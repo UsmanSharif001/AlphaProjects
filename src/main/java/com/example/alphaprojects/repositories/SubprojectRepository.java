@@ -24,8 +24,7 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
     //List of subprojects of specific projectID
     public List<Subproject> getSubprojects(int projectID) {
         List<Subproject> subprojectList = new ArrayList<>();
-        subprojectList.add(new Subproject(1,1,"subproject1","beskrivelse af..", 100, 25, LocalDate.of(2024,10,10), "In progress"));
-        /*Connection connection = DriverManager.getConnection(db_url, username, pwd);
+        Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = "SELECT * FROM subproject WHERE project_id = ?;";
 
         try (PreparedStatement ps = connection.prepareStatement(SQL)){
@@ -35,35 +34,44 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
             while (rs.next()){
                 subprojectList.add(new Subproject(rs.getInt("subproject_id"),
                         projectID,
-                        rs.getString("name"),
-                        rs.getString("description"),
-                        rs.getInt("time_estimate"),
-                        rs.getInt("dedicated_hours"),
-                        LocalDate.parse(rs.getString("deadline")),
-                        rs.getString("status")));
+                        rs.getString("subproject_name"),
+                        rs.getString("subproject_description"),
+                        rs.getInt("subproject_time_estimate"),
+                        rs.getInt("subproject_dedicated_hours"),
+                        LocalDate.parse(rs.getString("subproject_deadline")),
+                        rs.getString("subproject_status")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }*/
+        }
         return subprojectList;
     }
 
     //Create subproject
    public void createSubproject(Subproject subproject){
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "INSERT INTO subproject (project_id, subproject_id, name, description, time_estimate, dedicated_hours, deadline, status) VALUES (?,?,?,?,?,?);";
+        String SQL = "INSERT INTO subproject (project_id, subproject_name, subproject_description, subproject_time_estimate, subproject_dedicated_hours, subproject_deadline, subproject_status) VALUES (?,?,?,?,?,?,?);";
 
-        try (PreparedStatement ps = connection.prepareStatement(SQL)){
+        try (PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)){
             ps.setInt(1, subproject.getProjectID());
-            ps.setInt(2, subproject.getSubprojectID());
-            ps.setString(3, subproject.getName());
-            ps.setString(4, subproject.getDescription());
-            ps.setInt(5, subproject.getTimeEstimate());
-            ps.setInt(6, subproject.getDedicatedHours());
-            ps.setString(7, subproject.getDeadline().toString());
-            ps.setString(8, subproject.getStatus());
+            //ps.setInt(2, subproject.getSubprojectID());
+            ps.setString(2, subproject.getSubprojectName());
+            ps.setString(3, subproject.getSubprojectDescription());
+            ps.setInt(4, subproject.getSubprojectTimeEstimate());
+            ps.setInt(5, subproject.getSubprojectDedicatedHours());
+            ps.setString(6, subproject.getSubprojectDeadline().toString());
+            ps.setString(7, subproject.getSubprojectStatus());
 
             ps.executeUpdate();
+
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()){
+                if (generatedKeys.next()){
+                    int subprojectID = generatedKeys.getInt(1);
+                    subproject.setSubprojectID(subprojectID);
+                } else {
+                    throw new SQLException("Kunne ikke finde de genererede subprojectID");
+                }
+            }
 
 
         } catch (SQLException e) {
@@ -75,15 +83,15 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
     //Edit subproject
     public void editSubproject(Subproject subproject){
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "UPDATE subproject SET name = ?, description = ?, time_estimate = ?, dedicated_time = ?, deadline = ?, status = ?;";
+        String SQL = "UPDATE subproject SET subproject_name = ?, subproject_description = ?, subproject_time_estimate = ?, subproject_dedicated_hours = ?, subproject_deadline = ?, subproject_status = ?;";
 
         try (PreparedStatement ps = connection.prepareStatement(SQL)){
-            ps.setString(1, subproject.getName());
-            ps.setString(2, subproject.getDescription());
-            ps.setInt(3, subproject.getTimeEstimate());
-            ps.setInt(4, subproject.getDedicatedHours());
-            ps.setString(5, subproject.getDeadline().toString());
-            ps.setString(6, subproject.getStatus());
+            ps.setString(1, subproject.getSubprojectName());
+            ps.setString(2, subproject.getSubprojectDescription());
+            ps.setInt(3, subproject.getSubprojectTimeEstimate());
+            ps.setInt(4, subproject.getSubprojectDedicatedHours());
+            ps.setString(5, subproject.getSubprojectDeadline().toString());
+            ps.setString(6, subproject.getSubprojectStatus());
 
             ps.executeUpdate();
 
@@ -111,7 +119,7 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
         Subproject foundSubproject;
         Connection connection = ConnectionManager.getConnection(db_url, username,pwd);
 
-        String SQL = "SELECT project_id, name, description, time_estimate, dedicated_hours, deadline, status FROM subproject WHERE subproject_id = ?;";
+        String SQL = "SELECT project_id, subproject_name, subproject_description, subproject_time_estimate, subproject_dedicated_hours, subproject_deadline, subproject_status FROM subproject WHERE subproject_id = ?;";
 
         try (PreparedStatement ps = connection.prepareStatement(SQL)){
             ps.setInt(1, subprojectID);
@@ -119,12 +127,12 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
 
             if (rs.next()){
                 int projectID = rs.getInt("project_id");
-                String name = rs.getString("name");
-                String description = rs.getString("description");
-                int timeEstimate = rs.getInt("time_estimate");
-                int dedicatedHours = rs.getInt("dedicated_hours");
-                LocalDate deadline = LocalDate.parse(rs.getString("deadline"));
-                String status = rs.getString("status");
+                String name = rs.getString("subproject_name");
+                String description = rs.getString("subproject_description");
+                int timeEstimate = rs.getInt("subproject_time_estimate");
+                int dedicatedHours = rs.getInt("subproject_dedicated_hours");
+                LocalDate deadline = LocalDate.parse(rs.getString("subproject_deadline"));
+                String status = rs.getString("subproject_status");
 
                 foundSubproject = new Subproject(subprojectID, projectID, name, description, timeEstimate, dedicatedHours, deadline, status);
 

@@ -20,12 +20,12 @@
     </thead>
     <tbody>
     <tr th:each="subproject : ${subprojects}">
-        <td th:text="${subproject.name}"></td>
-        <td th:text="${subproject.description}"></td>
-        <td th:text="${subproject.timeEstimate}"></td>
-        <td th:text="${subproject.dedicatedHours}"></td>
-        <td th:text="${subproject.deadline}"></td>
-        <td th:text="${subproject.status}"></td>
+        <td th:text="${subproject.subprojectName}"></td>
+        <td th:text="${subproject.subprojectDescription}"></td>
+        <td th:text="${subproject.subprojectTimeEstimate}"></td>
+        <td th:text="${subproject.subprojectDedicatedHours}"></td>
+        <td th:text="${subproject.subprojectDeadline}"></td>
+        <td th:text="${subproject.subprojectStatus}"></td>
         <td>
             <a th:href="@{'/' + ${subproject.getSubprojectID()} + '/editsubproject'}">
                 <button type="submit"> Ret Subprojekt</button>
@@ -41,7 +41,7 @@
 <a th:href="@{/{projectid}/createsubproject(projectid=${projectid})}">
     <button type="submit"> Tilføj Subprojekt</button>
 </a>
-<a th:href=""> Tilbage (til projekter, mangler ref)</a>
+<a> Tilbage (til projekter, mangler ref)</a>
 
 </body>
 </html>

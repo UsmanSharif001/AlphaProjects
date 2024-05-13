@@ -29,34 +29,35 @@ public SubprojectController(SubprojectService subprojectService) {
     public String createSubproject(@PathVariable int projectid, Model model){
     model.addAttribute("subproject", new Subproject());
     model.addAttribute("projectid", projectid);
-    return "createSubproject"; //mangler tilbageknap
+    return "createSubproject";
 }
 
-@PostMapping("/{subprojectid}/savesubproject")
-    public String saveSubproject(@PathVariable int subprojectid, @ModelAttribute Subproject newSubproject){
-    newSubproject.setSubprojectID(subprojectid);
+@PostMapping("/{projectid}/savesubproject")
+    public String saveSubproject(@PathVariable int projectid, @ModelAttribute Subproject newSubproject){
+    newSubproject.setSubprojectID(projectid);
     subprojectService.createSubproject(newSubproject);
-    return "redirect:/" + newSubproject.getProjectID() + "/subprojects";
+    return "redirect:/" + projectid + "/subprojects";
 }
 
 @GetMapping("/{subprojectid}/editsubproject")
     public String editSubproject(@PathVariable int subprojectid, Model model){
     Subproject editSubproject = subprojectService.getSubprojectFromSubprojectID(subprojectid);
+    int projectid = editSubproject.getProjectID();
     model.addAttribute("subproject", editSubproject);
-    return "editsubproject"; //mangler tilbageknap
+    model.addAttribute("projectid", projectid);
+    return "editsubproject";
 }
 
 @PostMapping("/{subprojectid}/updatesubproject")
     public String updateSubproject(@ModelAttribute Subproject subproject, @PathVariable int subprojectid){
     subproject.setSubprojectID(subprojectid);
     subprojectService.editSubproject(subproject);
-    return "redirect:/" + subproject.getProjectID() + "/subproject"; // CANNOT FIND?
+    return "redirect:/" + subproject.getProjectID() + "/subprojects";
 }
 
 @GetMapping("/{subprojectid}/deletesubproject")
-    public String deleteSubproject(@PathVariable int subprojectid, Model model){
+    public String deleteSubproject(@PathVariable int subprojectid){
     subprojectService.deleteSubproject(subprojectid);
-    //model.addAttribute("subprojectid", subprojectid);
     return "redirect:/" + subprojectid + "/subproject";
 }
 

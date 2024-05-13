@@ -1,28 +1,27 @@
 package com.example.alphaprojects.model;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Subproject {
 
     private int subprojectID;
     private int projectID;
-    private String name;
-    private String description;
-    private int timeEstimate;
-    private int dedicatedHours;
-    private LocalDate deadline;
-    private String status;
+    private String subprojectName;
+    private String subprojectDescription;
+    private int subprojectTimeEstimate;
+    private int subprojectDedicatedHours;
+    private LocalDate subprojectDeadline;
+    private String subprojectStatus;
 
-    public Subproject(int subprojectID, int projectID, String name, String description, int timeEstimate, int dedicatedHours, LocalDate deadline, String status) {
+    public Subproject(int subprojectID, int projectID, String subprojectName, String subprojectDescription, int subprojectTimeEstimate, int subprojectDedicatedHours, LocalDate subprojectDeadline, String status) {
         this.subprojectID = subprojectID;
         this.projectID = projectID;
-        this.name = name;
-        this.description = description;
-        this.timeEstimate = timeEstimate;
-        this.dedicatedHours = dedicatedHours;
-        this.deadline = deadline;
-        this.status = status;
+        this.subprojectName = subprojectName;
+        this.subprojectDescription = subprojectDescription;
+        this.subprojectTimeEstimate = subprojectTimeEstimate;
+        this.subprojectDedicatedHours = subprojectDedicatedHours;
+        this.subprojectDeadline = subprojectDeadline;
+        this.subprojectStatus = status;
     }
 
     public Subproject(){
@@ -44,51 +43,51 @@ public class Subproject {
         this.projectID = projectID;
     }
 
-    public String getName() {
-        return name;
+    public String getSubprojectName() {
+        return subprojectName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSubprojectName(String subprojectName) {
+        this.subprojectName = subprojectName;
     }
 
-    public String getDescription() {
-        return description;
+    public String getSubprojectDescription() {
+        return subprojectDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setSubprojectDescription(String subprojectDescription) {
+        this.subprojectDescription = subprojectDescription;
     }
 
-    public int getTimeEstimate() {
-        return timeEstimate;
+    public int getSubprojectTimeEstimate() {
+        return subprojectTimeEstimate;
     }
 
-    public void setTimeEstimate(int timeEstimate) {
-        this.timeEstimate = timeEstimate;
+    public void setSubprojectTimeEstimate(int subprojectTimeEstimate) {
+        this.subprojectTimeEstimate = subprojectTimeEstimate;
     }
 
-    public int getDedicatedHours() {
-        return dedicatedHours;
+    public int getSubprojectDedicatedHours() {
+        return subprojectDedicatedHours;
     }
 
-    public void setDedicatedHours(int dedicatedHours) {
-        this.dedicatedHours = dedicatedHours;
+    public void setSubprojectDedicatedHours(int subprojectDedicatedHours) {
+        this.subprojectDedicatedHours = subprojectDedicatedHours;
     }
 
-    public LocalDate getDeadline() {
-        return deadline;
+    public LocalDate getSubprojectDeadline() {
+        return subprojectDeadline;
     }
 
-    public void setDeadline(LocalDate deadline) {
-        this.deadline = deadline;
+    public void setSubprojectDeadline(LocalDate subprojectDeadline) {
+        this.subprojectDeadline = subprojectDeadline;
     }
 
-    public String getStatus() {
-        return status;
+    public String getSubprojectStatus() {
+        return subprojectStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setSubprojectStatus(String subprojectStatus) {
+        this.subprojectStatus = subprojectStatus;
     }
 }
