@@ -51,10 +51,10 @@ public class TaskController {
     }
 
     @PostMapping("/{taskid}/updatetask")
-    public String updateTask(@ModelAttribute Task task, @PathVariable int subprojectid) {
-        task.setSubprojectID(subprojectid);
+    public String updateTask(@ModelAttribute Task task, @PathVariable int taskid) {
+        task.setSubprojectID(taskid);
         taskService.updateTask(task);
-        return "redirect:/" + subprojectid + "/opgaver";
+        return "redirect:/" + taskid + "/opgaver";
     }
 
     @GetMapping("{subprojectid}/{taskid}/deletetask")
