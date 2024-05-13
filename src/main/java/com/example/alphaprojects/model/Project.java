@@ -12,9 +12,14 @@ private String projectDescription;
 private int projectTimeEstimate;
 private int projectDedicatedHours;
 private LocalDate projectDeadline;
-private Status projectStatus;
+private String projectStatus;
 
-    public Project(int projectID, int projectManagerID, String projectManagerName, String projectName, String projectDescription, int projectTimeEstimate, int projectDedicatedHours, LocalDate projectDeadline, Status projectStatus) {
+//Ingen parametre
+public Project(){
+}
+
+//Alle parametre
+    public Project(int projectID, int projectManagerID, String projectManagerName, String projectName, String projectDescription, int projectTimeEstimate, int projectDedicatedHours, LocalDate projectDeadline, String projectStatus) {
         this.projectID = projectID;
         this.projectManagerID = projectManagerID;
         this.projectManagerName = projectManagerName;
@@ -90,11 +95,11 @@ private Status projectStatus;
         this.projectDeadline = projectDeadline;
     }
 
-    public Status getProjectStatus() {
+    public String getProjectStatus() {
         return projectStatus;
     }
 
-    public void setProjectStatus(Status projectStatus) {
+    public void setProjectStatus(String projectStatus) {
         this.projectStatus = projectStatus;
     }
 }

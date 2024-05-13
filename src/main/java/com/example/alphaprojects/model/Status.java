@@ -1,6 +1,6 @@
 package com.example.alphaprojects.model;
 public enum Status {
-    NOT_STARTED("Ikke startet"),
+    NOT_STARTED("Ikke påbegyndt"),
     IN_PROGRESS("Igangværende"),
     DONE("Afsluttet"),
     ARCHIVED("Arkiveret");

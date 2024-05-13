@@ -1,13 +1,26 @@
 package com.example.alphaprojects.interfaces;
 
 import com.example.alphaprojects.model.Project;
+import com.example.alphaprojects.model.ProjectManagerDTO;
+import com.example.alphaprojects.model.Status;
 
 import java.util.List;
 
 public interface ProjectInterface {
 
-    public List<Project> getListOfProjects();
+    List<Project> getListOfProjects();
 
-    public String getProjectManagerName(int empID);
+    String getProjectManagerName(int empID);
 
+    int calculateProjectDedicatedHours(int projectID);
+
+    int getManagerID(String managerName);
+
+    void addNewProject(Project newProject);
+
+    void editProject(Project project);
+
+    List<ProjectManagerDTO> getProjectManagers();
+
+    Project getProjectFromProjectID(int projectID);
 }
