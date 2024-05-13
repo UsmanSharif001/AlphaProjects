@@ -30,4 +30,7 @@ public class TaskService {
     public List<Task> getTaskList(int subprojectID) {
         return taskRepository.getTasks(subprojectID);
     }
+    public void deleteTask(int taskID) {
+        taskRepository.deleteTask(taskID);
+    }
 }

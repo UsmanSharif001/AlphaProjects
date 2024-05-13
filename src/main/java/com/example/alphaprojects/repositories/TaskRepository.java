@@ -126,4 +126,18 @@ public class TaskRepository implements TaskInterface {
 
         return taskList;
     }
+
+    @Override
+    public void deleteTask(int taskID) {
+        Connection con = ConnectionManager.getConnection(db_url,username,pwd);
+        String SQL = "DELETE FROM task WHERE taskid =?;";
+
+
+        try(PreparedStatement ps = con.prepareStatement(SQL)) {
+            ps.setInt(1, taskID);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

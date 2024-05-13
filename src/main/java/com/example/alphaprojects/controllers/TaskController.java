@@ -15,7 +15,7 @@ public class TaskController {
 
     private TaskService taskService;
 
-    public TaskController(TaskService taskService){
+    public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
 
@@ -38,7 +38,7 @@ public class TaskController {
     public String saveTask(@ModelAttribute Task newTask, @PathVariable int subprojectid) {
         newTask.setSubprojectID(subprojectid);
         taskService.createTask(newTask);
-        return"redirect:/" + subprojectid + "/opgaver";
+        return "redirect:/" + subprojectid + "/opgaver";
     }
 
     @GetMapping("{subprojectid}/{taskid}/edittask")
@@ -49,14 +49,18 @@ public class TaskController {
         model.addAttribute("task", editTask);
         return "opdateropgave";
     }
+
     @PostMapping("/{subprojectid}/updatetask")
     public String updateTask(@ModelAttribute Task task, @PathVariable int subprojectid) {
         task.setSubprojectID(subprojectid);
         taskService.updateTask(task);
         return "redirect:/" + subprojectid + "/opgaver";
     }
+
     @GetMapping("{subprojectid}/{taskid}/deletetask")
     public String deleteTask(@PathVariable int subprojectid, @PathVariable int taskid, Model model) {
+        taskService.deleteTask(taskid);
+        model.addAttribute("subprojectID", subprojectid);
         return "redirect:/" + subprojectid + "/opgaver";
     }
 
