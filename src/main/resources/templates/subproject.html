@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
+<div style="width: 100%; display: flex; flex-direction: column; gap: 32px; align-items: center;"
+     layout:fragment="content">
 <head>
-    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
     <title>Subprojekter</title>
 </head>
 <body>
@@ -20,7 +22,10 @@
     </thead>
     <tbody>
     <tr th:each="subproject : ${subprojects}">
-        <td th:text="${subproject.subprojectName}"></td>
+        <td>
+        <button type="button" style="width: 100%"><span th th:text="${subproject.subprojectName}"></span>
+        </button>
+        </td>
         <td th:text="${subproject.subprojectDescription}"></td>
         <td th:text="${subproject.subprojectTimeEstimate}"></td>
         <td th:text="${subproject.subprojectDedicatedHours}"></td>
@@ -44,4 +49,5 @@
 <a> Tilbage (til projekter, mangler ref)</a>
 
 </body>
+</div>
 </html>

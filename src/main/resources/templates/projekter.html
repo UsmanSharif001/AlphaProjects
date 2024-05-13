@@ -31,8 +31,10 @@
             <tbody>
             <tr th:each="project : ${projects}">
                 <td>
-                    <button type="button" style="width: 100%"><span th th:text="${project.getProjectName()}"></span>
+                    <a th:href="@{/{projectID}/subprojects(projectID=${project.getProjectID()})}">
+                    <button type="submit" style="width: 100%"><span th:text="${project.getProjectName()}"></span>
                     </button>
+                    </a>
                 </td>
                 <td th:text="${project.getProjectManagerName()}"></td>
                 <td th:text="${project.getProjectDeadline()}"></td>

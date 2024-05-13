@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
+<div style="width: 100%; display: flex; flex-direction: column; gap: 32px; align-items: center;"
+     layout:fragment="content">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
     <title>Ret Subprojekt</title>
 </head>
 <body>
@@ -43,4 +45,5 @@
     <a th:href="@{/{projectid}/subprojects(projectid=${projectid})}"> <button type="button">Tilbage</button> </a>
 </p>
 </body>
+</div>
 </html>
