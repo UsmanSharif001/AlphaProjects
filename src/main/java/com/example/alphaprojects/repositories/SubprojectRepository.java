@@ -4,7 +4,7 @@ import com.example.alphaprojects.interfaces.SubprojectRepositoryInterface;
 import com.example.alphaprojects.model.Subproject;
 import com.example.alphaprojects.util.ConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
-import com.example.alphaprojects.interfaces.SubprojectInterface;
+import com.example.alphaprojects.interfaces.SubprojectRepositoryInterface;
 import com.example.alphaprojects.util.ConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -35,11 +35,11 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = "SELECT * FROM subproject WHERE project_id = ?;";
 
-        try (PreparedStatement ps = connection.prepareStatement(SQL)){
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setInt(1, projectID);
             ResultSet rs = ps.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
                 subprojectList.add(new Subproject(rs.getInt("subproject_id"),
                         projectID,
                         rs.getString("subproject_name"),
@@ -56,11 +56,11 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
     }
 
     //Create subproject
-   public void createSubproject(Subproject subproject){
+    public void createSubproject(Subproject subproject) {
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = "INSERT INTO subproject (project_id, subproject_name, subproject_description, subproject_time_estimate, subproject_dedicated_hours, subproject_deadline, subproject_status) VALUES (?,?,?,?,?,?,?);";
 
-        try (PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)){
+        try (PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, subproject.getProjectID());
             //ps.setInt(2, subproject.getSubprojectID());
             ps.setString(2, subproject.getSubprojectName());
@@ -72,8 +72,8 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
 
             ps.executeUpdate();
 
-            try (ResultSet generatedKeys = ps.getGeneratedKeys()){
-                if (generatedKeys.next()){
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
                     int subprojectID = generatedKeys.getInt(1);
                     subproject.setSubprojectID(subprojectID);
                 } else {
@@ -89,11 +89,11 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
 
 
     //Edit subproject
-    public void editSubproject(Subproject subproject){
+    public void editSubproject(Subproject subproject) {
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = "UPDATE subproject SET subproject_name = ?, subproject_description = ?, subproject_time_estimate = ?, subproject_dedicated_hours = ?, subproject_deadline = ?, subproject_status = ?;";
 
-        try (PreparedStatement ps = connection.prepareStatement(SQL)){
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, subproject.getSubprojectName());
             ps.setString(2, subproject.getSubprojectDescription());
             ps.setInt(3, subproject.getSubprojectTimeEstimate());
@@ -109,11 +109,11 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
     }
 
     //Delete subproject
-    public void deleteSubproject(int subprojectID){
+    public void deleteSubproject(int subprojectID) {
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = "DELETE FROM subproject WHERE subproject_id = ?;";
 
-        try (PreparedStatement ps = connection.prepareStatement(SQL)){
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setInt(1, subprojectID);
             ps.executeUpdate();
 
@@ -123,17 +123,17 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
     }
 
     //Hjælpemetode til at finde et subproject ud fra subprojectID
-    public Subproject getSubprojectFromSubprojectID(int subprojectID){
+    public Subproject getSubprojectFromSubprojectID(int subprojectID) {
         Subproject foundSubproject;
-        Connection connection = ConnectionManager.getConnection(db_url, username,pwd);
+        Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
 
         String SQL = "SELECT project_id, subproject_name, subproject_description, subproject_time_estimate, subproject_dedicated_hours, subproject_deadline, subproject_status FROM subproject WHERE subproject_id = ?;";
 
-        try (PreparedStatement ps = connection.prepareStatement(SQL)){
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setInt(1, subprojectID);
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()){
+            if (rs.next()) {
                 int projectID = rs.getInt("project_id");
                 String name = rs.getString("subproject_name");
                 String description = rs.getString("subproject_description");
@@ -152,34 +152,26 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
         }
         return null;
     }
-public class SubprojectRepository implements SubprojectInterface {
-
-    @Value("${spring.datasource.url}")
-    private String db_url;
-    @Value("${spring.datasource.username}")
-    private String username;
-    @Value("${spring.datasource.password}")
-    private String pwd;
 
 
-    //Hjælpemetode
-    //TODO: Skal refaktoreres så den opdaterer subproject_dedicated_hours i databasen:
-    private int calculateSubprojectDedicatedHours(int subProjectID) {
-        int dedicatedHours = 0;
-        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "SELECT COALESCE(SUM(t.task_time_estimate), 0) AS total_task_dedicated_hours\n" +
-                "FROM task t\n" +
-                "JOIN subproject sp ON t.subproject_id = sp.subproject_id\n" +
-                "WHERE sp.subproject_id = ?";
-        try (PreparedStatement ps = con.prepareStatement(SQL)) {
-            ps.setInt(1, subProjectID);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                dedicatedHours = rs.getInt("total_task_dedicated_hours");
+        //Hjælpemetode
+        //TODO: Skal refaktoreres så den opdaterer subproject_dedicated_hours i databasen:
+        private int calculateSubprojectDedicatedHours(int subProjectID) {
+            int dedicatedHours = 0;
+            Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+            String SQL = "SELECT COALESCE(SUM(t.task_time_estimate), 0) AS total_task_dedicated_hours\n" +
+                    "FROM task t\n" +
+                    "JOIN subproject sp ON t.subproject_id = sp.subproject_id\n" +
+                    "WHERE sp.subproject_id = ?";
+            try (PreparedStatement ps = con.prepareStatement(SQL)) {
+                ps.setInt(1, subProjectID);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    dedicatedHours = rs.getInt("total_task_dedicated_hours");
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            return dedicatedHours;
         }
-        return dedicatedHours;
     }
-}
