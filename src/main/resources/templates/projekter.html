@@ -10,7 +10,8 @@
         <a th:href="@{/opretprojekt}">
             <button style="margin: 0;" type="submit"> Opret projekt</button>
         </a>
-        <a th:href="@{tilføjmedarbejder}">
+
+        <a th:if="${isAdmin}" th:href="@{tilføjmedarbejder}">
             <button style="margin: 0">Tilføj Medarbejder</button>
         </a>
     </div>
