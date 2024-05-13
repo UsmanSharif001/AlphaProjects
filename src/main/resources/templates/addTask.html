@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
+    <title>Tilføj task</title>
+</head>
+<body>
+<form th:action="@{/{subprojectid}/savetask(subprojectid=${subprojectid})}" th:method="POST" th:object="${task}">
+    <p>
+        <label for="name"> Navn: </label>
+        <input id="name" type="text" th:field="*{name}">
+    </p>
+    <p>
+        <label for="description"> Beskrivelse: </label>
+        <input id="description" type="text" th:field="*{description}">
+    </p>
+    <p>
+        <label for="estimatedHours"> Tidsestimat: </label>
+        <input id="estimatedHours" type="text" th:field="*{estimatedHours}">
+    </p>
+    <p>
+        <label for="dedicatedHours"> Tid brugt: </label>
+        <input id="dedicatedHours" type="text" th:field="*{dedicatedHours}">
+    </p>
+    <p>
+        <input type="hidden" id="subprojectid" th:value="${subprojectid}" th:field="*{subprojectID}">
+    </p>
+    <button type="submit">Tilføj ønske</button>
+</form>
+
+<p>
+
+    <a th:href="@{/{subprojectid}/tasks(subprojectid=${subprojectid})}"> <button type="button">Tilbage</button> </a>
+</p>
+</body>
+</html>
