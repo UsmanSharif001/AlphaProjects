@@ -24,7 +24,15 @@ public class EmpService {
         return empRepository.addEmp(emp);
     }
 
+    public void deleteEmp(int empID){
+        empRepository.deleteEmp(empID);
+    }
+
     public List<Skill> getSkills(){
         return empRepository.getSkills();
+    }
+
+    public Skill addSkill(Skill skill) {
+        return empRepository.addSkill(skill);
     }
 }

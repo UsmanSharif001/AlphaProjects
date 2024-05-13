@@ -106,6 +106,26 @@ public class EmpRepository implements EmployeeInterface {
     }
 
     @Override
+    public void deleteEmp(int empID){
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+
+        String SQLdeleteFromEmpSkill = "DELETE FROM emp_skills WHERE emp_id = ?";
+        try(PreparedStatement ps = con.prepareStatement(SQLdeleteFromEmpSkill)) {
+            ps.setInt(1, empID);
+            ps.executeUpdate();
+
+            String SQLdeleteFromEmp = "DELETE FROM emp WHERE emp_id = ?";
+            PreparedStatement psDelete = con.prepareStatement(SQLdeleteFromEmp);
+            psDelete.setInt(1, empID);
+            psDelete.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
     public List<Skill> getSkills() {
         List<Skill> skills = new ArrayList<>();
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
@@ -125,6 +145,24 @@ public class EmpRepository implements EmployeeInterface {
         }
         return skills;
     }
+
+    @Override
+    public Skill addSkill(Skill skill){
+        Connection con = ConnectionManager.getConnection(db_url,username,pwd);
+        String SQL = """
+                INSERT INTO skill(skill_name) VALUES(?)
+                """;
+        try(PreparedStatement ps = con.prepareStatement(SQL)){
+            ps.setString(1,skill.getSkillName());
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return skill;
+    }
+
+
 
 
     //Method to get the skill ID, used in the addEmp method.

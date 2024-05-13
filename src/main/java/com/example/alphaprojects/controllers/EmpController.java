@@ -5,6 +5,7 @@ import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.Skill;
 import com.example.alphaprojects.services.EmpService;
 import jakarta.servlet.http.HttpSession;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -66,5 +67,50 @@ public class EmpController {
         return "redirect:/login";
     }
 
+    /*-----------------------------Delete Emp--------------------------*/
+
+    //TODO Not tested and have to figure out where it should redirect to
+    @GetMapping("/sletmedarbejder")
+    public String deleteEmp(HttpSession session){
+        if(isLoggedIn(session)){
+            Emp emp = (Emp) session.getAttribute("emp");
+            empService.deleteEmp(emp.getEmpID());
+            return "redirect:/projekter";
+        }
+
+        return "redirect:/login";
+    }
+
+    /*-----------------------------Skills--------------------------*/
+    //TODO have to figure out where these redirect to, not tested
+
+    @GetMapping("/tilføjnyskill")
+    public String addSKill(HttpSession session, Model model) {
+        if(isLoggedIn(session)){
+            model.addAttribute("skill", new Skill());
+        }
+        return "addSKill";
+    }
+
+
+    @PostMapping("/gemskill")
+    public String saveSkill(@ModelAttribute Skill skill, HttpSession session) {
+        if(isLoggedIn(session)){
+            empService.addSkill(skill);
+            return "redirect:/projekter";
+        }
+        return "redirect:/login";
+    }
+
+
+    /*-----------------------------Logout--------------------------*/
+
+    //TODO have to figure out if we can make a logout button that works on all html pages
+    //TODO instead of inserting it on every HTML page
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
+    }
 
 }
