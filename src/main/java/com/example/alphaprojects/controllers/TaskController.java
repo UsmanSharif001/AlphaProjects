@@ -50,7 +50,7 @@ public class TaskController {
         return "opdateropgave";
     }
 
-    @PostMapping("/{subprojectid}/updatetask")
+    @PostMapping("/{taskid}/updatetask")
     public String updateTask(@ModelAttribute Task task, @PathVariable int subprojectid) {
         task.setSubprojectID(subprojectid);
         taskService.updateTask(task);

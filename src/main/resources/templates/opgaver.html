@@ -33,7 +33,7 @@
             <td th:text="${task.taskStatus}"></td>
             <td>
                 <a th:href="@{'/' + ${task.getTaskID()} + '/edittask'}">
-                    <button type="submit"> Ret Opgave</button>
+                    <button type="submit"> Opdater Opgave</button>
                 </a>
                 <a th:href="@{'/' + ${task.getTaskID()} + '/deletetask'}">
                     <button type="submit"> Slet Opgave</button>
@@ -46,7 +46,9 @@
     <a th:href="@{/{subprojectid}/addtask(subprojectid=${subprojectid})}">
         <button type="submit"> Tilføj Opgave</button>
     </a>
-    <a> Tilbage (til projekter, mangler ref)</a>
+    <a th:href="@{'/' + ${subprojectid}}">
+        <button type="button">Tilbge til subproject</button>
+    </a>
 
     </body>
 </div>

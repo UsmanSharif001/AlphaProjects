@@ -1,10 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
 
-</body>
+<div style="width: 100%; display: flex; flex-direction: column; gap: 32px; align-items: center;"
+     layout:fragment="content">
+    <head>
+        <title>Ret Opgave</title>
+    </head>
+    <body>
+    <form th:action="@{/{taskid}/updatetask(taskid=${taskid})}" th:method="POST" th:object="${task}">
+        <p>
+            <label for="taskName">Navn</label>
+            <input id="taskName" type="text" th:field="*{taskName}">
+        </p>
+        <p>
+            <label for="taskDescription">Beskrivelse:</label>
+            <input id="taskDescription" type="text" th:field="*{taskDescription}"/>
+        </p>
+        <p>
+            <label for="taskEstimate">Tidsestimat:</label>
+            <input id="taskEstimate" type="text" th:field="*{taskEstimate}"/>
+        </p>
+
+        <p>
+            <label for="taskDeadline">Deadline:</label>
+            <input id="taskDeadline" type="text" th:field="*{taskDeadline}"/>
+        </p>
+        <p>
+            <label for="taskStatus">Status:</label>
+            <input id="taskStatus" type="text" th:field="*{taskStatus}"/>
+        </p>
+        <p>
+            <input type="hidden" id="subprojectid" th:field="*{subprojectID}">
+        </p>
+        <p>
+            <input type="hidden" id="taskid" th:field="*{taskID}">
+        </p>
+        <button type="submit">Tilføj opdateringer</button>
+    </form>
+    <p>
+        <a th:href="@{/{subprojectid}/tasks(subprojectid=${subprojectid})}"> <button type="button">Tilbage</button> </a>
+    </p>
+    </body>
+</div>
 </html>
