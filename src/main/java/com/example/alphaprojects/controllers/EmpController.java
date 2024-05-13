@@ -52,7 +52,7 @@ public class EmpController {
     if(isLoggedIn(session)){
         model.addAttribute("emp", new Emp());
         List<Skill> skillList = empService.getSkills();
-        model.addAttribute("skillList", skillList);
+        model.addAttribute("listOfSkills", skillList);
         return "addEmp";
     }
     return "redirect:/login";

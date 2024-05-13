@@ -91,7 +91,7 @@ public class EmpRepository implements EmployeeRepositoryInterface {
             String skillSQL = "INSERT INTO emp_skills(skill_id,emp_id) VALUES(?,?)";
             PreparedStatement psSkill = con.prepareStatement(skillSQL);
             for (Skill skill : emp.getSkillList()) {
-                int skillID = getSkillIdFromSkillTable(skill.getSkillName());
+                int skillID = skill.getSkillID();
                 psSkill.setInt(1, skillID);
                 psSkill.setInt(2, empID);
                 psSkill.executeUpdate();

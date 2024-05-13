@@ -21,9 +21,9 @@
 
 
         <label>Skills</label>
-        <div th:each="skill : ${skillList}">
+        <div th:each="skill : ${listOfSkills}">
             <input type="checkbox" th:field="*{skillList}" th:value="${skill}">
-            <label th:text="${skill}"></label>
+            <label th:text="${skill.skillName}"></label>
 
         </div>
         <button type="submit">Tilføj</button>
