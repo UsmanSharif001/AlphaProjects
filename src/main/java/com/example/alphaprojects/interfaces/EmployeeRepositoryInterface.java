@@ -5,7 +5,7 @@ import com.example.alphaprojects.model.Skill;
 
 import java.util.List;
 
-public interface EmployeeInterface {
+public interface EmployeeRepositoryInterface {
 
     Emp getEmp(String email, String password);
 

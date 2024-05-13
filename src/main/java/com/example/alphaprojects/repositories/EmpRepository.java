@@ -1,6 +1,6 @@
 package com.example.alphaprojects.repositories;
 
-import com.example.alphaprojects.interfaces.EmployeeInterface;
+import com.example.alphaprojects.interfaces.EmployeeRepositoryInterface;
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.Skill;
 import com.example.alphaprojects.util.ConnectionManager;
@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @Repository
-public class EmpRepository implements EmployeeInterface {
+public class EmpRepository implements EmployeeRepositoryInterface {
 
     @Value("${spring.datasource.url}")
     private String db_url;
@@ -31,7 +31,7 @@ public class EmpRepository implements EmployeeInterface {
         Emp emp = null;
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String sql = """
-                SELECT emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password,skill.skill_name
+                SELECT emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password,skill.skill_id,skill.skill_name
                 FROM emp
                 JOIN emp_skills on emp.emp_id = emp_skills.emp_id
                 JOIN skill on emp_skills.skill_id = skill.skill_id
@@ -50,7 +50,7 @@ public class EmpRepository implements EmployeeInterface {
                 String empName = rs.getString("emp_name");
                 String empEmail = rs.getString("emp_email");
                 String empPassword = rs.getString("emp_password");
-                Skill skill = new Skill(rs.getString("skill_name"));
+                Skill skill = new Skill(rs.getInt("skill_id"),rs.getString("skill_name"));
                 if (empName.equals(currentEmpName)) {
                     emp.addSkill(skill);
                 } else {

@@ -1,18 +1,17 @@
 package com.example.alphaprojects.services;
 
-import com.example.alphaprojects.interfaces.EmployeeInterface;
+import com.example.alphaprojects.interfaces.EmployeeRepositoryInterface;
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.Skill;
-import com.example.alphaprojects.repositories.EmpRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class EmpService {
-    private EmployeeInterface empRepository;
+    private EmployeeRepositoryInterface empRepository;
 
-    public EmpService(EmployeeInterface empRepository) {
+    public EmpService(EmployeeRepositoryInterface empRepository) {
         this.empRepository = empRepository;
     }
 

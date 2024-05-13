@@ -9,9 +9,9 @@ public class Skill {
 
     }
 
-    public Skill(String skillName){
-        this.skillName = skillName;
-    }
+//    public Skill(String skillName){
+//        this.skillName = skillName;
+//    }
 
     public Skill(int skillID, String skillName) {
         this.skillID = skillID;
@@ -36,6 +36,6 @@ public class Skill {
 
     @Override
     public String toString() {
-        return skillName;
+        return skillID + ". " + skillName;
     }
 }
