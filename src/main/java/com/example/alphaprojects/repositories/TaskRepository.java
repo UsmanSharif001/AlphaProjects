@@ -1,17 +1,18 @@
 package com.example.alphaprojects.repositories;
 
-import com.example.alphaprojects.model.Task;
-import org.springframework.beans.factory.annotation.Value;
 import com.example.alphaprojects.interfaces.TaskInterface;
 import com.example.alphaprojects.model.Task;
 import com.example.alphaprojects.util.ConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Repository
 public class TaskRepository implements TaskInterface {
 
     @Value("${spring.datasource.url}")
@@ -124,12 +125,5 @@ public class TaskRepository implements TaskInterface {
         }
 
         return taskList;
-    }
-    private boolean taskExists(Connection connection, int subproject_id) throws SQLException {
-        String SQL = "SELECT task_id FROM task WHERE subproject_id = ?";
-        PreparedStatement ps = connection.prepareStatement(SQL);
-        ps.setInt(1, subproject_id);
-        ResultSet rs = ps.executeQuery();
-        return rs.next();
     }
 }

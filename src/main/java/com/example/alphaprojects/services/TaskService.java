@@ -30,13 +30,4 @@ public class TaskService {
     public List<Task> getTaskList(int subprojectID) {
         return taskRepository.getTasks(subprojectID);
     }
-
-    public void addTask(Task task) {
-    taskRepository.addTask(task);
-    }
-
-
-
-
-
 }
