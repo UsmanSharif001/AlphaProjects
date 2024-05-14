@@ -28,7 +28,7 @@ public class ProjectRepository implements ProjectInterface {
     public List<Project> getListOfProjects() {
         List<Project> projectList = new ArrayList<>();
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "SELECT * FROM project";
+        String SQL = "SELECT * FROM AlphaSolution_db.project WHERE project_Status != 'archived'";
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ResultSet projectsResultSet = ps.executeQuery();
             while (projectsResultSet.next()) {
@@ -211,4 +211,31 @@ public class ProjectRepository implements ProjectInterface {
         }
         return null;
     }
+
+    @Override
+    public List<Project> getListOfArchivedProjects() {
+        List<Project> archivedProjectList = new ArrayList<>();
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+        String SQL = "SELECT * FROM AlphaSolution_db.project WHERE project_Status = 'archived'";
+        try (PreparedStatement ps = con.prepareStatement(SQL)) {
+            ResultSet projectsResultSet = ps.executeQuery();
+            while (projectsResultSet.next()) {
+                int projectID = projectsResultSet.getInt("project_id");
+                int managerID = projectsResultSet.getInt("project_manager_id");
+                String managerName = getProjectManagerName(managerID);
+                String name = projectsResultSet.getString("project_name");
+                String description = projectsResultSet.getString("project_description");
+                int timeEstimate = projectsResultSet.getInt("project_time_estimate");
+                int dedicatedHours = calculateProjectDedicatedHours(projectID);
+                LocalDate deadline = projectsResultSet.getDate("project_deadline").toLocalDate();
+                String status = projectsResultSet.getString("project_status");
+                Project project = new Project(projectID, managerID, managerName, name, description, timeEstimate, dedicatedHours, deadline, status);
+                archivedProjectList.add(project);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return archivedProjectList;
+    }
+
 }

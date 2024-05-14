@@ -51,6 +51,10 @@
                 <input type="radio" id="done" name="status" th:field="*{projectStatus}" th:value="DONE">
                 <label for="done">🟢 Afsluttet</label>
             </div>
+            <div>
+                <input type="radio" id="archived" name="status" th:field="*{projectStatus}" th:value="ARCHIVED">
+                <label for="archived">⚪️ Arkiveret</label>
+            </div>
         </fieldset>
 
         <div style="display: flex; gap: 16px;">

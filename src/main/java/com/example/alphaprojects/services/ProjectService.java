@@ -40,4 +40,8 @@ public class ProjectService {
     public Project getProjectFromProjectID(int projectID) {
         return projectRepository.getProjectFromProjectID(projectID);
     }
+
+    public List<Project> getListOfArchivedProjects() {
+        return projectRepository.getListOfArchivedProjects();
+    }
 }

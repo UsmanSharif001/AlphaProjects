@@ -24,4 +24,6 @@ public interface ProjectInterface {
     List<ProjectManagerDTO> getProjectManagers();
 
     Project getProjectFromProjectID(int projectID);
+
+    List<Project> getListOfArchivedProjects();
 }

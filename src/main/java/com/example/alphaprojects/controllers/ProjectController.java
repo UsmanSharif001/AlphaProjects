@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -84,6 +83,17 @@ public class ProjectController {
             updateProject.setProjectID(projectID);
             projectService.editProject(updateProject);
             return "redirect:/projekter";
+        }
+        return "redirect:/login";
+    }
+
+    @GetMapping("/arkiveredeprojekter")
+    private String getArchivedProjects(Model model, HttpSession session) {
+        if (isLoggedIn(session)) {
+            List<Project> archivedProjectList = projectService.getListOfArchivedProjects();
+            model.addAttribute("archivedProjects", archivedProjectList);
+            System.out.println(archivedProjectList);
+            return "arkiveredeProjekter";
         }
         return "redirect:/login";
     }
