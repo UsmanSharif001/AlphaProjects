@@ -72,14 +72,14 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
 
             ps.executeUpdate();
 
-            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+            /*try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     int subprojectID = generatedKeys.getInt(1);
                     subproject.setSubprojectID(subprojectID);
                 } else {
                     throw new SQLException("Kunne ikke finde de genererede subprojectID");
                 }
-            }
+            }*/
 
 
         } catch (SQLException e) {

@@ -4,26 +4,30 @@
 
 <div style="width: 100%; display: flex; flex-direction: column; gap: 32px; align-items: center;"
      layout:fragment="content">
-<head>
-    <title>Tilføj subprojekt</title>
-</head>
-<body>
-<form th:action="@{/{projectid}/savesubproject(projectid=${projectid})}" th:method="POST" th:object="${subproject}">
+
+    <h1 style="align-self: flex-start;">Opret Subprojekt</h1>
+
+
+<form th:action="@{/{projectid}/savesubproject(projectid=${projectid})}" th:method="POST" th:object="${subproject}" style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
     <p>
         <label for="subprojectName">Navn</label>
-        <input id="subprojectName" type="text" th:field="*{subprojectName}">
+        <input id="subprojectName" type="text" th:field="*{subprojectName}" placeholder="Subprojektets navn...">
     </p>
     <p>
         <label for="subprojectDescription">Beskrivelse:</label>
-        <input id="subprojectDescription" type="text" th:field="*{subprojectDescription}"/>
+        <input id="subprojectDescription" type="text" th:field="*{subprojectDescription}" placeholder="Beskrivelse af projektet..."/>
     </p>
     <p>
         <label for="subprojectTimeEstimate">Tidsestimat:</label>
-        <input id="subprojectTimeEstimate" type="text" th:field="*{subprojectTimeEstimate}"/>
+        <div style="display: flex; gap: 8px; align-items: baseline;">
+        <input id="subprojectTimeEstimate" type="number" th:field="*{subprojectTimeEstimate}" value="1"/><span>time(r)</span>
+        </div>
     </p>
     <p>
         <label for="subprojectDedicatedHours">Tidsforbrug:</label>
-        <input id="subprojectDedicatedHours" type="text" th:field="*{subprojectDedicatedHours}"/>
+        <div style="display: flex; gap: 8px; align-items: baseline;">
+        <input id="subprojectDedicatedHours" type="number" th:field="*{subprojectDedicatedHours}" value="1"/><span>time(r)</span>
+        </div>
     </p>
     <p>
         <label for="subprojectDeadline">Deadline:</label>
@@ -36,11 +40,14 @@
     <p>
         <input type="hidden" id="projectid" th:field="*{projectID}">
     </p>
-    <button type="submit">Tilføj subprojekt</button>
+    <div style="display: flex; gap: 16px;">
+        <a th:href="@{/{projectid}/subprojects(projectid=${projectid})}">
+        <button type="button" class="secondary" style="width: 100%;">
+            Annuller
+        </button>
+        </a>
+        <button type="submit" style="width: 100%;">Tilføj Subprojekt</button>
+    </div>
 </form>
-<p>
-    <a th:href="@{/{projectid}/subprojects(projectid=${projectid})}"> <button type="button">Tilbage</button> </a>
-</p>
-</body>
 </div>
 </html>
