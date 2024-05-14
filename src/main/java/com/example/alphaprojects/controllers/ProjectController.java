@@ -5,6 +5,7 @@ import com.example.alphaprojects.model.Project;
 import com.example.alphaprojects.model.ProjectManagerDTO;
 import com.example.alphaprojects.services.ProjectService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -61,13 +62,15 @@ public class ProjectController {
     }
 
     @GetMapping("/{projectID}/redigerprojekt")
-    private String updateProject(@PathVariable int projectID, Model model, HttpSession session){
+    private String updateProject(@PathVariable int projectID,
+                                 Model model,
+                                 HttpSession session) {
         if (isLoggedIn(session)) {
             Project updateProject = projectService.getProjectFromProjectID(projectID);
             List<ProjectManagerDTO> projectManagers = projectService.getProjectManagers();
             model.addAttribute("projectID", projectID);
             model.addAttribute("updateProject", updateProject);
-            session.setAttribute("projectDeadline", updateProject.getProjectDeadline());
+            model.addAttribute("projectDeadline", updateProject.getProjectDeadline());
             model.addAttribute("projectManagers", projectManagers);
             return "/redigerprojekt";
         }
@@ -75,8 +78,8 @@ public class ProjectController {
     }
 
     @PostMapping("/{projectID}/opdaterprojekt")
-    public String updateProject(@ModelAttribute Project updateProject, @PathVariable int projectID, HttpSession session){
-        if (isLoggedIn(session)){
+    public String updateProject(@ModelAttribute Project updateProject, @PathVariable int projectID, HttpSession session) {
+        if (isLoggedIn(session)) {
             updateProject.setProjectID(projectID);
             projectService.editProject(updateProject);
             return "redirect:/projekter";

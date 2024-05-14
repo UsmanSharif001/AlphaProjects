@@ -27,10 +27,7 @@
         <label for="deadline">Deadline:</label>
         <div style="display: flex; gap: 8px;">
             <input type="date" th:field="*{projectDeadline}"
-                   th:value="${#temporals.format(updateProject.projectDeadline, 'yyyy-MM-dd')}" id="deadline"/>
-            <span style="font-size: small" ;>Nuværende deadline:
-                <div th:text="${#temporals.format(updateProject.projectDeadline, 'yyyy-MM-dd')}"></div>
-        </span>
+                   th:value="${updateProject.projectDeadline}" id="deadline"/>
         </div>
 
         <label for="estimatedTime">Tidsestimat:</label>
