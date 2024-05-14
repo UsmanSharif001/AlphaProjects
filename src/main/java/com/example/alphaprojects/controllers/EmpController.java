@@ -3,6 +3,7 @@ package com.example.alphaprojects.controllers;
 
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.EmpDTO;
+import com.example.alphaprojects.model.Role;
 import com.example.alphaprojects.model.Skill;
 import com.example.alphaprojects.services.EmpService;
 import jakarta.servlet.http.HttpSession;
@@ -81,9 +82,12 @@ public class EmpController {
     @GetMapping("/tilføjmedarbejder")
     public String addEmp(HttpSession session, Model model) {
     if(isLoggedIn(session)){
+        isAdmin(session,model);
         model.addAttribute("emp", new Emp());
         List<Skill> skillList = empService.getSkills();
         model.addAttribute("listOfSkills", skillList);
+        List<Role> roleList = empService.getRoles();
+        model.addAttribute("listOfRoles", roleList);
         return "addEmp";
     }
     return "redirect:/login";
@@ -93,7 +97,7 @@ public class EmpController {
     public String saveEmp(@ModelAttribute Emp emp, HttpSession session) {
         if(isLoggedIn(session)){
         empService.addEmp(emp);
-        return "redirect:/projekter";
+        return "redirect:/medarbejdere";
         }
         return "redirect:/login";
     }

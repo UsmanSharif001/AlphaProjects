@@ -2,6 +2,7 @@ package com.example.alphaprojects.interfaces;
 
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.EmpDTO;
+import com.example.alphaprojects.model.Role;
 import com.example.alphaprojects.model.Skill;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public interface EmployeeRepositoryInterface {
     Emp addEmp(Emp emp);
 
     void deleteEmp(int empID);
+
+    List<Role> getRoles();
 
     List<Skill> getSkills();
 
