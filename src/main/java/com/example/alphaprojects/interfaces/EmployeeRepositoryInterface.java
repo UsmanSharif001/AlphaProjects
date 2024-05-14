@@ -1,13 +1,16 @@
 package com.example.alphaprojects.interfaces;
 
 import com.example.alphaprojects.model.Emp;
+import com.example.alphaprojects.model.EmpDTO;
 import com.example.alphaprojects.model.Skill;
 
 import java.util.List;
 
 public interface EmployeeRepositoryInterface {
 
-    Emp getEmp(String email, String password);
+//    Emp getEmp(String email, String password);
+
+    EmpDTO login(String username, String password);
 
     Emp addEmp(Emp emp);
 

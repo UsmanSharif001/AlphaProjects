@@ -2,6 +2,7 @@ package com.example.alphaprojects.services;
 
 import com.example.alphaprojects.interfaces.EmployeeRepositoryInterface;
 import com.example.alphaprojects.model.Emp;
+import com.example.alphaprojects.model.EmpDTO;
 import com.example.alphaprojects.model.Skill;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,12 @@ public class EmpService {
         this.empRepository = empRepository;
     }
 
-    public Emp getEmp(String username, String password) {
-      return empRepository.getEmp(username,password);
+//    public Emp getEmp(String username, String password) {
+//      return empRepository.getEmp(username,password);
+//    }
+
+    public EmpDTO login(String email, String password) {
+        return empRepository.login(email, password);
     }
 
     public Emp addEmp(Emp emp) {

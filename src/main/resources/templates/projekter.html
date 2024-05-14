@@ -9,12 +9,13 @@
         <h1 style="margin: 0;">Projektoversigt</h1>
         <a th:href="@{/opretprojekt}">
             <button style="margin: 0;" type="submit"> Opret projekt</button>
-        </a>
 
-        <a th:if="${isAdmin}" th:href="@{admin}">
-            <button style="margin: 0">Admin</button>
+            <a th:if="${isAdmin}" th:href="@{admin}">
+                <button style="margin: 0">Admin</button>
+            </a>
         </a>
     </div>
+
 
     <div class="overflow-auto">
         <table>
