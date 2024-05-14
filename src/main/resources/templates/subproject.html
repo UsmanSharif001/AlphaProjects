@@ -2,22 +2,27 @@
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout">
 
-<div style="width: 100%; display: flex; flex-direction: column; gap: 32px; align-items: center;"
-     layout:fragment="content">
-<head>
-    <title>Subprojekter</title>
-</head>
-<body>
-<h1> Subprojekter</h1>
+<div layout:fragment="content">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+        <h1 style="margin: 0;">Subprojektoversigt</h1>
+        <a th:href="@{/{projectid}/createsubproject(projectid=${projectid})}">
+            <button style="margin: 0;" type="submit"> Opret Subprojekt</button>
+        </a>
+
+    </div>
+
+<div class="overflow-auto">
 <table>
     <thead>
     <tr>
-        <th> Navn</th>
+        <th> Subprojekt</th>
         <th> Beskrivelse</th>
         <th> Tidsestimat</th>
         <th> Tidsforbrug</th>
         <th> Deadline</th>
         <th> Status</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -33,21 +38,21 @@
         <td th:text="${subproject.subprojectStatus}"></td>
         <td>
             <a th:href="@{'/' + ${subproject.getSubprojectID()} + '/editsubproject'}">
-                <button type="submit"> Ret Subprojekt</button>
+                <button type="submit">✏️</button>
             </a>
             <a th:href="@{'/' + ${subproject.getSubprojectID()} + '/deletesubproject'}">
-                <button type="submit"> Slet Subprojekt</button>
+                <button type="submit" disabled>🗑️</button>
             </a>
         </td>
     </tr>
     </tbody>
 
 </table>
-<a th:href="@{/{projectid}/createsubproject(projectid=${projectid})}">
-    <button type="submit"> Tilføj Subprojekt</button>
-</a>
-<a> Tilbage (til projekter, mangler ref)</a>
 
-</body>
+    <a th:href="@{/projekter}">
+        <button style="margin: 0">Tilbage</button>
+    </a>
+
+</div>
 </div>
 </html>
