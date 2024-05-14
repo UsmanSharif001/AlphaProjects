@@ -1,11 +1,11 @@
 package com.example.alphaprojects.controllers;
 
-import com.example.alphaprojects.model.Emp;
+import com.example.alphaprojects.Exceptions.ProjectAddException;
+import com.example.alphaprojects.Exceptions.ProjectEditException;
 import com.example.alphaprojects.model.Project;
 import com.example.alphaprojects.model.ProjectManagerDTO;
 import com.example.alphaprojects.services.ProjectService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -53,7 +52,7 @@ public class ProjectController {
     }
 
     @PostMapping("/gemprojekt")
-    private String saveProject(@ModelAttribute Project project, HttpSession session) {
+    private String saveProject(@ModelAttribute Project project, HttpSession session) throws ProjectAddException {
         if (isLoggedIn(session)) {
             projectService.addNewProject(project);
             return "redirect:/projekter";
@@ -62,9 +61,7 @@ public class ProjectController {
     }
 
     @GetMapping("/{projectID}/redigerprojekt")
-    private String updateProject(@PathVariable int projectID,
-                                 Model model,
-                                 HttpSession session) {
+    private String updateProject(@PathVariable int projectID, Model model, HttpSession session) {
         if (isLoggedIn(session)) {
             Project updateProject = projectService.getProjectFromProjectID(projectID);
             List<ProjectManagerDTO> projectManagers = projectService.getProjectManagers();
@@ -78,13 +75,27 @@ public class ProjectController {
     }
 
     @PostMapping("/{projectID}/opdaterprojekt")
-    public String updateProject(@ModelAttribute Project updateProject, @PathVariable int projectID, HttpSession session) {
+    public String updateProject(@ModelAttribute Project updateProject, @PathVariable int projectID, HttpSession session) throws ProjectEditException {
         if (isLoggedIn(session)) {
             updateProject.setProjectID(projectID);
             projectService.editProject(updateProject);
             return "redirect:/projekter";
         }
         return "redirect:/login";
+    }
+
+    @ExceptionHandler(ProjectAddException.class)
+    public String handleAddError(Model model, Exception exception) {
+        model.addAttribute("message", exception.getMessage());
+        System.out.println(exception.getMessage());
+        return "error/projectAddError";
+    }
+
+    @ExceptionHandler(ProjectEditException.class)
+    public String handleEditError(Model model, Exception exception) {
+        model.addAttribute("message", exception.getMessage());
+        System.out.println(exception.getMessage());
+        return "error/projectEditError";
     }
 
 }
