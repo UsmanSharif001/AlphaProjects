@@ -25,6 +25,13 @@ public class EmpController {
         return session.getAttribute("emp") != null;
     }
 
+    private void isAdmin(HttpSession session, Model model) {
+        Emp emp = (Emp) session.getAttribute("emp");
+        if(emp.getSkillList().contains(new Skill(1,"Admin"))){
+            model.addAttribute("isAdmin", true);
+        }
+    }
+
     /*-----------------------------Login--------------------------*/
 
     @GetMapping(value = {"","/","/login"})
@@ -49,12 +56,9 @@ public class EmpController {
     @GetMapping("/admin")
     public String admin(HttpSession session, Model model){
         if (isLoggedIn(session)){
-            Emp emp = (Emp) session.getAttribute("emp");
-            if(emp.getSkillList().contains(new Skill(1,"Admin"))){
-                model.addAttribute("isAdmin",true);
-            }
+            isAdmin(session,model);
             return "admin";
-        }
+            }
         return "login";
 
     }
