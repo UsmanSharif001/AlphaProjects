@@ -8,7 +8,13 @@
         <title>Ret Opgave</title>
     </head>
     <body>
-    <form th:action="@{/{taskid}/updatetask(taskid=${taskid})}" th:method="POST" th:object="${task}">
+     <form th:action="@{/{subprojectid}/updatetask(subprojectid=${subprojectid})}" th:method="POST" th:object="${task}">
+        <p>
+            <input type="hidden" id="subprojectid" th:field="*{subprojectID}">
+        </p>
+        <p>
+            <input type="hidden" id="taskid" th:field="*{taskID}">
+        </p>
         <p>
             <label for="taskName">Navn</label>
             <input id="taskName" type="text" th:field="*{taskName}">
@@ -30,17 +36,18 @@
             <label for="taskStatus">Status:</label>
             <input id="taskStatus" type="text" th:field="*{taskStatus}"/>
         </p>
-        <p>
-            <input type="hidden" id="subprojectid" th:field="*{subprojectID}">
-        </p>
-        <p>
-            <input type="hidden" id="taskid" th:field="*{taskID}">
-        </p>
         <button type="submit">Tilføj opdateringer</button>
     </form>
-    <p>
-        <a th:href="@{/{subprojectid}/tasks(subprojectid=${subprojectid})}"> <button type="button">Tilbage</button> </a>
-    </p>
+     <p>
+         <button type="button" onclick="goBack()">Tilbage</button>
+
+         <script>
+             function goBack() {
+                 window.history.back();
+             }
+         </script>
+
+     </p>
     </body>
 </div>
 </html>

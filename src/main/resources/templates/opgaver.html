@@ -11,21 +11,17 @@
     <body>
     <h1> Opgaver</h1>
     <table>
-        <thead>
+
         <tr>
             <th> Navn</th>
             <th> Beskrivelse</th>
-            <th> Tidsestimat</th>
+            <th> Tidsestimat(t)</th>
             <th> Deadline</th>
             <th> Status</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="task : ${listOfTasks}">
-            <td>
-                <button type="button" style="width: 100%"><span th th:text="${task.taskName}"></span>
-                </button>
-            </td>
             <td th:text="${task.taskName}"></td>
             <td th:text="${task.taskDescription}"></td>
             <td th:text="${task.taskEstimate}"></td>
@@ -33,7 +29,7 @@
             <td th:text="${task.taskStatus}"></td>
             <td>
                 <a th:href="@{'/' + ${task.getTaskID()} + '/edittask'}">
-                    <button type="submit"> Opdater Opgave</button>
+                    <button type="submit"> Ret Opgave</button>
                 </a>
                 <a th:href="@{'/' + ${task.getTaskID()} + '/deletetask'}">
                     <button type="submit"> Slet Opgave</button>
@@ -46,10 +42,16 @@
     <a th:href="@{/{subprojectid}/addtask(subprojectid=${subprojectid})}">
         <button type="submit"> Tilføj Opgave</button>
     </a>
-    <a th:href="@{'/' + ${subprojectid}}">
-        <button type="button">Tilbge til Subproject</button>
-    </a>
+    <p>
+        <button type="button" onclick="goBack()">Tilbage</button>
 
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+
+    </p>
     </body>
 </div>
 </html>

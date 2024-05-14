@@ -54,13 +54,14 @@ public class TaskRepository implements TaskInterface {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
                 UPDATE task SET task_name = ?, task_description = ?,
-                task_time_estimate = ?, task_deadline = ?, task_status = ?; WHERE task_id = ?""";
+                task_time_estimate = ?, task_deadline = ?, task_status = ? WHERE task_id = ?""";
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ps.setString(1, task.getTaskName());
             ps.setString(2, task.getTaskDescription());
             ps.setInt(3, task.getTaskEstimate());
             ps.setDate(4, Date.valueOf(task.getTaskDeadline()));
             ps.setString(5, task.getTaskStatus());
+            ps.setInt(6,task.getTaskID());
 
             ps.executeUpdate();
 
@@ -140,4 +141,5 @@ public class TaskRepository implements TaskInterface {
             throw new RuntimeException(e);
         }
     }
+
 }

@@ -1,6 +1,7 @@
 package com.example.alphaprojects.controllers;
 
 
+import com.example.alphaprojects.model.Subproject;
 import com.example.alphaprojects.model.Task;
 import com.example.alphaprojects.services.TaskService;
 import org.springframework.stereotype.Controller;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("project/subproject")
+@RequestMapping("")
 public class TaskController {
 
     private TaskService taskService;
@@ -19,13 +20,15 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping("{subprojectid}/tasks")
+    @GetMapping("/{subprojectid}/tasks")
     public String getTasks(@PathVariable int subprojectid, Model model) {
         List<Task> listOfTasks = taskService.getTaskList(subprojectid);
         model.addAttribute("listOfTasks", listOfTasks);
         model.addAttribute("subprojectid", subprojectid);
+        System.out.println(subprojectid + " " + listOfTasks.size());
         return "opgaver";
     }
+
 
     @GetMapping("/{subprojectid}/addtask")
     public String addTask(@PathVariable int subprojectid, Model model) {
@@ -41,23 +44,25 @@ public class TaskController {
         return "redirect:/" + subprojectid + "/opgaver";
     }
 
-    @GetMapping("{subprojectid}/{taskid}/edittask")
-    public String editTask(@PathVariable int subprojectid, @PathVariable int taskid, Model model) {
+    @GetMapping("/{taskid}/edittask")
+    public String editTask( @PathVariable int taskid, Model model) {
         Task editTask = taskService.getTask(taskid);
-        model.addAttribute("subprojectid", subprojectid);
         model.addAttribute("taskid", taskid);
         model.addAttribute("task", editTask);
         return "opdateropgave";
     }
 
-    @PostMapping("/{taskid}/updatetask")
-    public String updateTask(@ModelAttribute Task task, @PathVariable int taskid) {
-        task.setSubprojectID(taskid);
+    @PostMapping("/{subprojectid}/updatetask")
+    public String updateTask(@ModelAttribute Task task, Model model, @PathVariable int subprojectid) {
+        task.setSubprojectID(subprojectid);
+        model.addAttribute("listOfTasks", taskService.getTaskList(subprojectid));
+        //model.addAttribute("task",task);
         taskService.updateTask(task);
-        return "redirect:/" + taskid + "/opgaver";
+        //System.out.println("test");
+        return "opgaver";
     }
 
-    @GetMapping("{subprojectid}/{taskid}/deletetask")
+    @GetMapping("/{subprojectid}/{taskid}/deletetask")
     public String deleteTask(@PathVariable int subprojectid, @PathVariable int taskid, Model model) {
         taskService.deleteTask(taskid);
         model.addAttribute("subprojectID", subprojectid);

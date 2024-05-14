@@ -1,5 +1,6 @@
 package com.example.alphaprojects.model;
 
+
 import java.time.LocalDate;
 
 public class Task {
