@@ -1,5 +1,6 @@
 //package com.example.alphaprojects.util;
 //
+    //TODO Skal nok også slettes
 //import com.example.alphaprojects.model.Skill;
 //
 //import org.springframework.core.convert.converter.Converter;
