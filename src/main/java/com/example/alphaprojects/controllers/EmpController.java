@@ -116,6 +116,8 @@ public class EmpController {
         return "redirect:/login";
     }
 
+    //TODO Tines metode, skal slettes på et tidspunkt, kan være jeg skal bruge den som inspiration.
+    //TODO Gælder også for html siden viewEmp
 //    @GetMapping("/vismedarbejder")
 //    public String viewEmp(Model model){
 //        Emp emp = empService.getEmp("Nikolaj@gmail.com","123");
