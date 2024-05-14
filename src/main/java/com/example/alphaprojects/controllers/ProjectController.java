@@ -4,6 +4,7 @@ import com.example.alphaprojects.Exceptions.ProjectAddException;
 import com.example.alphaprojects.Exceptions.ProjectEditException;
 import com.example.alphaprojects.model.Project;
 import com.example.alphaprojects.model.ProjectManagerDTO;
+import com.example.alphaprojects.model.*;
 import com.example.alphaprojects.services.ProjectService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -33,6 +35,10 @@ public class ProjectController {
     @GetMapping("/projekter")
     private String getProjects(Model model, HttpSession session) {
         if (isLoggedIn(session)) {
+            EmpDTO emp = (EmpDTO) session.getAttribute("emp");
+            if(emp.getRoleID() == 1) {
+                model.addAttribute("isAdmin",true);
+            }
             List<Project> projectList = projectService.getListOfProjects();
             model.addAttribute("projects", projectList);
             return "projekter";

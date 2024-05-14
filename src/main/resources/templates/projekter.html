@@ -10,12 +10,14 @@
         <div style="display: flex; gap: 16px">
             <a th:href="@{/opretprojekt}">
                 <button style="margin: 0;" type="submit"> Opret projekt</button>
-            </a>
-            <a th:href="@{tilføjmedarbejder}">
-                <button style="margin: 0">Tilføj Medarbejder</button>
+
+                <a th:if="${isAdmin}" th:href="@{admin}">
+                    <button style="margin: 0">Admin</button>
+                </a>
             </a>
         </div>
     </div>
+
 
     <div class="overflow-auto">
         <table>
