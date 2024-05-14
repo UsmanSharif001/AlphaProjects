@@ -38,7 +38,7 @@
         <input id="subprojectStatus" type="text" th:field="*{subprojectStatus}"/>
     </p>
     <p>
-        <input type="hidden" id="projectid" th:field="*{projectID}">
+        <input type="hidden" id="projectid" th:value="${projectid}">
     </p>
     <div style="display: flex; gap: 16px;">
         <a th:href="@{/{projectid}/subprojects(projectid=${projectid})}">

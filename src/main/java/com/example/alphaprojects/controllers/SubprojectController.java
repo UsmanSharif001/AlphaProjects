@@ -27,14 +27,15 @@ public SubprojectController(SubprojectService subprojectService) {
 
 @GetMapping("/{projectid}/createsubproject")
     public String createSubproject(@PathVariable int projectid, Model model){
-    model.addAttribute("subproject", new Subproject());
+    Subproject newSubproject = new Subproject();
+    model.addAttribute("subproject", newSubproject);
     model.addAttribute("projectid", projectid);
     return "createSubproject";
 }
 
 @PostMapping("/{projectid}/savesubproject")
     public String saveSubproject(@PathVariable int projectid, @ModelAttribute Subproject newSubproject){
-    newSubproject.setSubprojectID(projectid);
+    newSubproject.setProjectID(projectid);
     subprojectService.createSubproject(newSubproject);
     return "redirect:/" + projectid + "/subprojects";
 }
