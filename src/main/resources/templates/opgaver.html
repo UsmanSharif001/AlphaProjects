@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
+<div style="width: 100%; display: flex; flex-direction: column; gap: 32px; align-items: center;"
+     layout:fragment="content">
+    <head>
+        <title>Opgaver</title>
+    </head>
+
+    <body>
+    <h1> Opgaver</h1>
+    <table>
+        <thead>
+        <tr>
+            <th> Navn</th>
+            <th> Beskrivelse</th>
+            <th> Tidsestimat</th>
+            <th> Deadline</th>
+            <th> Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task : ${listOfTasks}">
+            <td>
+                <button type="button" style="width: 100%"><span th th:text="${task.taskName}"></span>
+                </button>
+            </td>
+            <td th:text="${task.taskName}"></td>
+            <td th:text="${task.taskDescription}"></td>
+            <td th:text="${task.taskEstimate}"></td>
+            <td th:text="${task.taskDeadline}"></td>
+            <td th:text="${task.taskStatus}"></td>
+            <td>
+                <a th:href="@{'/' + ${task.getTaskID()} + '/edittask'}">
+                    <button type="submit"> Opdater Opgave</button>
+                </a>
+                <a th:href="@{'/' + ${task.getTaskID()} + '/deletetask'}">
+                    <button type="submit"> Slet Opgave</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+    <a th:href="@{/{subprojectid}/addtask(subprojectid=${subprojectid})}">
+        <button type="submit"> Tilføj Opgave</button>
+    </a>
+    <a th:href="@{'/' + ${subprojectid}}">
+        <button type="button">Tilbge til Subproject</button>
+    </a>
+
+    </body>
+</div>
+</html>
