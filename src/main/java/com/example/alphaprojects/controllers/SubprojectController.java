@@ -34,7 +34,8 @@ public SubprojectController(SubprojectService subprojectService) {
 
 @PostMapping("/{projectid}/savesubproject")
     public String saveSubproject(@PathVariable int projectid, @ModelAttribute Subproject newSubproject){
-    newSubproject.setSubprojectID(projectid);
+    //newSubproject.setSubprojectID(projectid);
+    //System.out.println(newSubproject.getProjectID());
     subprojectService.createSubproject(newSubproject);
     return "redirect:/" + projectid + "/subprojects";
 }
