@@ -19,16 +19,18 @@
         <label for="password">Password</label>
         <input id="password" type="password" th:field="*{password}"/>
 
+
         <label>Skills</label>
-        <div th:each="skill : ${skillList}">
-            <input type="checkbox"
-                   th:field="*{skillList}"
-                   th:value="${skill.skillName}">
-            <label th:text="${skill}"></label>
+        <div th:each="skill : ${listOfSkills}">
+            <input type="checkbox" th:field="*{skillList}" th:value="${skill}">
+            <label th:text="${skill.skillName}"></label>
+
         </div>
         <button type="submit">Tilføj</button>
 
     </form>
-    <a th:hre="@{/projekter}"> <button> Tilbage</button></a>
+    <a th:hre="@{/projekter}">
+        <button> Tilbage</button>
+    </a>
 </div>
 </html>

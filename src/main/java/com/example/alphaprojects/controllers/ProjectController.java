@@ -1,8 +1,6 @@
 package com.example.alphaprojects.controllers;
 
-import com.example.alphaprojects.model.Emp;
-import com.example.alphaprojects.model.Project;
-import com.example.alphaprojects.model.ProjectManagerDTO;
+import com.example.alphaprojects.model.*;
 import com.example.alphaprojects.services.ProjectService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -33,6 +31,10 @@ public class ProjectController {
     @GetMapping("/projekter")
     private String getProjects(Model model, HttpSession session) {
         if (isLoggedIn(session)) {
+            EmpDTO emp = (EmpDTO) session.getAttribute("emp");
+            if(emp.getRoleID() == 1) {
+                model.addAttribute("isAdmin",true);
+            }
             List<Project> projectList = projectService.getListOfProjects();
             model.addAttribute("projects", projectList);
             return "projekter";
