@@ -66,7 +66,17 @@ public class EmpController {
 
 
 
-    /*-----------------------------Add Emp--------------------------*/
+    /*-----------------------------Emp--------------------------*/
+
+    @GetMapping("/medarbejdere")
+    public String getListofEmployees(HttpSession session, Model model){
+        if(isLoggedIn(session)){
+            isAdmin(session,model);
+            List<Emp> empList = empService.getAllEmp();
+            model.addAttribute("empList", empList);
+        }
+        return "employeelist";
+    }
 
     @GetMapping("/tilføjmedarbejder")
     public String addEmp(HttpSession session, Model model) {

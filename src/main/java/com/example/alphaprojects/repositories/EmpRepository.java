@@ -55,6 +55,42 @@ public class EmpRepository implements EmployeeRepositoryInterface {
 
     }
 
+    @Override
+    public List<Emp> getAllEmp(){
+    List<Emp> empList = new ArrayList<>();
+    Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+    String SQL = """
+            SELECT emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password,role_id,skill.skill_id,skill.skill_name
+            FROM emp
+            JOIN emp_skills on emp.emp_id = emp_skills.emp_id
+            JOIN skill on emp_skills.skill_id = skill.skill_id
+            """;
+    try(PreparedStatement ps = con.prepareStatement(SQL)){
+        ResultSet rs = ps.executeQuery();
+        String currentEmpName = "";
+        Emp currentEmp = null;
+        while(rs.next()){
+            int empID = rs.getInt("emp_id");
+            String empName = rs.getString("emp_name");
+            String empEmail = rs.getString("emp_email");
+            String empPassword = rs.getString("emp_password");
+            int roleID = rs.getInt("role_id");
+            Skill skill = new Skill(rs.getInt("skill_id"),rs.getString("skill_name"));
+            if (empName.equals(currentEmpName)){
+                currentEmp.addSkill(skill);
+            } else {
+            currentEmp = new Emp(empID,empName,empEmail,empPassword,roleID,new ArrayList<>(List.of(skill)));
+            currentEmpName = empName;
+            empList.add(currentEmp);
+            }
+        }
+
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+    return empList;
+    }
+
 //    @Override
 //    public Emp getEmp(String email, String password) {
 //        Emp emp = null;

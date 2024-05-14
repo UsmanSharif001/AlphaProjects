@@ -24,6 +24,10 @@ public class EmpService {
         return empRepository.login(email, password);
     }
 
+    public List<Emp> getAllEmp(){
+        return empRepository.getAllEmp();
+    }
+
     public Emp addEmp(Emp emp) {
         return empRepository.addEmp(emp);
     }

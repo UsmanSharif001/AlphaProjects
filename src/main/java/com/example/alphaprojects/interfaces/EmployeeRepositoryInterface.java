@@ -12,6 +12,8 @@ public interface EmployeeRepositoryInterface {
 
     EmpDTO login(String username, String password);
 
+    List<Emp> getAllEmp();
+
     Emp addEmp(Emp emp);
 
     void deleteEmp(int empID);
