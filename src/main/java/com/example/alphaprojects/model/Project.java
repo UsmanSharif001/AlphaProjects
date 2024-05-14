@@ -1,5 +1,7 @@
 package com.example.alphaprojects.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 
 public class Project {
@@ -11,6 +13,7 @@ private String projectName;
 private String projectDescription;
 private int projectTimeEstimate;
 private int projectDedicatedHours;
+@DateTimeFormat(pattern = "yyyy-MM-dd")
 private LocalDate projectDeadline;
 private String projectStatus;
 
