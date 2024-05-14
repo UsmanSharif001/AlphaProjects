@@ -2,8 +2,6 @@ package com.example.alphaprojects.controllers;
 
 import com.example.alphaprojects.Exceptions.ProjectAddException;
 import com.example.alphaprojects.Exceptions.ProjectEditException;
-import com.example.alphaprojects.model.Project;
-import com.example.alphaprojects.model.ProjectManagerDTO;
 import com.example.alphaprojects.model.*;
 import com.example.alphaprojects.services.ProjectService;
 import jakarta.servlet.http.HttpSession;
