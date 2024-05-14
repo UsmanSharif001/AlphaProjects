@@ -100,11 +100,10 @@ public class ProjectRepository implements ProjectInterface {
         String projectManagerName = "";
         int projectManagerID = 0;
         int skillIDforProjectManager = 2;
-        int skillIDforAdmin = 1;
+    //    int skillIDforAdmin = 1;
 
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "SELECT emp_id FROM AlphaSolution_db.emp_skills WHERE skill_id IN " +
-                "(" + skillIDforAdmin + ", " + skillIDforProjectManager + ")";
+        String SQL = "SELECT emp_id FROM AlphaSolution_db.emp_skills WHERE skill_id = " + skillIDforProjectManager;
 
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
