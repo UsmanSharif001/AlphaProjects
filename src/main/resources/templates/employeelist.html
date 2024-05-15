@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
+<div layout:fragment="content">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+        <h1 style="margin: 0;">Medarbejdere</h1>
+        <div style="display: flex; gap: 16px">
+        </div>
+    </div>
+    <div class="overflow-auto">
+        <table>
+            <thead>
+            <tr>
+                <th>Navn</th>
+                <th>Email</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="emp : ${empList}">
+
+                <td th:text="${emp.name}"></td>
+                <td th:text="${emp.email}"></td>
+
+            </tr>
+            </tbody>
+        </table>
+        <a th:href="@{tilføjmedarbejder}"><button> Tilføj Medarbejder </button></a>
+    </div>
+
+</div>
+</html>

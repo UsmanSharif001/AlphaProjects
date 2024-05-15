@@ -10,12 +10,14 @@ public class EmpDTO {
     private int roleID;
 
 
+
     public EmpDTO(int empID, String name, String email, String password, int roleID) {
         this.empID = empID;
         this.name = name;
         this.email = email;
         this.password = password;
         this.roleID = roleID;
+
     }
 
     public String getEmail() {

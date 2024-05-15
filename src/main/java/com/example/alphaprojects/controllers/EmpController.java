@@ -3,6 +3,7 @@ package com.example.alphaprojects.controllers;
 
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.EmpDTO;
+import com.example.alphaprojects.model.Role;
 import com.example.alphaprojects.model.Skill;
 import com.example.alphaprojects.services.EmpService;
 import jakarta.servlet.http.HttpSession;
@@ -66,14 +67,27 @@ public class EmpController {
 
 
 
-    /*-----------------------------Add Emp--------------------------*/
+    /*-----------------------------Emp--------------------------*/
+
+    @GetMapping("/medarbejdere")
+    public String getListofEmployees(HttpSession session, Model model){
+        if(isLoggedIn(session)){
+            isAdmin(session,model);
+            List<Emp> empList = empService.getAllEmp();
+            model.addAttribute("empList", empList);
+        }
+        return "employeelist";
+    }
 
     @GetMapping("/tilføjmedarbejder")
     public String addEmp(HttpSession session, Model model) {
     if(isLoggedIn(session)){
+        isAdmin(session,model);
         model.addAttribute("emp", new Emp());
         List<Skill> skillList = empService.getSkills();
         model.addAttribute("listOfSkills", skillList);
+        List<Role> roleList = empService.getRoles();
+        model.addAttribute("listOfRoles", roleList);
         return "addEmp";
     }
     return "redirect:/login";
@@ -83,7 +97,7 @@ public class EmpController {
     public String saveEmp(@ModelAttribute Emp emp, HttpSession session) {
         if(isLoggedIn(session)){
         empService.addEmp(emp);
-        return "redirect:/projekter";
+        return "redirect:/medarbejdere";
         }
         return "redirect:/login";
     }
@@ -102,6 +116,8 @@ public class EmpController {
         return "redirect:/login";
     }
 
+    //TODO Tines metode, skal slettes på et tidspunkt, kan være jeg skal bruge den som inspiration.
+    //TODO Gælder også for html siden viewEmp
 //    @GetMapping("/vismedarbejder")
 //    public String viewEmp(Model model){
 //        Emp emp = empService.getEmp("Nikolaj@gmail.com","123");

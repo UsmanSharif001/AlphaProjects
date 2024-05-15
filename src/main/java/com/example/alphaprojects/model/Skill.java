@@ -7,13 +7,13 @@ public class Skill {
     private int skillID;
     private String skillName;
 
-    public Skill(){
+    public Skill() {
 
     }
 
-//    public Skill(String skillName){
-//        this.skillName = skillName;
-//    }
+    public Skill(String skillName) {
+        this.skillName = skillName;
+    }
 
     public Skill(int skillID, String skillName) {
         this.skillID = skillID;
@@ -37,20 +37,20 @@ public class Skill {
     }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Skill skill)) return false;
-        return skillID == skill.skillID && Objects.equals(skillName, skill.skillName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(skillID, skillName);
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof Skill skill)) return false;
+//        return skillID == skill.skillID && Objects.equals(skillName, skill.skillName);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(skillID, skillName);
+//    }
 
     @Override
     public String toString() {
-        return skillID + ";" + skillName;
+        return skillName;
     }
 }

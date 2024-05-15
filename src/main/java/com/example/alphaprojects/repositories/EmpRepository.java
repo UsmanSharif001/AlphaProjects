@@ -1,9 +1,7 @@
 package com.example.alphaprojects.repositories;
 
 import com.example.alphaprojects.interfaces.EmployeeRepositoryInterface;
-import com.example.alphaprojects.model.Emp;
-import com.example.alphaprojects.model.EmpDTO;
-import com.example.alphaprojects.model.Skill;
+import com.example.alphaprojects.model.*;
 import com.example.alphaprojects.util.ConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -55,8 +53,45 @@ public class EmpRepository implements EmployeeRepositoryInterface {
 
     }
 
+    @Override
+    public List<Emp> getAllEmp(){
+    List<Emp> empList = new ArrayList<>();
+    Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+    String SQL = """
+            SELECT emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password,role_id,skill.skill_id,skill.skill_name
+            FROM emp
+            JOIN emp_skills on emp.emp_id = emp_skills.emp_id
+            JOIN skill on emp_skills.skill_id = skill.skill_id
+            ORDER BY emp.emp_id
+            """;
+    try(PreparedStatement ps = con.prepareStatement(SQL)){
+        ResultSet rs = ps.executeQuery();
+        String currentEmpName = "";
+        Emp currentEmp = null;
+        while(rs.next()){
+            int empID = rs.getInt("emp_id");
+            String empName = rs.getString("emp_name");
+            String empEmail = rs.getString("emp_email");
+            String empPassword = rs.getString("emp_password");
+            int roleID = rs.getInt("role_id");
+            Skill skill = new Skill(rs.getInt("skill_id"),rs.getString("skill_name"));
+            if (empName.equals(currentEmpName)){
+                currentEmp.addSkill(skill);
+            } else {
+            currentEmp = new Emp(empID,empName,empEmail,empPassword,roleID,new ArrayList<>(List.of(skill)));
+            currentEmpName = empName;
+            empList.add(currentEmp);
+            }
+        }
+
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+    return empList;
+    }
+
 //    @Override
-//    public Emp getEmp(String email, String password) {
+//    public Emp getEmp(String email) {
 //        Emp emp = null;
 //        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
 //        String sql = """
@@ -65,7 +100,7 @@ public class EmpRepository implements EmployeeRepositoryInterface {
 //                JOIN emp_skills on emp.emp_id = emp_skills.emp_id
 //                JOIN skill on emp_skills.skill_id = skill.skill_id
 //                WHERE
-//                emp_email = ? and emp_password = ?
+//                emp_email = ?
 //                """;
 //        try (PreparedStatement ps = con.prepareStatement(sql)) {
 //
@@ -100,13 +135,14 @@ public class EmpRepository implements EmployeeRepositoryInterface {
     public Emp addEmp(Emp emp) {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
-                INSERT INTO emp (emp_name, emp_email, emp_password) VALUES (?, ?, ?)
+                INSERT INTO emp (emp_name, emp_email, emp_password, role_id) VALUES (?, ?, ?, ?)
                 """;
         try (PreparedStatement ps = con.prepareStatement(SQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, emp.getName());
             ps.setString(2, emp.getEmail());
             ps.setString(3, emp.getPassword());
+            ps.setInt(4, emp.getRoleID());
             ps.executeUpdate();
 
             //Get the generated key
@@ -120,7 +156,7 @@ public class EmpRepository implements EmployeeRepositoryInterface {
             String skillSQL = "INSERT INTO emp_skills(skill_id,emp_id) VALUES(?,?)";
             PreparedStatement psSkill = con.prepareStatement(skillSQL);
             for (Skill skill : emp.getSkillList()) {
-                int skillID = skill.getSkillID();
+                int skillID = getSkillIdFromSkillTable(skill.getSkillName());
                 psSkill.setInt(1, skillID);
                 psSkill.setInt(2, empID);
                 psSkill.executeUpdate();
@@ -152,6 +188,27 @@ public class EmpRepository implements EmployeeRepositoryInterface {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Override
+    public List<Role> getRoles(){
+        List<Role> roles = new ArrayList<>();
+        Connection con = ConnectionManager.getConnection(db_url,username,pwd);
+        String SQL = """
+                SELECT * FROM role
+                """;
+        try(PreparedStatement ps = con.prepareStatement(SQL)){
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                roles.add(new Role(
+                        rs.getInt("role_id"),
+                        rs.getString("role_name")));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return roles;
     }
 
     @Override
