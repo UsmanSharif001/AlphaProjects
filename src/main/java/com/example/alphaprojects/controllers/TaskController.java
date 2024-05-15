@@ -60,11 +60,10 @@ public class TaskController {
         return "redirect:/" + task.getTaskID() + "/tasks";
     }
 
-    @GetMapping("/{subprojectid}/{taskid}/deletetask")
-    public String deleteTask(@PathVariable int subprojectid, @PathVariable int taskid, Model model) {
+    @GetMapping("/{taskid}/deletetask")
+    public String deleteTask(@PathVariable int taskid) {
         taskService.deleteTask(taskid);
-        model.addAttribute("subprojectID", subprojectid);
-        return "redirect:/" + subprojectid + "/opgaver";
+        return "redirect:/" + taskid + "/tasks";
     }
 
 }

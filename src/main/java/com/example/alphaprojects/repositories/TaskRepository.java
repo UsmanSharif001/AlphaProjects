@@ -126,18 +126,25 @@ public class TaskRepository implements TaskInterface {
     }
 
     @Override
-    public void deleteTask(int taskID) {
-        Connection con = ConnectionManager.getConnection(db_url,username,pwd);
-        String SQL = "DELETE FROM task WHERE taskid =?;";
+    public void deleteTask(int taskId) {
+        try (Connection con = ConnectionManager.getConnection(db_url, username, pwd)) {
 
-
-        try(PreparedStatement ps = con.prepareStatement(SQL)) {
-            ps.setInt(1, taskID);
-            ps.executeUpdate();
+            String deleteTaskEmpSQL = "DELETE FROM task_emp WHERE task_id = ?";
+            try (PreparedStatement psTaskEmp = con.prepareStatement(deleteTaskEmpSQL)) {
+                psTaskEmp.setInt(1, taskId);
+                psTaskEmp.executeUpdate();
+            }
+            String deleteTaskSQL = "DELETE FROM task WHERE task_id = ?";
+            try (PreparedStatement psTask = con.prepareStatement(deleteTaskSQL)) {
+                psTask.setInt(1, taskId);
+                psTask.executeUpdate();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+
     @Override
     public Task getTaskFromTaskID(int taskid) {
         Task foundTask;
