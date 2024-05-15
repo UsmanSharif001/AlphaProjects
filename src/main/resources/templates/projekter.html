@@ -35,7 +35,7 @@
             <tbody>
             <tr th:each="project : ${projects}">
                 <td>
-                    <a th:href="@{/{projectID}/subprojects(projectID=${project.getProjectID()})}">
+                    <a th:href="@{/{projectID}/subprojekter(projectID=${project.getProjectID()})}">
                         <button type="submit" style="width: 100%"><span th:text="${project.getProjectName()}"></span>
                         </button>
                     </a>

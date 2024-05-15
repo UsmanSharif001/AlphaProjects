@@ -1,6 +1,8 @@
 package com.example.alphaprojects.controllers;
 
+import com.example.alphaprojects.model.Project;
 import com.example.alphaprojects.model.Subproject;
+import com.example.alphaprojects.services.ProjectService;
 import com.example.alphaprojects.services.SubprojectService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,20 +14,25 @@ import java.util.List;
 @RequestMapping("")
 public class SubprojectController {
     private SubprojectService subprojectService;
+    private ProjectService projectService;
 
-public SubprojectController(SubprojectService subprojectService) {
+public SubprojectController(SubprojectService subprojectService, ProjectService projectService) {
     this.subprojectService = subprojectService;
+    this.projectService = projectService;
 }
 
-@GetMapping("/{projectid}/subprojects")
+@GetMapping("/{projectid}/subprojekter")
     public String getSubprojects(@PathVariable int projectid, Model model){
+        Project project = projectService.getProjectFromProjectID(projectid);
+        String projectName = project.getProjectName();
         List<Subproject> subprojectList = subprojectService.getSubprojects(projectid);
+        model.addAttribute("projectName", projectName);
         model.addAttribute("subprojects", subprojectList);
         model.addAttribute("projectid", projectid);
         return "subproject";
 }
 
-@GetMapping("/{projectid}/createsubproject")
+@GetMapping("/{projectid}/opretsubprojekt")
     public String createSubproject(@PathVariable int projectid, Model model){
     Subproject newSubproject = new Subproject();
     model.addAttribute("subproject", newSubproject);
@@ -33,14 +40,14 @@ public SubprojectController(SubprojectService subprojectService) {
     return "createSubproject";
 }
 
-@PostMapping("/{projectid}/savesubproject")
+@PostMapping("/{projectid}/gemsubprojekt")
     public String saveSubproject(@PathVariable int projectid, @ModelAttribute Subproject newSubproject){
     newSubproject.setProjectID(projectid);
     subprojectService.createSubproject(newSubproject);
-    return "redirect:/" + projectid + "/subprojects";
+    return "redirect:/" + projectid + "/subprojekter";
 }
 
-@GetMapping("/{subprojectid}/editsubproject")
+@GetMapping("/{subprojectid}/redigersubprojekt")
     public String editSubproject(@PathVariable int subprojectid, Model model){
     Subproject editSubproject = subprojectService.getSubprojectFromSubprojectID(subprojectid);
     int projectid = editSubproject.getProjectID();
@@ -49,19 +56,19 @@ public SubprojectController(SubprojectService subprojectService) {
     return "editsubproject";
 }
 
-@PostMapping("/{subprojectid}/updatesubproject")
+@PostMapping("/{subprojectid}/opdatersubprojekt")
     public String updateSubproject(@ModelAttribute Subproject subproject, @PathVariable int subprojectid){
     subproject.setSubprojectID(subprojectid);
     subprojectService.editSubproject(subproject);
-    return "redirect:/" + subproject.getProjectID() + "/subprojects";
+    return "redirect:/" + subproject.getProjectID() + "/subprojekter";
 }
 
-@GetMapping("/{subprojectid}/deletesubproject")
+@GetMapping("/{subprojectid}/sletsubprojekt")
     public String deleteSubproject(@PathVariable int subprojectid){
     Subproject subproject = subprojectService.getSubprojectFromSubprojectID(subprojectid);
     int projectID = subproject.getProjectID();
     subprojectService.deleteSubproject(subprojectid);
-    return "redirect:/" + projectID + "/subprojects";
+    return "redirect:/" + projectID + "/subprojekter";
 }
 
 }
