@@ -23,15 +23,15 @@
         </p>
         <p>
             <label for="taskDeadline">Deadline:</label>
-            <input type="text" th:field="*{taskDeadline}"
-                   th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" id="taskDeadline"/>
+            <input id="taskDeadline" type="text" th:field="*{taskDeadline}"/>
+
         </p>
         <p>
             <label for="taskStatus">Status:</label>
             <input id="taskStatus" type="text" th:field="*{taskStatus}"/>
         </p>
         <p>
-            <input type="hidden" id="subprojectid" th:field="*{subprojectID}">
+            <input type="hidden" id="subprojectID" th:value="${subprojectID}">
         </p>
         <button type="submit">Tilføj Opgave</button>
     </form>

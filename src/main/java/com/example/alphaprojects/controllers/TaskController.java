@@ -25,15 +25,15 @@ public class TaskController {
         List<Task> listOfTasks = taskService.getTaskList(subprojectid);
         model.addAttribute("listOfTasks", listOfTasks);
         model.addAttribute("subprojectid", subprojectid);
-        System.out.println(subprojectid + " " + listOfTasks.size());
         return "opgaver";
     }
 
 
     @GetMapping("/{subprojectid}/addtask")
     public String addTask(@PathVariable int subprojectid, Model model) {
-        model.addAttribute("task", new Task());
-        model.addAttribute("subprojectid", subprojectid);
+        Task newTask = new Task();
+        model.addAttribute("task", newTask);
+        model.addAttribute("subprojectID", subprojectid);
         return "opretopgave";
     }
 

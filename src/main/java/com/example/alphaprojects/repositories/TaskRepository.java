@@ -26,21 +26,18 @@ public class TaskRepository implements TaskInterface {
     public void addTask(Task newTask) {
 
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "INSERT INTO task (task_id, subproject_id, task_name, task_description, task_time_estimate, task_deadline, task_status) VALUES(?,?,?,?,?,?,?);";
+        String SQL = "INSERT INTO task (subproject_id, task_name, task_description, task_time_estimate, task_deadline, task_status) VALUES(?,?,?,?,?,?);";
 
         try (PreparedStatement ps = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
-            ResultSet generatedKeys = ps.getGeneratedKeys();
-            int taskID;
-            if (generatedKeys.next()) {
-                taskID = generatedKeys.getInt(0);
-                ps.setInt(1, taskID);
-            }
-            ps.setInt(2, newTask.getSubprojectID());
-            ps.setString(3, newTask.getTaskName());
-            ps.setString(4, newTask.getTaskDescription());
-            ps.setInt(5, newTask.getTaskEstimate());
-            ps.setDate(6, Date.valueOf(newTask.getTaskDeadline()));
-            ps.setString(7, newTask.getTaskStatus());
+
+            ps.setInt(1, newTask.getSubprojectID());
+            ps.setString(2, newTask.getTaskName());
+            ps.setString(3, newTask.getTaskDescription());
+            ps.setInt(4, newTask.getTaskEstimate());
+            ps.setString(5, newTask.getTaskDeadline().toString());
+            ps.setString(6, newTask.getTaskStatus());
+
+            ps.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
