@@ -62,7 +62,6 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
 
         try (PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, subproject.getProjectID());
-            //ps.setInt(2, subproject.getSubprojectID());
             ps.setString(2, subproject.getSubprojectName());
             ps.setString(3, subproject.getSubprojectDescription());
             ps.setInt(4, subproject.getSubprojectTimeEstimate());
@@ -71,16 +70,6 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
             ps.setString(7, subproject.getSubprojectStatus());
 
             ps.executeUpdate();
-
-            /*try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    int subprojectID = generatedKeys.getInt(1);
-                    subproject.setSubprojectID(subprojectID);
-                } else {
-                    throw new SQLException("Kunne ikke finde de genererede subprojectID");
-                }
-            }*/
-
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -91,7 +80,7 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
     //Edit subproject
     public void editSubproject(Subproject subproject) {
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "UPDATE subproject SET subproject_name = ?, subproject_description = ?, subproject_time_estimate = ?, subproject_dedicated_hours = ?, subproject_deadline = ?, subproject_status = ?;";
+        String SQL = "UPDATE subproject SET subproject_name = ?, subproject_description = ?, subproject_time_estimate = ?, subproject_dedicated_hours = ?, subproject_deadline = ?, subproject_status = ? WHERE subproject_id = ?;";
 
         try (PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, subproject.getSubprojectName());
@@ -100,6 +89,7 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
             ps.setInt(4, subproject.getSubprojectDedicatedHours());
             ps.setString(5, subproject.getSubprojectDeadline().toString());
             ps.setString(6, subproject.getSubprojectStatus());
+            ps.setInt(7, subproject.getSubprojectID());
 
             ps.executeUpdate();
 
