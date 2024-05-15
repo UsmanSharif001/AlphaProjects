@@ -58,8 +58,10 @@ public SubprojectController(SubprojectService subprojectService) {
 
 @GetMapping("/{subprojectid}/deletesubproject")
     public String deleteSubproject(@PathVariable int subprojectid){
+    Subproject subproject = subprojectService.getSubprojectFromSubprojectID(subprojectid);
+    int projectID = subproject.getProjectID();
     subprojectService.deleteSubproject(subprojectid);
-    return "redirect:/" + subprojectid + "/subproject";
+    return "redirect:/" + projectID + "/subprojects";
 }
 
 }

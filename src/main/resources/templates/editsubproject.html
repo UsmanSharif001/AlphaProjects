@@ -40,9 +40,11 @@
     </p>
 
     <div style="display: flex; gap: 16px;">
-        <button type="button" class="secondary" style="width: 100%;" th:href="@{/{projectid}/subprojects(projectid=${projectid})}">
+        <a th:href="@{/{projectid}/subprojects(projectid=${projectid})}">
+        <button type="button" class="secondary" style="width: 100%;">
             Annuller
         </button>
+        </a>
     <button type="submit" style="width: 100%;">Tilføj opdateringer</button>
     </div>
 </form>
