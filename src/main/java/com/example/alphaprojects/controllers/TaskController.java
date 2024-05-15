@@ -41,7 +41,7 @@ public class TaskController {
     public String saveTask(@ModelAttribute Task newTask, @PathVariable int subprojectid) {
         newTask.setSubprojectID(subprojectid);
         taskService.createTask(newTask);
-        return "redirect:/" + subprojectid + "/opgaver";
+        return "redirect:/" + subprojectid + "/tasks";
     }
 
     @GetMapping("/{taskid}/edittask")
