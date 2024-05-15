@@ -7,13 +7,17 @@
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
         <h1 style="margin: 0;">Projektoversigt</h1>
-        <a th:href="@{/opretprojekt}">
-            <button style="margin: 0;" type="submit"> Opret projekt</button>
-        </a>
-        <a th:href="@{tilføjmedarbejder}">
-            <button style="margin: 0">Tilføj Medarbejder</button>
-        </a>
+        <div style="display: flex; gap: 16px">
+            <a th:href="@{/opretprojekt}">
+                <button style="margin: 0;" type="submit"> Opret projekt</button>
+
+                <a th:if="${isAdmin}" th:href="@{admin}">
+                    <button style="margin: 0">Admin</button>
+                </a>
+            </a>
+        </div>
     </div>
+
 
     <div class="overflow-auto">
         <table>
@@ -32,8 +36,8 @@
             <tr th:each="project : ${projects}">
                 <td>
                     <a th:href="@{/{projectID}/subprojects(projectID=${project.getProjectID()})}">
-                    <button type="submit" style="width: 100%"><span th:text="${project.getProjectName()}"></span>
-                    </button>
+                        <button type="submit" style="width: 100%"><span th:text="${project.getProjectName()}"></span>
+                        </button>
                     </a>
                 </td>
                 <td th:text="${project.getProjectManagerName()}"></td>
@@ -57,6 +61,11 @@
             </tr>
             </tbody>
         </table>
+    </div>
+    <div style="display: flex; justify-content: flex-end;">
+    <button type="button" onclick="window.location.href='/arkiveredeprojekter'">
+        Arkiverede projekter
+    </button>
     </div>
 </div>
 </html>

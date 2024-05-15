@@ -1,8 +1,8 @@
 package com.example.alphaprojects.controllers;
 
-import com.example.alphaprojects.model.Emp;
-import com.example.alphaprojects.model.Project;
-import com.example.alphaprojects.model.ProjectManagerDTO;
+import com.example.alphaprojects.Exceptions.ProjectAddException;
+import com.example.alphaprojects.Exceptions.ProjectEditException;
+import com.example.alphaprojects.model.*;
 import com.example.alphaprojects.services.ProjectService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -33,6 +32,10 @@ public class ProjectController {
     @GetMapping("/projekter")
     private String getProjects(Model model, HttpSession session) {
         if (isLoggedIn(session)) {
+            EmpDTO emp = (EmpDTO) session.getAttribute("emp");
+            if(emp.getRoleID() == 1) {
+                model.addAttribute("isAdmin",true);
+            }
             List<Project> projectList = projectService.getListOfProjects();
             model.addAttribute("projects", projectList);
             return "projekter";
@@ -52,7 +55,7 @@ public class ProjectController {
     }
 
     @PostMapping("/gemprojekt")
-    private String saveProject(@ModelAttribute Project project, HttpSession session) {
+    private String saveProject(@ModelAttribute Project project, HttpSession session) throws ProjectAddException {
         if (isLoggedIn(session)) {
             projectService.addNewProject(project);
             return "redirect:/projekter";
@@ -61,13 +64,13 @@ public class ProjectController {
     }
 
     @GetMapping("/{projectID}/redigerprojekt")
-    private String updateProject(@PathVariable int projectID, Model model, HttpSession session){
+    private String updateProject(@PathVariable int projectID, Model model, HttpSession session) {
         if (isLoggedIn(session)) {
             Project updateProject = projectService.getProjectFromProjectID(projectID);
             List<ProjectManagerDTO> projectManagers = projectService.getProjectManagers();
             model.addAttribute("projectID", projectID);
             model.addAttribute("updateProject", updateProject);
-            session.setAttribute("projectDeadline", updateProject.getProjectDeadline());
+            model.addAttribute("projectDeadline", updateProject.getProjectDeadline());
             model.addAttribute("projectManagers", projectManagers);
             return "/redigerprojekt";
         }
@@ -75,13 +78,38 @@ public class ProjectController {
     }
 
     @PostMapping("/{projectID}/opdaterprojekt")
-    public String updateProject(@ModelAttribute Project updateProject, @PathVariable int projectID, HttpSession session){
-        if (isLoggedIn(session)){
+    public String updateProject(@ModelAttribute Project updateProject, @PathVariable int projectID, HttpSession session) throws ProjectEditException {
+        if (isLoggedIn(session)) {
             updateProject.setProjectID(projectID);
             projectService.editProject(updateProject);
             return "redirect:/projekter";
         }
         return "redirect:/login";
+    }
+
+    @GetMapping("/arkiveredeprojekter")
+    private String getArchivedProjects(Model model, HttpSession session) {
+        if (isLoggedIn(session)) {
+            List<Project> archivedProjectList = projectService.getListOfArchivedProjects();
+            model.addAttribute("archivedProjects", archivedProjectList);
+            System.out.println(archivedProjectList);
+            return "arkiveredeProjekter";
+        }
+        return "redirect:/login";
+    }
+
+    @ExceptionHandler(ProjectAddException.class)
+    public String handleAddError(Model model, Exception exception) {
+        model.addAttribute("message", exception.getMessage());
+        System.out.println(exception.getMessage());
+        return "error/projectAddError";
+    }
+
+    @ExceptionHandler(ProjectEditException.class)
+    public String handleEditError(Model model, Exception exception) {
+        model.addAttribute("message", exception.getMessage());
+        System.out.println(exception.getMessage());
+        return "error/projectEditError";
     }
 
 }

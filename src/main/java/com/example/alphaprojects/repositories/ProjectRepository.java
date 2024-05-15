@@ -1,9 +1,10 @@
 package com.example.alphaprojects.repositories;
 
+import com.example.alphaprojects.Exceptions.ProjectAddException;
+import com.example.alphaprojects.Exceptions.ProjectEditException;
 import com.example.alphaprojects.model.Project;
 import com.example.alphaprojects.interfaces.ProjectInterface;
 import com.example.alphaprojects.model.ProjectManagerDTO;
-import com.example.alphaprojects.model.Status;
 import com.example.alphaprojects.util.ConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -27,7 +28,7 @@ public class ProjectRepository implements ProjectInterface {
     public List<Project> getListOfProjects() {
         List<Project> projectList = new ArrayList<>();
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "SELECT * FROM project";
+        String SQL = "SELECT * FROM AlphaSolution_db.project WHERE project_Status != 'archived'";
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ResultSet projectsResultSet = ps.executeQuery();
             while (projectsResultSet.next()) {
@@ -50,7 +51,7 @@ public class ProjectRepository implements ProjectInterface {
     }
 
     @Override
-    public void addNewProject(Project newProject) {
+    public void addNewProject(Project newProject) throws ProjectAddException {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = "INSERT INTO project " +
                 "(project_manager_id, project_name, project_description, " +
@@ -67,13 +68,13 @@ public class ProjectRepository implements ProjectInterface {
             ps.setString(7, newProject.getProjectStatus());
             ps.executeUpdate();
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new ProjectAddException("Husk at udfylde alle felterne");
         }
     }
 
     @Override
-    public void editProject(Project project) {
+    public void editProject(Project project) throws ProjectEditException {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = "UPDATE project SET project_manager_id = ?, project_name = ?, project_description = ?, project_time_estimate = ?, project_deadline = ?, project_status = ? WHERE project_id = ?;";
 
@@ -87,8 +88,8 @@ public class ProjectRepository implements ProjectInterface {
             ps.setInt(7, project.getProjectID());
             ps.executeUpdate();
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Failed to edit project: " + project.getProjectName() + e);
+        } catch (Exception e) {
+            throw new ProjectEditException("Husk at udfylde alle felterne.");
         }
     }
 
@@ -99,11 +100,10 @@ public class ProjectRepository implements ProjectInterface {
         String projectManagerName = "";
         int projectManagerID = 0;
         int skillIDforProjectManager = 2;
-        int skillIDforAdmin = 1;
+    //    int skillIDforAdmin = 1;
 
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "SELECT emp_id FROM AlphaSolution_db.emp_skills WHERE skill_id IN " +
-                "(" + skillIDforAdmin + ", " + skillIDforProjectManager + ")";
+        String SQL = "SELECT emp_id FROM AlphaSolution_db.emp_skills WHERE skill_id = " + skillIDforProjectManager;
 
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
@@ -211,4 +211,31 @@ public class ProjectRepository implements ProjectInterface {
         }
         return null;
     }
+
+    @Override
+    public List<Project> getListOfArchivedProjects() {
+        List<Project> archivedProjectList = new ArrayList<>();
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+        String SQL = "SELECT * FROM AlphaSolution_db.project WHERE project_Status = 'archived'";
+        try (PreparedStatement ps = con.prepareStatement(SQL)) {
+            ResultSet projectsResultSet = ps.executeQuery();
+            while (projectsResultSet.next()) {
+                int projectID = projectsResultSet.getInt("project_id");
+                int managerID = projectsResultSet.getInt("project_manager_id");
+                String managerName = getProjectManagerName(managerID);
+                String name = projectsResultSet.getString("project_name");
+                String description = projectsResultSet.getString("project_description");
+                int timeEstimate = projectsResultSet.getInt("project_time_estimate");
+                int dedicatedHours = calculateProjectDedicatedHours(projectID);
+                LocalDate deadline = projectsResultSet.getDate("project_deadline").toLocalDate();
+                String status = projectsResultSet.getString("project_status");
+                Project project = new Project(projectID, managerID, managerName, name, description, timeEstimate, dedicatedHours, deadline, status);
+                archivedProjectList.add(project);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return archivedProjectList;
+    }
+
 }

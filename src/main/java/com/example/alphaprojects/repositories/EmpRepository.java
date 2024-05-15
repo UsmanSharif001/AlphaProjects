@@ -1,8 +1,7 @@
 package com.example.alphaprojects.repositories;
 
-import com.example.alphaprojects.interfaces.EmployeeInterface;
-import com.example.alphaprojects.model.Emp;
-import com.example.alphaprojects.model.Skill;
+import com.example.alphaprojects.interfaces.EmployeeRepositoryInterface;
+import com.example.alphaprojects.model.*;
 import com.example.alphaprojects.util.ConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -16,7 +15,7 @@ import java.util.List;
 
 
 @Repository
-public class EmpRepository implements EmployeeInterface {
+public class EmpRepository implements EmployeeRepositoryInterface {
 
     @Value("${spring.datasource.url}")
     private String db_url;
@@ -27,57 +26,123 @@ public class EmpRepository implements EmployeeInterface {
 
 
     @Override
-    public Emp getEmp(String email, String password) {
-        Emp emp = null;
+    public EmpDTO login(String email, String password){
+        EmpDTO empDTO = null;
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String sql = """
-                SELECT emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password,skill.skill_name
-                FROM emp
-                JOIN emp_skills on emp.emp_id = emp_skills.emp_id
-                JOIN skill on emp_skills.skill_id = skill.skill_id
-                WHERE
-                emp_email = ? and emp_password = ?
+        String SQL = """ 
+                SELECT * FROM emp
+                WHERE emp_email = ? and emp_password = ?        
                 """;
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
-
+        try(PreparedStatement ps = con.prepareStatement(SQL)){
             ps.setString(1, email);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
-            String currentEmpName = "";
-
-            while (rs.next()) {
-                int empId = rs.getInt("emp_id");
+            if(rs.next()){
+                int empID = rs.getInt("emp_id");
                 String empName = rs.getString("emp_name");
                 String empEmail = rs.getString("emp_email");
                 String empPassword = rs.getString("emp_password");
-                Skill skill = new Skill(rs.getString("skill_name"));
-                if (empName.equals(currentEmpName)) {
-                    emp.addSkill(skill);
-                } else {
-                    emp = new Emp(empId, empName, empEmail, empPassword, new ArrayList<>(List.of(skill)));
-                    currentEmpName = empName;
-                }
+                int roleID = rs.getInt("role_id");
+                empDTO = new EmpDTO(empID,empName,empEmail,empPassword,roleID);
 
             }
-
+            return empDTO;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        return emp;
     }
+
+    @Override
+    public List<Emp> getAllEmp(){
+    List<Emp> empList = new ArrayList<>();
+    Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+    String SQL = """
+            SELECT emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password,role_id,skill.skill_id,skill.skill_name
+            FROM emp
+            JOIN emp_skills on emp.emp_id = emp_skills.emp_id
+            JOIN skill on emp_skills.skill_id = skill.skill_id
+            ORDER BY emp.emp_id
+            """;
+    try(PreparedStatement ps = con.prepareStatement(SQL)){
+        ResultSet rs = ps.executeQuery();
+        String currentEmpName = "";
+        Emp currentEmp = null;
+        while(rs.next()){
+            int empID = rs.getInt("emp_id");
+            String empName = rs.getString("emp_name");
+            String empEmail = rs.getString("emp_email");
+            String empPassword = rs.getString("emp_password");
+            int roleID = rs.getInt("role_id");
+            Skill skill = new Skill(rs.getInt("skill_id"),rs.getString("skill_name"));
+            if (empName.equals(currentEmpName)){
+                currentEmp.addSkill(skill);
+            } else {
+            currentEmp = new Emp(empID,empName,empEmail,empPassword,roleID,new ArrayList<>(List.of(skill)));
+            currentEmpName = empName;
+            empList.add(currentEmp);
+            }
+        }
+
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+    return empList;
+    }
+
+//    @Override
+//    public Emp getEmp(String email) {
+//        Emp emp = null;
+//        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+//        String sql = """
+//                SELECT emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password,skill.skill_id,skill.skill_name
+//                FROM emp
+//                JOIN emp_skills on emp.emp_id = emp_skills.emp_id
+//                JOIN skill on emp_skills.skill_id = skill.skill_id
+//                WHERE
+//                emp_email = ?
+//                """;
+//        try (PreparedStatement ps = con.prepareStatement(sql)) {
+//
+//            ps.setString(1, email);
+//            ps.setString(2, password);
+//            ResultSet rs = ps.executeQuery();
+//            String currentEmpName = "";
+//
+//            while (rs.next()) {
+//                int empId = rs.getInt("emp_id");
+//                String empName = rs.getString("emp_name");
+//                String empEmail = rs.getString("emp_email");
+//                String empPassword = rs.getString("emp_password");
+//                Skill skill = new Skill(rs.getInt("skill_id"),rs.getString("skill_name"));
+//                if (empName.equals(currentEmpName)) {
+//                    emp.addSkill(skill);
+//                } else {
+//                    emp = new Emp(empId, empName, empEmail, empPassword, new ArrayList<>(List.of(skill)));
+//                    currentEmpName = empName;
+//                }
+//
+//            }
+//
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        return emp;
+//    }
 
     @Override
     public Emp addEmp(Emp emp) {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
-                INSERT INTO emp (emp_name, emp_email, emp_password) VALUES (?, ?, ?)
+                INSERT INTO emp (emp_name, emp_email, emp_password, role_id) VALUES (?, ?, ?, ?)
                 """;
         try (PreparedStatement ps = con.prepareStatement(SQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, emp.getName());
             ps.setString(2, emp.getEmail());
             ps.setString(3, emp.getPassword());
+            ps.setInt(4, emp.getRoleID());
             ps.executeUpdate();
 
             //Get the generated key
@@ -123,6 +188,27 @@ public class EmpRepository implements EmployeeInterface {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Override
+    public List<Role> getRoles(){
+        List<Role> roles = new ArrayList<>();
+        Connection con = ConnectionManager.getConnection(db_url,username,pwd);
+        String SQL = """
+                SELECT * FROM role
+                """;
+        try(PreparedStatement ps = con.prepareStatement(SQL)){
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                roles.add(new Role(
+                        rs.getInt("role_id"),
+                        rs.getString("role_name")));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return roles;
     }
 
     @Override

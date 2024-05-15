@@ -19,16 +19,27 @@
         <label for="password">Password</label>
         <input id="password" type="password" th:field="*{password}"/>
 
+        <label for="role">Role</label>
+        <select id="role" name="role" th:field="*{roleID}">
+            <option th:each="role: ${listOfRoles}"
+                    th:value="${role.role_id}"
+                    th:text="${role.role_name}">
+            </option>
+        </select>
+
+
         <label>Skills</label>
-        <div th:each="skill : ${skillList}">
+        <div th:each="skill : ${listOfSkills}">
             <input type="checkbox"
                    th:field="*{skillList}"
                    th:value="${skill.skillName}">
             <label th:text="${skill}"></label>
         </div>
+
         <button type="submit">Tilføj</button>
 
     </form>
-    <a th:hre="@{/projekter}"> <button> Tilbage</button></a>
+    <a th:href="@{medarbejdere}"> <button> Tilbage</button>
+    </a>
 </div>
 </html>

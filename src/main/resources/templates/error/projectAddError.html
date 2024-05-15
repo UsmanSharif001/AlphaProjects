@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/pico.blue.min.css">
+    <link rel="icon" href="/favicon.svg">
+    <style>
+        :root {
+            --pico-font-family: "Kaisei Decol", serif;
+        }
+        html {
+            height: 100%;
+        }
+        body {
+            min-height: 100%;
+            background: url("/background.jpg") var(--pico-background-color);
+            background-size: cover;
+        }
+    </style>
+    <title>Fejl</title>
+</head>
+<body>
+    <h1>Projektet kunne ikke tilføjes </h1>
+    <p th:text="${message}"></p>
+    <button type button onclick="window.location.href='/opretprojekt'">Prøv igen</button>
+</body>
+</html>
