@@ -41,18 +41,18 @@
                 <button type="submit">✏️</button>
             </a>
             <a th:href="@{'/' + ${subproject.getSubprojectID()} + '/deletesubproject'}">
-                <button type="submit" disabled>🗑️</button>
+                <button type="submit" >🗑️</button>
             </a>
         </td>
     </tr>
     </tbody>
 
 </table>
-
-    <a th:href="@{/projekter}">
-        <button style="margin: 0">Tilbage</button>
-    </a>
-
 </div>
+    <div style="display: flex; justify-content: flex-end;">
+        <button type="button" onclick="window.location.href='/projekter'">
+            Tilbage til projekter
+        </button>
+    </div>
 </div>
 </html>
