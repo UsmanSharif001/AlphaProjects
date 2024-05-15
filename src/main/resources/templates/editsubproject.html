@@ -4,11 +4,10 @@
 
 <div style="width: 100%; display: flex; flex-direction: column; gap: 32px; align-items: center;"
      layout:fragment="content">
-<head>
-    <title>Ret Subprojekt</title>
-</head>
-<body>
-<form th:action="@{/{subprojectid}/updatesubproject(subprojectid=${subprojectid})}" th:method="POST" th:object="${subproject}">
+
+    <h1 style="align-self: flex-start;">Redigér projekt</h1>
+
+<form th:action="@{/{subprojectid}/updatesubproject(subprojectid=${subprojectid})}" th:method="POST" th:object="${subproject}" style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
     <p>
         <label for="subprojectName">Navn</label>
         <input id="subprojectName" type="text" th:field="*{subprojectName}">
@@ -39,11 +38,13 @@
     <p>
         <input type="hidden" id="subprojectid" th:field="*{subprojectID}">
     </p>
-    <button type="submit">Tilføj opdateringer</button>
+
+    <div style="display: flex; gap: 16px;">
+        <button type="button" class="secondary" style="width: 100%;" th:href="@{/{projectid}/subprojects(projectid=${projectid})}">
+            Annuller
+        </button>
+    <button type="submit" style="width: 100%;">Tilføj opdateringer</button>
+    </div>
 </form>
-<p>
-    <a th:href="@{/{projectid}/subprojects(projectid=${projectid})}"> <button type="button">Tilbage</button> </a>
-</p>
-</body>
 </div>
 </html>
