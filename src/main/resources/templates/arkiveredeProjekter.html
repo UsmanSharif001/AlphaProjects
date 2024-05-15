@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
+<div layout:fragment="content">
+
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+    <h1 style="margin: 0;">Arkiverede projekter</h1>
+  </div>
+
+  <div class="overflow-auto">
+    <table>
+      <thead>
+      <tr>
+        <th>Projekt:</th>
+        <th>Projektleder</th>
+        <th>Deadline</th>
+        <th>Tidsestimat</th>
+        <th>Tidsforbrug</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="project : ${archivedProjects}">
+        <td>
+          <a th:href="@{/{projectID}/subprojects(projectID=${project.getProjectID()})}">
+            <button type="submit" style="width: 100%"><span th:text="${project.getProjectName()}"></span>
+            </button>
+          </a>
+        </td>
+        <td th:text="${project.getProjectManagerName()}"></td>
+        <td th:text="${project.getProjectDeadline()}"></td>
+        <td th:text="${project.getProjectTimeEstimate()}"></td>
+        <td th:text="${project.getProjectDedicatedHours()}"></td>
+        <td th:switch="${project.getProjectStatus().toUpperCase()}">
+          <span th:case="NOT_STARTED" data-tooltip="Ikke påbegyndt" style="border: none;">🔴</span>
+          <span th:case="IN_PROGRESS" data-tooltip="Igangværende" style="border: none;">🟡</span>
+          <span th:case="DONE" data-tooltip="Afsluttet" style="border: none;">🟢</span>
+          <span th:case="ARCHIVED" data-tooltip="Arkiveret" style="border: none;">⚪️</span>
+          <span th:case="*" th:text="${project.getProjectStatus()}"></span>
+        </td>
+        <td>
+          <a th:href="@{/{projectID}/redigerprojekt(projectID=${project.getProjectID()})}">
+            <button type="button">✏️</button>
+          </a>
+          <button type="button" disabled>🔭</button>
+        </td>
+        <td th:text="${project.getProjectID()}" hidden></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</html>

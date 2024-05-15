@@ -2,6 +2,8 @@ package com.example.alphaprojects.controllers;
 
 
 import com.example.alphaprojects.model.Emp;
+import com.example.alphaprojects.model.EmpDTO;
+import com.example.alphaprojects.model.Role;
 import com.example.alphaprojects.model.Skill;
 import com.example.alphaprojects.services.EmpService;
 import jakarta.servlet.http.HttpSession;
@@ -25,6 +27,13 @@ public class EmpController {
         return session.getAttribute("emp") != null;
     }
 
+    private void isAdmin(HttpSession session, Model model) {
+        EmpDTO emp = (EmpDTO) session.getAttribute("emp");
+        if(emp.getRoleID() == 1){
+            model.addAttribute("isAdmin", true);
+        }
+    }
+
     /*-----------------------------Login--------------------------*/
 
     @GetMapping(value = {"","/","/login"})
@@ -35,7 +44,7 @@ public class EmpController {
     @PostMapping("/login")
     public String login(@RequestParam String email, @RequestParam String password,
                         HttpSession session, Model model) {
-        Emp emp = empService.getEmp(email,password);
+        EmpDTO emp = empService.login(email,password);
         if (emp != null){
             session.setAttribute("emp", emp);
             session.setMaxInactiveInterval(1200);
@@ -45,14 +54,40 @@ public class EmpController {
         return "login";
     }
 
-    /*-----------------------------Add Emp--------------------------*/
+    /*-----------------------------Admin--------------------------*/
+    @GetMapping("/admin")
+    public String admin(HttpSession session, Model model){
+        if (isLoggedIn(session)){
+            isAdmin(session,model);
+            return "admin";
+            }
+        return "login";
+
+    }
+
+
+
+    /*-----------------------------Emp--------------------------*/
+
+    @GetMapping("/medarbejdere")
+    public String getListofEmployees(HttpSession session, Model model){
+        if(isLoggedIn(session)){
+            isAdmin(session,model);
+            List<Emp> empList = empService.getAllEmp();
+            model.addAttribute("empList", empList);
+        }
+        return "employeelist";
+    }
 
     @GetMapping("/tilføjmedarbejder")
     public String addEmp(HttpSession session, Model model) {
     if(isLoggedIn(session)){
+        isAdmin(session,model);
         model.addAttribute("emp", new Emp());
         List<Skill> skillList = empService.getSkills();
-        model.addAttribute("skillList", skillList);
+        model.addAttribute("listOfSkills", skillList);
+        List<Role> roleList = empService.getRoles();
+        model.addAttribute("listOfRoles", roleList);
         return "addEmp";
     }
     return "redirect:/login";
@@ -62,7 +97,7 @@ public class EmpController {
     public String saveEmp(@ModelAttribute Emp emp, HttpSession session) {
         if(isLoggedIn(session)){
         empService.addEmp(emp);
-        return "redirect:/projekter";
+        return "redirect:/medarbejdere";
         }
         return "redirect:/login";
     }
@@ -80,6 +115,18 @@ public class EmpController {
 
         return "redirect:/login";
     }
+
+    //TODO Tines metode, skal slettes på et tidspunkt, kan være jeg skal bruge den som inspiration.
+    //TODO Gælder også for html siden viewEmp
+//    @GetMapping("/vismedarbejder")
+//    public String viewEmp(Model model){
+//        Emp emp = empService.getEmp("Nikolaj@gmail.com","123");
+//        EmpDTO emp1 = new EmpDTO(emp.getEmpID(),emp.getName(),emp.getEmail(),emp.getPassword(),null);
+//        List<Skill> skillList = emp.getSkillList();
+//        model.addAttribute("listOfSkills", skillList);
+//        model.addAttribute("emp", emp1);
+//        return "viewEmp";
+//    }
 
     /*-----------------------------Skills--------------------------*/
     //TODO have to figure out where these redirect to, not tested
