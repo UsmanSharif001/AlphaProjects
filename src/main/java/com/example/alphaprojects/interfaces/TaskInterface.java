@@ -15,4 +15,6 @@ public interface TaskInterface {
     List<Task> getTasks(int subprojectID);
 
     void deleteTask(int taskID);
+
+    Task getTaskFromTaskID(int taskid);
 }

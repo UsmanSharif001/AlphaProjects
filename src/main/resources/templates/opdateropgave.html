@@ -8,13 +8,7 @@
         <title>Ret Opgave</title>
     </head>
     <body>
-     <form th:action="@{/{subprojectid}/updatetask(subprojectid=${subprojectid})}" th:method="POST" th:object="${task}">
-        <p>
-            <input type="hidden" id="subprojectid" th:field="*{subprojectID}">
-        </p>
-        <p>
-            <input type="hidden" id="taskid" th:field="*{taskID}">
-        </p>
+     <form th:action="@{/{taskid}/updatetask(taskid=${taskid})}" th:method="POST" th:object="${task}">
         <p>
             <label for="taskName">Navn</label>
             <input id="taskName" type="text" th:field="*{taskName}">
@@ -36,6 +30,12 @@
             <label for="taskStatus">Status:</label>
             <input id="taskStatus" type="text" th:field="*{taskStatus}"/>
         </p>
+         <p>
+             <input type="hidden" id="subprojectid" th:field="*{subprojectID}">
+         </p>
+         <p>
+             <input type="hidden" id="taskid" th:field="*{taskID}">
+         </p>
         <button type="submit">Tilføj opdateringer</button>
     </form>
      <p>

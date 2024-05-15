@@ -46,20 +46,18 @@ public class TaskController {
 
     @GetMapping("/{taskid}/edittask")
     public String editTask( @PathVariable int taskid, Model model) {
-        Task editTask = taskService.getTask(taskid);
-        model.addAttribute("taskid", taskid);
+        Task editTask = taskService.getTaskFromTaskID(taskid);
+        int subprojectid = editTask.getSubprojectID();
         model.addAttribute("task", editTask);
+        model.addAttribute("subprojectid", subprojectid);
         return "opdateropgave";
     }
 
-    @PostMapping("/{subprojectid}/updatetask")
-    public String updateTask(@ModelAttribute Task task, Model model, @PathVariable int subprojectid) {
-        task.setSubprojectID(subprojectid);
-        model.addAttribute("listOfTasks", taskService.getTaskList(subprojectid));
-        //model.addAttribute("task",task);
+    @PostMapping("/{taskid}/updatetask")
+    public String updateTask(@ModelAttribute Task task, @PathVariable int taskid) {
+        task.setTaskID(taskid);
         taskService.updateTask(task);
-        //System.out.println("test");
-        return "opgaver";
+        return "redirect:/" + task.getTaskID() + "/tasks";
     }
 
     @GetMapping("/{subprojectid}/{taskid}/deletetask")

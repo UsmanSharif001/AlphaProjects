@@ -56,7 +56,7 @@ public class TaskRepository implements TaskInterface {
             ps.setString(1, task.getTaskName());
             ps.setString(2, task.getTaskDescription());
             ps.setInt(3, task.getTaskEstimate());
-            ps.setDate(4, Date.valueOf(task.getTaskDeadline()));
+            ps.setString(4, task.getTaskDeadline().toString());
             ps.setString(5, task.getTaskStatus());
             ps.setInt(6,task.getTaskID());
 
@@ -137,6 +137,33 @@ public class TaskRepository implements TaskInterface {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    @Override
+    public Task getTaskFromTaskID(int taskid) {
+        Task foundTask;
+        Connection con = ConnectionManager.getConnection(db_url,username,pwd);
+
+        String SQL = "SELECT subproject_id, task_name, task_description, task_time_estimate, task_deadline, task_status FROM task WHERE task_id = ?;";
+
+        try(PreparedStatement ps = con.prepareStatement(SQL)) {
+            ps.setInt(1, taskid);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int subprojectID = rs.getInt("subproject_id");
+                String name = rs.getString("task_name");
+                String description = rs.getString("task_description");
+                int timeEstimate = rs.getInt("task_time_estimate");
+                LocalDate deadline = LocalDate.parse(rs.getString("task_deadline"));
+                String status = rs.getString("task_status");
+                foundTask = new Task(taskid, subprojectID,name,description,timeEstimate,deadline,status);
+                return foundTask;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
 }

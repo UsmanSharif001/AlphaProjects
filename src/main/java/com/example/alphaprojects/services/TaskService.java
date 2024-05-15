@@ -33,4 +33,7 @@ public class TaskService {
     public void deleteTask(int taskID) {
         taskRepository.deleteTask(taskID);
     }
+    public Task getTaskFromTaskID(int taskID) {
+        return taskRepository.getTaskFromTaskID(taskID);
+    }
 }
