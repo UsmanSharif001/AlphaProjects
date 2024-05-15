@@ -39,14 +39,7 @@
         <button type="submit">Tilføj opdateringer</button>
     </form>
      <p>
-         <button type="button" onclick="goBack()">Tilbage</button>
-
-         <script>
-             function goBack() {
-                 window.history.back();
-             }
-         </script>
-
+         <a th:href="@{/{subprojectid}/tasks(subprojectid=${subprojectid})}"> <button type="button">Tilbage</button> </a>
      </p>
     </body>
 </div>

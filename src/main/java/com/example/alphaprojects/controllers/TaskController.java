@@ -57,7 +57,7 @@ public class TaskController {
     public String updateTask(@ModelAttribute Task task, @PathVariable int taskid) {
         task.setTaskID(taskid);
         taskService.updateTask(task);
-        return "redirect:/" + task.getTaskID() + "/tasks";
+        return "redirect:/" + taskid + "/tasks";
     }
 
     @GetMapping("/{taskid}/deletetask")

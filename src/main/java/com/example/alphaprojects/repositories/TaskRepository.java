@@ -133,11 +133,11 @@ public class TaskRepository implements TaskInterface {
             try (PreparedStatement psTaskEmp = con.prepareStatement(deleteTaskEmpSQL)) {
                 psTaskEmp.setInt(1, taskId);
                 psTaskEmp.executeUpdate();
-            }
-            String deleteTaskSQL = "DELETE FROM task WHERE task_id = ?";
-            try (PreparedStatement psTask = con.prepareStatement(deleteTaskSQL)) {
-                psTask.setInt(1, taskId);
-                psTask.executeUpdate();
+                String deleteTaskSQL = "DELETE FROM task WHERE task_id = ?";
+                PreparedStatement psTask = con.prepareStatement(deleteTaskSQL);
+                    psTask.setInt(1, taskId);
+                    psTask.executeUpdate();
+
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
