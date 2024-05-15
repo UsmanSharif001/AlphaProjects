@@ -42,11 +42,14 @@
     <a th:href="@{/{subprojectid}/addtask(subprojectid=${subprojectid})}">
         <button type="submit"> Tilføj Opgave</button>
     </a>
-    <p>
-        <button type="button" onclick="goBack()">Tilbage</button>
+
+    <a th:href="@{'/' + ${subprojectid} + '/subprojects'}">
+        <button type="submit"> Tilbage </button>
+
+    </a>
 
 
-    </p>
+
     </body>
 </div>
 </html>
