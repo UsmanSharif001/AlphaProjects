@@ -53,16 +53,16 @@
                 </td>
                 <td>
                     <a th:href="@{/{projectID}/redigerprojekt(projectID=${project.getProjectID()})}">
-                        <button type="button">✏️</button>
+                        <button type="button" data-tooltip="Redigér">✏️</button>
                     </a>
-                    <button type="button" disabled>🔭</button>
+                    <button type="button" data-tooltip="Shared vision" disabled >🔭</button>
                 </td>
                 <td th:text="${project.getProjectID()}" hidden></td>
             </tr>
             </tbody>
         </table>
     </div>
-    <div style="display: flex; justify-content: flex-end;">
+    <div style="display: flex; justify-content: center;">
     <button type="button" onclick="window.location.href='/arkiveredeprojekter'">
         Arkiverede projekter
     </button>

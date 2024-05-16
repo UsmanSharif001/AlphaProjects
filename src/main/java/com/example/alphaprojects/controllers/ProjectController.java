@@ -38,7 +38,7 @@ public class ProjectController {
             }
             List<Project> projectList = projectService.getListOfProjects();
             model.addAttribute("projects", projectList);
-            return "projekter";
+            return "projects";
         }
         return "redirect:/login";
     }
@@ -49,7 +49,7 @@ public class ProjectController {
             List<ProjectManagerDTO> projectManagers = projectService.getProjectManagers();
             model.addAttribute("newProject", new Project());
             model.addAttribute("projectManagers", projectManagers);
-            return "opretprojekt";
+            return "addprojects";
         }
         return "redirect:/login";
     }
@@ -58,7 +58,7 @@ public class ProjectController {
     private String saveProject(@ModelAttribute Project project, HttpSession session) throws ProjectAddException {
         if (isLoggedIn(session)) {
             projectService.addNewProject(project);
-            return "redirect:/projekter";
+            return "redirect:/projects";
         }
         return "redirect:/login";
     }
@@ -72,7 +72,7 @@ public class ProjectController {
             model.addAttribute("updateProject", updateProject);
             model.addAttribute("projectDeadline", updateProject.getProjectDeadline());
             model.addAttribute("projectManagers", projectManagers);
-            return "/redigerprojekt";
+            return "/editproject";
         }
         return "redirect:/login";
     }
@@ -82,7 +82,7 @@ public class ProjectController {
         if (isLoggedIn(session)) {
             updateProject.setProjectID(projectID);
             projectService.editProject(updateProject);
-            return "redirect:/projekter";
+            return "redirect:/projects";
         }
         return "redirect:/login";
     }
@@ -93,7 +93,7 @@ public class ProjectController {
             List<Project> archivedProjectList = projectService.getListOfArchivedProjects();
             model.addAttribute("archivedProjects", archivedProjectList);
             System.out.println(archivedProjectList);
-            return "arkiveredeProjekter";
+            return "archivedprojects";
         }
         return "redirect:/login";
     }
