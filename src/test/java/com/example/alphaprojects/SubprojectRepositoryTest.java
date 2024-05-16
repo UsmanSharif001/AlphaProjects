@@ -2,6 +2,7 @@ package com.example.alphaprojects;
 
 import com.example.alphaprojects.model.Subproject;
 import com.example.alphaprojects.repositories.SubprojectRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,8 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("h2")
@@ -62,22 +62,42 @@ public class SubprojectRepositoryTest {
     @Test
     void editSubproject(){
         //Arrange
+        Subproject testSubproject = new Subproject(1,1,"Backend", "New funky backend", 25, 0, LocalDate.of(2024,12,12), " In_progress");
+        testSubproject.setSubprojectTimeEstimate(30);
+
         //Act
+        subprojectRepository.editSubproject(testSubproject);
+        Subproject actualSubproject = subprojectRepository.getSubprojectFromSubprojectID(1);
+
         //Assert
+        assertEquals(testSubproject.getSubprojectTimeEstimate(), actualSubproject.getSubprojectTimeEstimate());
     }
 
     @Test
     void deleteSubproject(){
         //Arrange
+        int subprojectIDOfSubprojectToDelete = 1;
+
         //Act
+        subprojectRepository.deleteSubproject(subprojectIDOfSubprojectToDelete);
+        Subproject actualSubproject = subprojectRepository.getSubprojectFromSubprojectID(subprojectIDOfSubprojectToDelete);
+
         //Assert
+        assertNull(actualSubproject);
+        //TODO: Fejler, metoden skal refactoreres så den også sletter taskene på subproject.
     }
 
     @Test
     void getSubprojectFromSubprojectID(){
         //Arrange
+        int existingSubprojectID = 1;
+        int notExistingSubprojectID = 0;
         //Act
+        Subproject found = subprojectRepository.getSubprojectFromSubprojectID(existingSubprojectID);
+        Subproject notFound = subprojectRepository.getSubprojectFromSubprojectID(notExistingSubprojectID);
         //Assert
+        assertNotNull(found);
+        assertNull(notFound);
     }
 
 }
