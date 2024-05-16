@@ -75,6 +75,9 @@ public class EmpController {
             isAdmin(session,model);
             List<Emp> empList = empService.getAllEmp();
             model.addAttribute("empList", empList);
+            //TODO have to figure out how to implement this
+            List<Role> roleList = empService.getListOfRoleNamesForEmp();
+            model.addAttribute("roleList", roleList);
         }
         return "employeelist";
     }
@@ -129,7 +132,8 @@ public class EmpController {
 //    }
 
     /*-----------------------------Skills--------------------------*/
-    //TODO have to figure out where these redirect to, not tested
+
+
     @GetMapping("/skills")
     public String getSkills(HttpSession session,Model model){
         if(isLoggedIn(session)){

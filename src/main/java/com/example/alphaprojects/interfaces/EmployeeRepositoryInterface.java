@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface EmployeeRepositoryInterface {
 
-//    Emp getEmp(String email, String password);
+
 
     EmpDTO login(String username, String password);
 
@@ -18,6 +18,8 @@ public interface EmployeeRepositoryInterface {
     Emp addEmp(Emp emp);
 
     void deleteEmp(int empID);
+
+    List<Role> getListOfRoleNamesForEmp();
 
     List<Role> getRoles();
 
