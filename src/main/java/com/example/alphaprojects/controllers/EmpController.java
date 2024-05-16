@@ -130,13 +130,27 @@ public class EmpController {
 
     /*-----------------------------Skills--------------------------*/
     //TODO have to figure out where these redirect to, not tested
+    @GetMapping("/skills")
+    public String getSkills(HttpSession session,Model model){
+        if(isLoggedIn(session)){
+            isAdmin(session,model);
+            List<Skill> skillList = empService.getSkills();
+            model.addAttribute("skillList", skillList);
+            return "skillList";
+        }
+        return "redirect:/login";
+    }
 
-    @GetMapping("/tilføjnyskill")
+
+
+    @GetMapping("/tilføjskill")
     public String addSKill(HttpSession session, Model model) {
         if(isLoggedIn(session)){
+            isAdmin(session,model);
             model.addAttribute("skill", new Skill());
+            return "addSkill";
         }
-        return "addSKill";
+        return "redirect:/login";
     }
 
 
@@ -144,7 +158,7 @@ public class EmpController {
     public String saveSkill(@ModelAttribute Skill skill, HttpSession session) {
         if(isLoggedIn(session)){
             empService.addSkill(skill);
-            return "redirect:/projekter";
+            return "redirect:/skills";
         }
         return "redirect:/login";
     }
