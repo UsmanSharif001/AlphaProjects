@@ -65,7 +65,7 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
             ps.setString(2, subproject.getSubprojectName());
             ps.setString(3, subproject.getSubprojectDescription());
             ps.setInt(4, subproject.getSubprojectTimeEstimate());
-            ps.setInt(5, subproject.getSubprojectDedicatedHours());
+            ps.setInt(5, 0); //Tidsforbrug starter altid på værdien 0.
             ps.setString(6, subproject.getSubprojectDeadline().toString());
             ps.setString(7, subproject.getSubprojectStatus());
 
