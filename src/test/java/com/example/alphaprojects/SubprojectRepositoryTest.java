@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @ActiveProfiles("h2")
@@ -51,8 +52,11 @@ public class SubprojectRepositoryTest {
     @Test
     void createSubproject(){
         //Arrange
+        Subproject testSubproject = new Subproject(1,1,"Backend", "New funky backend", 25, 0, LocalDate.of(2024,12,12), " In_progress");
         //Act
+        subprojectRepository.createSubproject(testSubproject);
         //Assert
+        assertNotNull(testSubproject);
     }
 
     @Test
