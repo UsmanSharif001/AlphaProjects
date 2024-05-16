@@ -34,9 +34,6 @@ public class EmpService {
         empRepository.deleteEmp(empID);
     }
 
-    public List<Role> getListOfRoleNamesForEmp(){
-        return empRepository.getListOfRoleNamesForEmp();
-    }
 
     public List<Role> getRoles(){
         return empRepository.getRoles();

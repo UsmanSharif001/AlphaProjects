@@ -75,9 +75,7 @@ public class EmpController {
             isAdmin(session,model);
             List<Emp> empList = empService.getAllEmp();
             model.addAttribute("empList", empList);
-            //TODO have to figure out how to implement this
-            List<Role> roleList = empService.getListOfRoleNamesForEmp();
-            model.addAttribute("roleList", roleList);
+
         }
         return "employeelist";
     }
