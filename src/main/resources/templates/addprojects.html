@@ -8,7 +8,7 @@
 
     <h1 style="align-self: flex-start;">Opret projekt</h1>
 
-    <form th:action="@{/gemprojekt}" th:method="POST" th:object="${newProject}"
+    <form th:action="@{/projekter}" th:method="POST" th:object="${newProject}"
           style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
         <label for="name">Navn:</label>
         <input type="text" th:field="*{projectName}" placeholder="Projektets navn…" id="name"/>

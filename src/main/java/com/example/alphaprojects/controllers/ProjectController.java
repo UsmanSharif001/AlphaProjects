@@ -54,11 +54,11 @@ public class ProjectController {
         return "redirect:/login";
     }
 
-    @PostMapping("/gemprojekt")
+    @PostMapping("/projekter")
     private String saveProject(@ModelAttribute Project project, HttpSession session) throws ProjectAddException {
         if (isLoggedIn(session)) {
             projectService.addNewProject(project);
-            return "redirect:/projects";
+            return "redirect:/projekter";
         }
         return "redirect:/login";
     }
@@ -72,7 +72,7 @@ public class ProjectController {
             model.addAttribute("updateProject", updateProject);
             model.addAttribute("projectDeadline", updateProject.getProjectDeadline());
             model.addAttribute("projectManagers", projectManagers);
-            return "/editproject";
+            return "editproject";
         }
         return "redirect:/login";
     }
@@ -82,7 +82,7 @@ public class ProjectController {
         if (isLoggedIn(session)) {
             updateProject.setProjectID(projectID);
             projectService.editProject(updateProject);
-            return "redirect:/projects";
+            return "redirect:/projekter";
         }
         return "redirect:/login";
     }
