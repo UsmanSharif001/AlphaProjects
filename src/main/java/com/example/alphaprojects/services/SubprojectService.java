@@ -9,7 +9,6 @@ import java.util.List;
 @Service
 public class SubprojectService {
     private SubprojectRepository subprojectRepository;
-
     public SubprojectService(SubprojectRepository subprojectRepository) { //inject interface
         this.subprojectRepository = subprojectRepository;
     }

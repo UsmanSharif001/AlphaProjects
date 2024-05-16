@@ -60,7 +60,7 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = "INSERT INTO subproject (project_id, subproject_name, subproject_description, subproject_time_estimate, subproject_dedicated_hours, subproject_deadline, subproject_status) VALUES (?,?,?,?,?,?,?);";
 
-        try (PreparedStatement ps = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setInt(1, subproject.getProjectID());
             ps.setString(2, subproject.getSubprojectName());
             ps.setString(3, subproject.getSubprojectDescription());
