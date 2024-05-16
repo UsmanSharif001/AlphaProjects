@@ -28,6 +28,7 @@
     <tbody>
     <tr th:each="subproject : ${subprojects}">
         <td>
+            <a th:href="@{/{subprojectID}/tasks(subprojectID=${subproject.getSubprojectID()})}">
         <button type="button" style="width: 100%"><span th th:text="${subproject.subprojectName}"></span>
         </button>
         </td>
