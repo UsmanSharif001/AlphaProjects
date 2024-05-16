@@ -47,7 +47,7 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
                         rs.getInt("subproject_time_estimate"),
                         rs.getInt("subproject_dedicated_hours"),
                         LocalDate.parse(rs.getString("subproject_deadline")),
-                        rs.getString("subproject_status")));
+                        rs.getString("subproject_status").toUpperCase()));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
