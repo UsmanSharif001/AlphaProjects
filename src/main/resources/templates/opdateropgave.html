@@ -8,7 +8,7 @@
         <title>Ret Opgave</title>
     </head>
     <body>
-     <form th:action="@{/{taskid}/updatetask(taskid=${taskid})}" th:method="POST" th:object="${task}">
+    <form th:action="@{'/' + ${subprojectid} + '/updatetask'}" th:method="POST" th:object="${task}">
         <p>
             <label for="taskName">Navn</label>
             <input id="taskName" type="text" th:field="*{taskName}">

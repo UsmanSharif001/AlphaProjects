@@ -21,7 +21,7 @@ public class TaskController {
     }
 
     @GetMapping("/{subprojectid}/tasks")
-    public String getTasks(@PathVariable int subprojectid, Model model) {
+    public String getTasks(@PathVariable int subprojectid,Model model) {
         List<Task> listOfTasks = taskService.getTaskList(subprojectid);
         model.addAttribute("listOfTasks", listOfTasks);
         model.addAttribute("subprojectid", subprojectid);
@@ -43,25 +43,27 @@ public class TaskController {
         taskService.createTask(newTask);
         return "redirect:/" + subprojectid + "/tasks";
     }
-
+ //Skal have subrojectID med så man ved hvilket subprojekt tasken hører til
     @GetMapping("/{taskid}/edittask")
     public String editTask( @PathVariable int taskid, Model model) {
         Task editTask = taskService.getTaskFromTaskID(taskid);
-        int subprojectid = editTask.getSubprojectID();
+        int subprojectid = editTask.getSubprojectID(); //Denne her er jeg i tvivl om hvorvidt skal være der fordi subproject id skal med i url
         model.addAttribute("task", editTask);
         model.addAttribute("subprojectid", subprojectid);
+        System.out.println(subprojectid);
         return "opdateropgave";
     }
 
-    @PostMapping("/{taskid}/updatetask")
-    public String updateTask(@ModelAttribute Task task, @PathVariable int taskid) {
-        task.setTaskID(taskid);
+    @PostMapping("/{subprojectid}/updatetask")
+    public String updateTask(@ModelAttribute Task task, @PathVariable int subprojectid) {
+        task.setSubprojectID(subprojectid);
         taskService.updateTask(task);
-        return "redirect:/" + taskid + "/tasks";
+        return "redirect:/" + subprojectid + "/tasks";
     }
-
+    ///Prøvet at give den subprojektid med men virker ikke? Den får ikke subprojectid med
     @GetMapping("/{taskid}/deletetask")
-    public String deleteTask(@PathVariable int taskid) {
+    public String deleteTask(@PathVariable int taskid, Model model) {
+        model.addAttribute("subprojectid", taskid);
         taskService.deleteTask(taskid);
         return "redirect:/" + taskid + "/tasks";
     }
