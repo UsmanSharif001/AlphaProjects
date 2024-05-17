@@ -36,4 +36,8 @@ public class TaskService {
     public Task getTaskFromTaskID(int taskID) {
         return taskRepository.getTaskFromTaskID(taskID);
     }
+
+    public int getSubprojectIDFromTask(int taskID) {
+        return taskRepository.getSubprojectIDFromTask(taskID);
+    }
 }

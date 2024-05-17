@@ -1,7 +1,6 @@
 package com.example.alphaprojects.controllers;
 
 
-import com.example.alphaprojects.model.Subproject;
 import com.example.alphaprojects.model.Task;
 import com.example.alphaprojects.services.TaskService;
 import org.springframework.stereotype.Controller;
@@ -25,7 +24,7 @@ public class TaskController {
         List<Task> listOfTasks = taskService.getTaskList(subprojectid);
         model.addAttribute("listOfTasks", listOfTasks);
         model.addAttribute("subprojectid", subprojectid);
-        return "opgaver";
+        return "tasks";
     }
 
 
@@ -34,7 +33,7 @@ public class TaskController {
         Task newTask = new Task();
         model.addAttribute("task", newTask);
         model.addAttribute("subprojectID", subprojectid);
-        return "opretopgave";
+        return "addTask";
     }
 
     @PostMapping("/{subprojectid}/savetask")
@@ -45,13 +44,13 @@ public class TaskController {
     }
  //Skal have subrojectID med så man ved hvilket subprojekt tasken hører til
     @GetMapping("/{taskid}/edittask")
-    public String editTask( @PathVariable int taskid, Model model) {
+    public String editTask(@PathVariable int taskid, Model model) {
         Task editTask = taskService.getTaskFromTaskID(taskid);
         int subprojectid = editTask.getSubprojectID(); //Denne her er jeg i tvivl om hvorvidt skal være der fordi subproject id skal med i url
         model.addAttribute("task", editTask);
         model.addAttribute("subprojectid", subprojectid);
         System.out.println(subprojectid);
-        return "opdateropgave";
+        return "updateTask";
     }
 
     @PostMapping("/{subprojectid}/updatetask")
@@ -63,9 +62,10 @@ public class TaskController {
     ///Prøvet at give den subprojektid med men virker ikke? Den får ikke subprojectid med
     @GetMapping("/{taskid}/deletetask")
     public String deleteTask(@PathVariable int taskid, Model model) {
+        int subprojectID = taskService.getSubprojectIDFromTask(taskid);
         model.addAttribute("subprojectid", taskid);
         taskService.deleteTask(taskid);
-        return "redirect:/" + taskid + "/tasks";
+        return "redirect:/" + subprojectID + "/tasks";
     }
 
 }

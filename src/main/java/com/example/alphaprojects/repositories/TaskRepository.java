@@ -173,4 +173,22 @@ public class TaskRepository implements TaskInterface {
         return null;
     }
 
+    public int getSubprojectIDFromTask(int taskID) {
+        int subprojectID = 0;
+        Connection con = ConnectionManager.getConnection(db_url,username,pwd);
+
+        String SQL = "SELECT subproject_id FROM AlphaSolution_db.task WHERE task_id = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(SQL)) {
+                ps.setInt(1, taskID);
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    subprojectID = rs.getInt("subproject_id");
+                }
+            } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return subprojectID;
+    }
 }
