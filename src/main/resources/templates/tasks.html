@@ -2,59 +2,58 @@
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout">
 
-<div style="width: 100%; display: flex; flex-direction: column; gap: 32px; align-items: center;"
-     layout:fragment="content">
-    <head>
-        <title>Opgaver</title>
-    </head>
+<div layout:fragment="content">
 
-    <body>
-    <h1> Opgaver</h1>
-    <table>
-        <thead>
-        <tr>
-            <th>Navn</th>
-            <th>Beskrivelse</th>
-            <th>Tidsestimat(t)</th>
-            <th>Deadline</th>
-            <th>Status</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="task : ${listOfTasks}">
-            <td th:text="${task.taskName}"></td>
-            <td th:text="${task.taskDescription}"></td>
-            <td th:text="${task.taskEstimate}"></td>
-            <td th:text="${task.taskDeadline}"></td>
-            <td th:switch="${task.getTaskStatus().toUpperCase()}" style="text-align: center">
-                <span th:case="NOT_STARTED" data-tooltip="Ikke påbegyndt" style="border: none;">🔴</span>
-                <span th:case="IN_PROGRESS" data-tooltip="Igangværende" style="border: none;">🟡</span>
-                <span th:case="DONE" data-tooltip="Afsluttet" style="border: none;">🟢</span>
-                <span th:case="*" th:text="${task.getTaskStatus()}"></span>
-            </td>
-            <td>
-                <a th:href="@{'/' + ${task.getTaskID()} + '/edittask'}">
-                    <button type="submit">✏️</button>
-                </a>
-                <a th:href="@{'/' + ${task.getTaskID()} + '/deletetask'}">
-                    <button type="submit">🗑</button>
-                </a>
-            </td>
-        </tr>
-        </tbody>
-
-    </table>
-    <a th:href="@{/{subprojectid}/addtask(subprojectid=${subprojectid})}">
-        <button type="submit"> Tilføj Opgave</button>
-    </a>
-
-
-    </body>
-    <div style="display: flex; justify-content: flex-end;">
-        <button type="button" onclick="window.location.href='/projekter'">
-            Tilbage til projekter
-        </button>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+        <h1 style="margin: 0;" th:text="${projectName} + ' - ' + ${subprojectName} + ' - Opgaver'">Opgaveoversigt</h1>
+        <a th:href="@{/{subprojectid}/addtask(subprojectid=${subprojectid})}">
+            <button style="margin: 0;" type="submit">Opret opgave</button>
+        </a>
     </div>
-</div>
+
+    <div class="overflow-auto">
+        <table>
+            <thead>
+            <tr>
+                <th>Navn</th>
+                <th>Beskrivelse</th>
+                <th>Tidsestimat</th>
+                <th>Deadline</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="task : ${listOfTasks}">
+                <td th:text="${task.taskName}"></td>
+                <td th:text="${task.taskDescription}"></td>
+                <td th:text="${task.taskEstimate}"></td>
+                <td th:text="${task.taskDeadline}"></td>
+                <td th:switch="${task.getTaskStatus().toUpperCase()}" style="text-align: center">
+                    <span th:case="NOT_STARTED" data-tooltip="Ikke påbegyndt" style="border: none;">🔴</span>
+                    <span th:case="IN_PROGRESS" data-tooltip="Igangværende" style="border: none;">🟡</span>
+                    <span th:case="DONE" data-tooltip="Afsluttet" style="border: none;">🟢</span>
+                    <span th:case="*" th:text="${task.getTaskStatus()}"></span>
+                </td>
+                <td>
+                    <a th:href="@{'/' + ${task.getTaskID()} + '/edittask'}">
+                        <button type="button" data-tooltip="Redigér">✏️</button>
+                    </a>
+                    <a th:href="@{'/' + ${task.getTaskID()} + '/deletetask'}">
+                        <button type="button" data-tooltip="Slet">🗑</button>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+
+        <div style="display: flex; justify-content: center">
+            <a th:href="@{/{projectID}/subprojekter(projectID=${projectID})}">
+                <button type="button"><div th:text=" 'Tilbage til ' +  ${subprojectName}"></div>
+                </button>
+            </a>
+            </button>
+        </div>
+    </div>
 </html>
