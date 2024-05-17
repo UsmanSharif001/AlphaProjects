@@ -80,16 +80,15 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
     //Edit subproject
     public void editSubproject(Subproject subproject) {
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "UPDATE subproject SET subproject_name = ?, subproject_description = ?, subproject_time_estimate = ?, subproject_dedicated_hours = ?, subproject_deadline = ?, subproject_status = ? WHERE subproject_id = ?;";
+        String SQL = "UPDATE subproject SET subproject_name = ?, subproject_description = ?, subproject_time_estimate = ?, subproject_deadline = ?, subproject_status = ? WHERE subproject_id = ?;";
 
         try (PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, subproject.getSubprojectName());
             ps.setString(2, subproject.getSubprojectDescription());
             ps.setInt(3, subproject.getSubprojectTimeEstimate());
-            ps.setInt(4, subproject.getSubprojectDedicatedHours());
-            ps.setString(5, subproject.getSubprojectDeadline().toString());
-            ps.setString(6, subproject.getSubprojectStatus());
-            ps.setInt(7, subproject.getSubprojectID());
+            ps.setString(4, subproject.getSubprojectDeadline().toString());
+            ps.setString(5, subproject.getSubprojectStatus());
+            ps.setInt(6, subproject.getSubprojectID());
 
             ps.executeUpdate();
 
