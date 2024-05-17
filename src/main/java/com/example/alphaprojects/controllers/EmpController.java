@@ -165,7 +165,6 @@ public class EmpController {
         return "redirect:/login";
     }
 
-
     /*-----------------------------Logout--------------------------*/
 
     //TODO have to figure out if we can make a logout button that works on all html pages

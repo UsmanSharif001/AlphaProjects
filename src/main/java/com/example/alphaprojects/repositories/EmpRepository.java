@@ -74,11 +74,12 @@ public class EmpRepository implements EmployeeRepositoryInterface {
             String empEmail = rs.getString("emp_email");
             String empPassword = rs.getString("emp_password");
             int roleID = rs.getInt("role_id");
+            String rolename = getRolenameFromRoleID(roleID);
             Skill skill = new Skill(rs.getInt("skill_id"),rs.getString("skill_name"));
             if (empName.equals(currentEmpName)){
                 currentEmp.addSkill(skill);
             } else {
-            currentEmp = new Emp(empID,empName,empEmail,empPassword,roleID,new ArrayList<>(List.of(skill)));
+            currentEmp = new Emp(empID,empName,empEmail,empPassword,roleID,rolename,new ArrayList<>(List.of(skill)));
             currentEmpName = empName;
             empList.add(currentEmp);
             }
@@ -229,6 +230,26 @@ public class EmpRepository implements EmployeeRepositoryInterface {
             throw new RuntimeException(e);
         }
         return skill;
+    }
+
+
+    //Method to get the rolename from the role ID
+    private String getRolenameFromRoleID(int roleID){
+        String roleName = "";
+        Connection con = ConnectionManager.getConnection(db_url,username,pwd);
+        String SQL= """
+                SELECT role_name FROM role WHERE role_id = ?
+                """;
+        try(PreparedStatement ps = con.prepareStatement(SQL)){
+            ps.setInt(1,roleID);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                roleName = rs.getString("role_name");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return roleName;
     }
 
 
