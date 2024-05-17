@@ -74,11 +74,12 @@ public class EmpRepository implements EmployeeRepositoryInterface {
             String empEmail = rs.getString("emp_email");
             String empPassword = rs.getString("emp_password");
             int roleID = rs.getInt("role_id");
+            String rolename = getRolenameFromRoleID(roleID);
             Skill skill = new Skill(rs.getInt("skill_id"),rs.getString("skill_name"));
             if (empName.equals(currentEmpName)){
                 currentEmp.addSkill(skill);
             } else {
-            currentEmp = new Emp(empID,empName,empEmail,empPassword,roleID,new ArrayList<>(List.of(skill)));
+            currentEmp = new Emp(empID,empName,empEmail,empPassword,roleID,rolename,new ArrayList<>(List.of(skill)));
             currentEmpName = empName;
             empList.add(currentEmp);
             }
@@ -89,47 +90,6 @@ public class EmpRepository implements EmployeeRepositoryInterface {
     }
     return empList;
     }
-
-//    @Override
-//    public Emp getEmp(String email) {
-//        Emp emp = null;
-//        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-//        String sql = """
-//                SELECT emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password,skill.skill_id,skill.skill_name
-//                FROM emp
-//                JOIN emp_skills on emp.emp_id = emp_skills.emp_id
-//                JOIN skill on emp_skills.skill_id = skill.skill_id
-//                WHERE
-//                emp_email = ?
-//                """;
-//        try (PreparedStatement ps = con.prepareStatement(sql)) {
-//
-//            ps.setString(1, email);
-//            ps.setString(2, password);
-//            ResultSet rs = ps.executeQuery();
-//            String currentEmpName = "";
-//
-//            while (rs.next()) {
-//                int empId = rs.getInt("emp_id");
-//                String empName = rs.getString("emp_name");
-//                String empEmail = rs.getString("emp_email");
-//                String empPassword = rs.getString("emp_password");
-//                Skill skill = new Skill(rs.getInt("skill_id"),rs.getString("skill_name"));
-//                if (empName.equals(currentEmpName)) {
-//                    emp.addSkill(skill);
-//                } else {
-//                    emp = new Emp(empId, empName, empEmail, empPassword, new ArrayList<>(List.of(skill)));
-//                    currentEmpName = empName;
-//                }
-//
-//            }
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        return emp;
-//    }
 
     @Override
     public Emp addEmp(Emp emp) {
@@ -170,6 +130,7 @@ public class EmpRepository implements EmployeeRepositoryInterface {
         return emp;
     }
 
+    //Not tested and prob not working with ppl on projects, have to figure out what to do
     @Override
     public void deleteEmp(int empID){
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
@@ -188,6 +149,29 @@ public class EmpRepository implements EmployeeRepositoryInterface {
             throw new RuntimeException(e);
         }
 
+    }
+
+
+    //TODO not used atm, have to figure out what to do
+    @Override
+    public List<Role> getListOfRoleNamesForEmp(){
+        List<Role> roleList = new ArrayList<>();
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+        String SQL= """
+                SELECT role.role_id,role.role_name
+                FROM role
+                JOIN emp on role.role_id = emp.role_id
+                ORDER BY emp_id;
+                """;
+        try (PreparedStatement ps = con.prepareStatement(SQL)){
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                roleList.add(new Role(rs.getInt("role_id"),rs.getString("role_name")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return roleList;
     }
 
     @Override
@@ -246,6 +230,26 @@ public class EmpRepository implements EmployeeRepositoryInterface {
             throw new RuntimeException(e);
         }
         return skill;
+    }
+
+
+    //Method to get the rolename from the role ID
+    private String getRolenameFromRoleID(int roleID){
+        String roleName = "";
+        Connection con = ConnectionManager.getConnection(db_url,username,pwd);
+        String SQL= """
+                SELECT role_name FROM role WHERE role_id = ?
+                """;
+        try(PreparedStatement ps = con.prepareStatement(SQL)){
+            ps.setInt(1,roleID);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                roleName = rs.getString("role_name");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return roleName;
     }
 
 

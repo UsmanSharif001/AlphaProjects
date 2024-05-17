@@ -14,6 +14,10 @@
                 <a th:if="${isAdmin}" th:href="@{admin}">
                     <button style="margin: 0">Admin</button>
                 </a>
+
+                <a th:href="@{logout}">
+                    <button> Log ud</button>
+                </a>
             </a>
         </div>
     </div>
@@ -55,7 +59,9 @@
                     <a th:href="@{/{projectID}/redigerprojekt(projectID=${project.getProjectID()})}">
                         <button type="button">✏️</button>
                     </a>
-                    <button type="button" disabled>🔭</button>
+                    <a th:href="@{/{projectID}/sharedvision(projectID=${project.getProjectID()})}">
+                    <button type="button" >🔭</button>
+                    </a>
                 </td>
                 <td th:text="${project.getProjectID()}" hidden></td>
             </tr>
