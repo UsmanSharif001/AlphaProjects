@@ -13,7 +13,7 @@ public interface ProjectInterface {
 
     String getProjectManagerName(int empID);
 
-    int calculateProjectDedicatedHours(int projectID);
+  //  int calculateProjectDedicatedHours(int projectID);
 
     int getManagerID(String managerName);
 
