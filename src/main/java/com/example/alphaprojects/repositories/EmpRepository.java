@@ -130,7 +130,7 @@ public class EmpRepository implements EmployeeRepositoryInterface {
         return emp;
     }
 
-    //Not tested and prob not working with ppl on projects, have to figure out what to do
+    //TODO Not tested and prob not working with ppl on projects, have to figure out what to do
     @Override
     public void deleteEmp(int empID){
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
@@ -151,28 +151,6 @@ public class EmpRepository implements EmployeeRepositoryInterface {
 
     }
 
-
-    //TODO not used atm, have to figure out what to do
-    @Override
-    public List<Role> getListOfRoleNamesForEmp(){
-        List<Role> roleList = new ArrayList<>();
-        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL= """
-                SELECT role.role_id,role.role_name
-                FROM role
-                JOIN emp on role.role_id = emp.role_id
-                ORDER BY emp_id;
-                """;
-        try (PreparedStatement ps = con.prepareStatement(SQL)){
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                roleList.add(new Role(rs.getInt("role_id"),rs.getString("role_name")));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return roleList;
-    }
 
     @Override
     public List<Role> getRoles(){
@@ -233,7 +211,7 @@ public class EmpRepository implements EmployeeRepositoryInterface {
     }
 
 
-    //Method to get the rolename from the role ID
+    //Method to get the rolename from the role ID, used in getEmps method
     private String getRolenameFromRoleID(int roleID){
         String roleName = "";
         Connection con = ConnectionManager.getConnection(db_url,username,pwd);
