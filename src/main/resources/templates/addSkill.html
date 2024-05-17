@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
+<div style="width: 100%; display: flex; flex-direction: column; gap: 32px; align-items: center;"
+     layout:fragment="content">
+    <h1 style="align-self: flex-start;">Tilføj Skill</h1>
+
+    <form th:action="@{gemskill}" th:method="POST" th:object="${skill}"
+          style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
+
+        <label for="name">Navn</label>
+        <input id="name" type="text" th:field="*{skillName}" placeholder="Skill navn"/>
+
+
+        <button type="submit">Tilføj</button>
+
+    </form>
+    <a th:href="@{skills}"> <button> Tilbage</button>
+    </a>
+</div>
+</html>
