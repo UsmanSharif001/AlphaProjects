@@ -51,7 +51,7 @@
                     <span> t</span>
                 </td>
                 <td th:text="${subproject.subprojectDeadline}"></td>
-                <td th:switch="${subproject.subprojectStatus.toUpperCase()}">
+                <td th:switch="${subproject.subprojectStatus.toUpperCase()}" style="text-align: center">
                     <span th:case="NOT_STARTED" data-tooltip="Ikke påbegyndt" style="border: none;">🔴</span>
                     <span th:case="IN_PROGRESS" data-tooltip="Igangværende" style="border: none;">🟡</span>
                     <span th:case="DONE" data-tooltip="Afsluttet" style="border: none;">🟢</span>

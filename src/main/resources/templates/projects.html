@@ -10,14 +10,6 @@
         <div style="display: flex; gap: 16px">
             <a th:href="@{/opretprojekt}">
                 <button style="margin: 0;" type="submit"> Opret projekt</button>
-
-                <a th:if="${isAdmin}" th:href="@{admin}">
-                    <button style="margin: 0">Admin</button>
-                </a>
-
-                <a th:href="@{logout}">
-                    <button> Log ud</button>
-                </a>
             </a>
         </div>
     </div>
@@ -30,7 +22,9 @@
                 <th>Projekt:</th>
                 <th>Projektleder</th>
                 <th data-tooltip="Totalt antal solgte timer" data-placement="bottom">Tidsestimat</th>
-                <th data-tooltip="Afsatte timer til opgaver, kontra timer til rådighed" data-placement="bottom">Afsat / Tilbage</th>
+                <th data-tooltip="Afsatte timer til opgaver, kontra timer til rådighed" data-placement="bottom">Afsat /
+                    Tilbage
+                </th>
                 <th>Deadline</th>
                 <th>Status</th>
                 <th></th>
@@ -45,7 +39,10 @@
                     </a>
                 </td>
                 <td th:text="${project.getProjectManagerName()}"></td>
-                <td th:text="${project.getProjectTimeEstimate()}"></td>
+                <td>
+                    <span th:text="${project.getProjectTimeEstimate()}"></span>
+                    <span> t</span>
+                </td>
                 <td>
                     <span th:text="${project.getProjectDedicatedHours()}"></span>
                     <span>t / </span>
@@ -53,7 +50,7 @@
                     <span> t</span>
                 </td>
                 <td th:text="${project.getProjectDeadline()}"></td>
-                <td th:switch="${project.getProjectStatus().toUpperCase()}">
+                <td th:switch="${project.getProjectStatus().toUpperCase()}" style="text-align: center">
                     <span th:case="NOT_STARTED" data-tooltip="Ikke påbegyndt" style="border: none;">🔴</span>
                     <span th:case="IN_PROGRESS" data-tooltip="Igangværende" style="border: none;">🟡</span>
                     <span th:case="DONE" data-tooltip="Afsluttet" style="border: none;">🟢</span>
@@ -65,7 +62,7 @@
                         <button type="button" data-tooltip="Redigér">✏️</button>
                     </a>
                     <a th:href="@{/{projectID}/sharedvision(projectID=${project.getProjectID()})}">
-                    <button type="button" data-tooltip="Shared vision">🔭</button>
+                        <button type="button" data-tooltip="Shared vision">🔭</button>
                     </a>
                 </td>
                 <td th:text="${project.getProjectID()}" hidden></td>
@@ -74,9 +71,9 @@
         </table>
     </div>
     <div style="display: flex; justify-content: center;">
-    <button type="button" onclick="window.location.href='/arkiveredeprojekter'">
-        Arkiverede projekter
-    </button>
+        <button type="button" onclick="window.location.href='/arkiveredeprojekter'">
+            Arkiverede projekter
+        </button>
     </div>
 </div>
 </html>
