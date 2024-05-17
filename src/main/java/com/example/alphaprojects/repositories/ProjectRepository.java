@@ -38,7 +38,7 @@ public class ProjectRepository implements ProjectInterface {
                 String name = projectsResultSet.getString("project_name");
                 String description = projectsResultSet.getString("project_description");
                 int timeEstimate = projectsResultSet.getInt("project_time_estimate");
-                int dedicatedHours = calculateProjectDedicatedHours(projectID);
+                int dedicatedHours = projectsResultSet.getInt("project_dedicated_hours");
                 LocalDate deadline = projectsResultSet.getDate("project_deadline").toLocalDate();
                 String status = projectsResultSet.getString("project_status");
                 Project project = new Project(projectID, managerID, managerName, name, description, timeEstimate, dedicatedHours, deadline, status);
@@ -141,7 +141,7 @@ public class ProjectRepository implements ProjectInterface {
     }
 
     // TODO: Skal refaktoreres så databasen opdateres:
-    @Override
+/*    @Override
     public int calculateProjectDedicatedHours(int projectID) {
         int dedicatedHours = 0;
 
@@ -163,7 +163,7 @@ public class ProjectRepository implements ProjectInterface {
             throw new RuntimeException(e);
         }
         return dedicatedHours;
-    }
+    }*/
 
     @Override
     public int getManagerID(String managerName) {
@@ -200,7 +200,7 @@ public class ProjectRepository implements ProjectInterface {
                 String name = rs.getString("project_name");
                 String description = rs.getString("project_description");
                 int timeEstimate = rs.getInt("project_time_estimate");
-                int dedicatedHours = calculateProjectDedicatedHours(projectID);
+                int dedicatedHours = rs.getInt("project_dedicated_hours");
                 LocalDate deadline = LocalDate.parse(rs.getString("project_deadline"));
                 String status = rs.getString("project_status").toUpperCase();
                 project = new Project(projectID, managerID, managerName, name, description, timeEstimate, dedicatedHours, deadline, status);
@@ -226,7 +226,7 @@ public class ProjectRepository implements ProjectInterface {
                 String name = projectsResultSet.getString("project_name");
                 String description = projectsResultSet.getString("project_description");
                 int timeEstimate = projectsResultSet.getInt("project_time_estimate");
-                int dedicatedHours = calculateProjectDedicatedHours(projectID);
+                int dedicatedHours = projectsResultSet.getInt("project_dedicated_hours");
                 LocalDate deadline = projectsResultSet.getDate("project_deadline").toLocalDate();
                 String status = projectsResultSet.getString("project_status");
                 Project project = new Project(projectID, managerID, managerName, name, description, timeEstimate, dedicatedHours, deadline, status);
