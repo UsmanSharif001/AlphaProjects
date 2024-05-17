@@ -29,9 +29,9 @@
             <tr>
                 <th>Projekt:</th>
                 <th>Projektleder</th>
+                <th data-tooltip="Totalt antal solgte timer" data-placement="bottom">Tidsestimat</th>
+                <th data-tooltip="Afsatte timer til opgaver, kontra timer til rådighed" data-placement="bottom">Afsat / Tilbage</th>
                 <th>Deadline</th>
-                <th>Tidsestimat</th>
-                <th>Tidsforbrug</th>
                 <th>Status</th>
                 <th></th>
             </tr>
@@ -45,9 +45,14 @@
                     </a>
                 </td>
                 <td th:text="${project.getProjectManagerName()}"></td>
-                <td th:text="${project.getProjectDeadline()}"></td>
                 <td th:text="${project.getProjectTimeEstimate()}"></td>
-                <td th:text="${project.getProjectDedicatedHours()}"></td>
+                <td>
+                    <span th:text="${project.getProjectDedicatedHours()}"></span>
+                    <span>t / </span>
+                    <span th:text="${project.getProjectTimeEstimate() - project.getProjectDedicatedHours()}"></span>
+                    <span> t</span>
+                </td>
+                <td th:text="${project.getProjectDeadline()}"></td>
                 <td th:switch="${project.getProjectStatus().toUpperCase()}">
                     <span th:case="NOT_STARTED" data-tooltip="Ikke påbegyndt" style="border: none;">🔴</span>
                     <span th:case="IN_PROGRESS" data-tooltip="Igangværende" style="border: none;">🟡</span>
