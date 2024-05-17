@@ -129,7 +129,7 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
                 int timeEstimate = rs.getInt("subproject_time_estimate");
                 int dedicatedHours = rs.getInt("subproject_dedicated_hours");
                 LocalDate deadline = LocalDate.parse(rs.getString("subproject_deadline"));
-                String status = rs.getString("subproject_status");
+                String status = rs.getString("subproject_status").toUpperCase();
 
                 foundSubproject = new Subproject(subprojectID, projectID, name, description, timeEstimate, dedicatedHours, deadline, status);
 

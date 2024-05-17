@@ -100,7 +100,6 @@ public class ProjectRepository implements ProjectInterface {
         String projectManagerName = "";
         int projectManagerID = 0;
         int skillIDforProjectManager = 2;
-    //    int skillIDforAdmin = 1;
 
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = "SELECT emp_id FROM AlphaSolution_db.emp_skills WHERE skill_id = " + skillIDforProjectManager;
@@ -139,31 +138,6 @@ public class ProjectRepository implements ProjectInterface {
         }
         return projectManager;
     }
-
-    // TODO: Skal refaktoreres så databasen opdateres:
-/*    @Override
-    public int calculateProjectDedicatedHours(int projectID) {
-        int dedicatedHours = 0;
-
-        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = """
-                SELECT COALESCE(SUM(t.task_time_estimate), 0) AS total_task_dedicated_hours
-                                        FROM task t
-                                        JOIN subproject sp ON t.subproject_id = sp.subproject_id
-                                        JOIN project p ON sp.project_id = p.project_id
-                                        WHERE p.project_id = ?;""";
-
-        try (PreparedStatement ps = con.prepareStatement(SQL)) {
-            ps.setInt(1, projectID);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                dedicatedHours = rs.getInt("total_task_dedicated_hours");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return dedicatedHours;
-    }*/
 
     @Override
     public int getManagerID(String managerName) {
