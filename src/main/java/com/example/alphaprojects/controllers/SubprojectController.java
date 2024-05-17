@@ -39,7 +39,7 @@ public SubprojectController(SubprojectService subprojectService, ProjectService 
     Subproject newSubproject = new Subproject();
     model.addAttribute("subproject", newSubproject);
     model.addAttribute("projectid", projectid);
-    return "createSubproject";
+    return "addSubproject";
 }
 
 @PostMapping("/{projectid}/gemsubprojekt")

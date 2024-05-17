@@ -162,7 +162,7 @@ public class TaskRepository implements TaskInterface {
                 String description = rs.getString("task_description");
                 int timeEstimate = rs.getInt("task_time_estimate");
                 LocalDate deadline = LocalDate.parse(rs.getString("task_deadline"));
-                String status = rs.getString("task_status");
+                String status = rs.getString("task_status").toUpperCase();
                 foundTask = new Task(taskid, subprojectID,name,description,timeEstimate,deadline,status);
                 return foundTask;
             }
@@ -173,4 +173,22 @@ public class TaskRepository implements TaskInterface {
         return null;
     }
 
+    public int getSubprojectIDFromTask(int taskID) {
+        int subprojectID = 0;
+        Connection con = ConnectionManager.getConnection(db_url,username,pwd);
+
+        String SQL = "SELECT subproject_id FROM AlphaSolution_db.task WHERE task_id = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(SQL)) {
+                ps.setInt(1, taskID);
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    subprojectID = rs.getInt("subproject_id");
+                }
+            } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return subprojectID;
+    }
 }

@@ -1,6 +1,8 @@
 package com.example.alphaprojects.model;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 
 public class Task {
@@ -10,6 +12,7 @@ public class Task {
     private String taskName;
     private String taskDescription;
     private int taskEstimate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate taskDeadline;
     private String taskStatus;
 
