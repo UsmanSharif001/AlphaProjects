@@ -17,9 +17,6 @@ public class EmpService {
         this.empRepository = empRepository;
     }
 
-//    public Emp getEmp(String username, String password) {
-//      return empRepository.getEmp(username,password);
-//    }
 
     public EmpDTO login(String email, String password) {
         return empRepository.login(email, password);
@@ -36,6 +33,7 @@ public class EmpService {
     public void deleteEmp(int empID){
         empRepository.deleteEmp(empID);
     }
+
 
     public List<Role> getRoles(){
         return empRepository.getRoles();
