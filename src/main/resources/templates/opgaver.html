@@ -43,13 +43,13 @@
         <button type="submit"> Tilføj Opgave</button>
     </a>
 
-    <a th:href="@{'/' + ${subprojectid} + '/subprojects'}">
-        <button type="submit"> Tilbage </button>
-
-    </a>
-
 
 
     </body>
+    <div style="display: flex; justify-content: flex-end;">
+        <button type="button" onclick="window.location.href='/projekter'">
+            Tilbage til projekter
+        </button>
+    </div>
 </div>
 </html>

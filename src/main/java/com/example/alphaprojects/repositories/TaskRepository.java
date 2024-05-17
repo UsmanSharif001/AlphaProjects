@@ -127,7 +127,7 @@ public class TaskRepository implements TaskInterface {
 
     @Override
     public void deleteTask(int taskId) {
-        try (Connection con = ConnectionManager.getConnection(db_url, username, pwd)) {
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
 
             String deleteTaskEmpSQL = "DELETE FROM task_emp WHERE task_id = ?";
             try (PreparedStatement psTaskEmp = con.prepareStatement(deleteTaskEmpSQL)) {
@@ -138,11 +138,11 @@ public class TaskRepository implements TaskInterface {
                     psTask.setInt(1, taskId);
                     psTask.executeUpdate();
 
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
+
 
 
     @Override
