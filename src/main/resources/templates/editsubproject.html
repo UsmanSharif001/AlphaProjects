@@ -7,7 +7,8 @@
 
     <h1 style="align-self: flex-start;">Redigér subprojekt</h1>
 
-<form th:action="@{/{subprojectid}/opdatersubprojekt(subprojectid=${subprojectid})}" th:method="POST" th:object="${subproject}" style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
+<form th:action="@{/{subprojectid}/opdatersubprojekt(subprojectid=${subprojectid})}" th:method="POST" th:object="${subproject}"
+      style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
     <p>
         <label for="subprojectName">Navn</label>
         <input id="subprojectName" type="text" th:field="*{subprojectName}">

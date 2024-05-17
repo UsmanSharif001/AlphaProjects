@@ -19,7 +19,7 @@ public class TaskController {
 
     private final SubprojectService subprojectService;
     private final ProjectService projectService;
-    private TaskService taskService;
+    private final TaskService taskService;
 
     public TaskController(TaskService taskService, SubprojectService subprojectService, ProjectService projectService) {
         this.taskService = taskService;
@@ -67,7 +67,7 @@ public class TaskController {
         model.addAttribute("task", editTask);
         model.addAttribute("subprojectid", subprojectid);
         System.out.println(subprojectid);
-        return "updateTask";
+        return "editTask";
     }
 
     @PostMapping("/{subprojectid}/updatetask")

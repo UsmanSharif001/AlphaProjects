@@ -162,7 +162,7 @@ public class TaskRepository implements TaskInterface {
                 String description = rs.getString("task_description");
                 int timeEstimate = rs.getInt("task_time_estimate");
                 LocalDate deadline = LocalDate.parse(rs.getString("task_deadline"));
-                String status = rs.getString("task_status");
+                String status = rs.getString("task_status").toUpperCase();
                 foundTask = new Task(taskid, subprojectID,name,description,timeEstimate,deadline,status);
                 return foundTask;
             }
