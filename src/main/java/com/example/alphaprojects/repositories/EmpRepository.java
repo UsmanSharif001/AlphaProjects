@@ -58,7 +58,8 @@ public class EmpRepository implements EmployeeRepositoryInterface {
     List<Emp> empList = new ArrayList<>();
     Connection con = ConnectionManager.getConnection(db_url, username, pwd);
     String SQL = """
-            SELECT emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password,emp.role_id,role.role_name,skill.skill_id,skill.skill_name
+            SELECT  emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password,
+                    emp.role_id,role.role_name,skill.skill_id,skill.skill_name
             FROM emp
             JOIN emp_skills on emp.emp_id = emp_skills.emp_id
             JOIN skill on emp_skills.skill_id = skill.skill_id
@@ -210,7 +211,6 @@ public class EmpRepository implements EmployeeRepositoryInterface {
         }
         return skill;
     }
-
 
 
 
