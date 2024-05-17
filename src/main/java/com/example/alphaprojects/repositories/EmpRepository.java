@@ -58,10 +58,11 @@ public class EmpRepository implements EmployeeRepositoryInterface {
     List<Emp> empList = new ArrayList<>();
     Connection con = ConnectionManager.getConnection(db_url, username, pwd);
     String SQL = """
-            SELECT emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password,role_id,skill.skill_id,skill.skill_name
+            SELECT emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password,emp.role_id,role.role_name,skill.skill_id,skill.skill_name
             FROM emp
             JOIN emp_skills on emp.emp_id = emp_skills.emp_id
             JOIN skill on emp_skills.skill_id = skill.skill_id
+            JOIN role on emp.role_id = role.role_id
             ORDER BY emp.emp_id
             """;
     try(PreparedStatement ps = con.prepareStatement(SQL)){
@@ -74,7 +75,7 @@ public class EmpRepository implements EmployeeRepositoryInterface {
             String empEmail = rs.getString("emp_email");
             String empPassword = rs.getString("emp_password");
             int roleID = rs.getInt("role_id");
-            String rolename = getRolenameFromRoleID(roleID);
+            String rolename = rs.getString("role_name");
             Skill skill = new Skill(rs.getInt("skill_id"),rs.getString("skill_name"));
             if (empName.equals(currentEmpName)){
                 currentEmp.addSkill(skill);
@@ -208,26 +209,6 @@ public class EmpRepository implements EmployeeRepositoryInterface {
             throw new RuntimeException(e);
         }
         return skill;
-    }
-
-
-    //Method to get the rolename from the role ID, used in getEmps method
-    private String getRolenameFromRoleID(int roleID){
-        String roleName = "";
-        Connection con = ConnectionManager.getConnection(db_url,username,pwd);
-        String SQL= """
-                SELECT role_name FROM role WHERE role_id = ?
-                """;
-        try(PreparedStatement ps = con.prepareStatement(SQL)){
-            ps.setInt(1,roleID);
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                roleName = rs.getString("role_name");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return roleName;
     }
 
 
