@@ -9,6 +9,7 @@ public class Emp {
     private String email;
     private String password;
     private int roleID;
+    private String roleName;
     private List<Skill> skillList;
 
 
@@ -16,12 +17,13 @@ public class Emp {
 
     }
 
-    public Emp(int empID, String name, String email, String password, int roleID,  List<Skill> skillList) {
+    public Emp(int empID, String name, String email, String password, int roleID, String roleName,  List<Skill> skillList) {
         this.empID = empID;
         this.name = name;
         this.email = email;
         this.password = password;
         this.roleID = roleID;
+        this.roleName = roleName;
         this.skillList = skillList;
     }
 
@@ -63,6 +65,14 @@ public class Emp {
 
     public void setEmpID(int empID) {
         this.empID = empID;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     public int getRoleID() {

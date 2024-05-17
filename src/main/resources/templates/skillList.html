@@ -6,7 +6,7 @@
 <div layout:fragment="content">
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
-        <h1 style="margin: 0;">Medarbejdere</h1>
+        <h1 style="margin: 0;">Skills</h1>
         <div style="display: flex; gap: 16px">
         </div>
     </div>
@@ -15,26 +15,20 @@
             <thead>
             <tr>
                 <th>Navn</th>
-                <th>Email</th>
-                <th>Role</th>
 
             </tr>
             </thead>
             <tbody>
-            <tr th:each="emp : ${empList}">
+            <tr th:each="skill : ${skillList}">
 
-                <td th:text="${emp.name}"></td>
-                <td th:text="${emp.email}"></td>
-                <td th:text="${emp.roleName}"></td>
+                <td th:text="${skill.skillName}"></td>
 
             </tr>
-
-
             </tbody>
         </table>
         <div>
-            <a th:href="@{tilføjmedarbejder}">
-                <button> Tilføj Medarbejder</button>
+            <a th:href="@{tilføjskill}">
+                <button> Tilføj Skill</button>
             </a>
         </div>
         <div>
