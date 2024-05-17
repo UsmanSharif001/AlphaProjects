@@ -5,58 +5,72 @@
 <div layout:fragment="content">
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
-        <h1 style="margin: 0;">Subprojektoversigt for: </h1><h1 style="margin: 0;" th:text="${projectName}"></h1>
+        <h1 style="margin: 0;" th:text="${projectName} + ' - Subprojekter'">Subprojektoversigt</h1>
         <a th:href="@{/{projectid}/opretsubprojekt(projectid=${projectid})}">
             <button style="margin: 0;" type="submit"> Opret Subprojekt</button>
         </a>
 
     </div>
 
-<div class="overflow-auto">
-<table>
-    <thead>
-    <tr>
-        <th> Subprojekt</th>
-        <th> Beskrivelse</th>
-        <th> Tidsestimat</th>
-        <th> Tidsforbrug</th>
-        <th> Deadline</th>
-        <th> Status</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="subproject : ${subprojects}">
-        <td>
-            <a th:href="@{/{subprojectID}/tasks(subprojectID=${subproject.getSubprojectID()})}">
-        <button type="button" style="width: 100%"><span th th:text="${subproject.subprojectName}"></span>
-        </button>
-            </a>
-        </td>
-        <td th:text="${subproject.subprojectDescription}"></td>
-        <td th:text="${subproject.subprojectTimeEstimate}"></td>
-        <td th:text="${subproject.subprojectDedicatedHours}"></td>
-        <td th:text="${subproject.subprojectDeadline}"></td>
-        <td th:switch="${subproject.subprojectStatus.toUpperCase()}">
-            <span th:case="NOT_STARTED" data-tooltip="Ikke påbegyndt" style="border: none;">🔴</span>
-            <span th:case="IN_PROGRESS" data-tooltip="Igangværende" style="border: none;">🟡</span>
-            <span th:case="DONE" data-tooltip="Afsluttet" style="border: none;">🟢</span>
-            <span th:case="*" th:text="${subproject.subprojectStatus}"></span>
-        </td>
-        <td>
-            <a th:href="@{'/' + ${subproject.getSubprojectID()} + '/redigersubprojekt'}">
-                <button type="submit">✏️</button>
-            </a>
-            <a th:href="@{'/' + ${subproject.getSubprojectID()} + '/sletsubprojekt'}">
-                <button type="submit" >🗑️</button>
-            </a>
-        </td>
-    </tr>
-    </tbody>
+    <div class="overflow-auto">
+        <table>
+            <thead>
+            <tr>
+                <th>Subprojekt</th>
+                <th>Beskrivelse</th>
+                <th data-tooltip="Afsatte timer til subprojekt, kontra totalt antal timer til projektet"
+                    data-placement="bottom">Tidsestimat
+                </th>
+                <th data-tooltip="Afsatte timer til opgaver, kontra timer til rådighed" data-placement="bottom">Afsat /
+                    Tilbage
+                </th>
+                <th>Deadline</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="subproject : ${subprojects}">
+                <td>
+                    <a th:href="@{/{subprojectID}/tasks(subprojectID=${subproject.getSubprojectID()})}">
+                        <button type="button" style="width: 100%"><span th:text="${subproject.subprojectName}"></span>
+                        </button>
+                    </a>
+                </td>
+                <td th:text="${subproject.subprojectDescription}"></td>
+                <td>
+                    <span th:text="${subproject.subprojectTimeEstimate}"></span>
+                    <span> t /</span>
+                    <span th:text="${(projectTimeEstimate)}"></span>
+                    <span>t </span>
+                </td>
+                <td>
+                    <span th:text="${subproject.getSubprojectDedicatedHours()}"></span>
+                    <span> t /</span>
+                    <span th:text="${subproject.getSubprojectTimeEstimate() - subproject.getSubprojectDedicatedHours()}"></span>
+                    <span> t</span>
+                </td>
+                <td th:text="${subproject.subprojectDeadline}"></td>
+                <td th:switch="${subproject.subprojectStatus.toUpperCase()}" style="text-align: center">
+                    <span th:case="NOT_STARTED" data-tooltip="Ikke påbegyndt" style="border: none;">🔴</span>
+                    <span th:case="IN_PROGRESS" data-tooltip="Igangværende" style="border: none;">🟡</span>
+                    <span th:case="DONE" data-tooltip="Afsluttet" style="border: none;">🟢</span>
+                    <span th:case="*" th:text="${subproject.subprojectStatus}"></span>
+                </td>
+                <td>
+                    <a th:href="@{'/' + ${subproject.getSubprojectID()} + '/redigersubprojekt'}">
+                        <button type="button" data-tooltip="Redigér">✏️</button>
+                    </a>
+                    <a th:href="@{'/' + ${subproject.getSubprojectID()} + '/sletsubprojekt'}">
+                        <button type="button" data-tooltip="Slet">🗑️</button>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
 
-</table>
-</div>
-    <div style="display: flex; justify-content: flex-end;">
+        </table>
+    </div>
+    <div style="display: flex; justify-content: center;">
         <button type="button" onclick="window.location.href='/projekter'">
             Tilbage til projekter
         </button>

@@ -47,7 +47,7 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
                         rs.getInt("subproject_time_estimate"),
                         rs.getInt("subproject_dedicated_hours"),
                         LocalDate.parse(rs.getString("subproject_deadline")),
-                        rs.getString("subproject_status")));
+                        rs.getString("subproject_status").toUpperCase()));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -80,16 +80,15 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
     //Edit subproject
     public void editSubproject(Subproject subproject) {
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "UPDATE subproject SET subproject_name = ?, subproject_description = ?, subproject_time_estimate = ?, subproject_dedicated_hours = ?, subproject_deadline = ?, subproject_status = ? WHERE subproject_id = ?;";
+        String SQL = "UPDATE subproject SET subproject_name = ?, subproject_description = ?, subproject_time_estimate = ?, subproject_deadline = ?, subproject_status = ? WHERE subproject_id = ?;";
 
         try (PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setString(1, subproject.getSubprojectName());
             ps.setString(2, subproject.getSubprojectDescription());
             ps.setInt(3, subproject.getSubprojectTimeEstimate());
-            ps.setInt(4, subproject.getSubprojectDedicatedHours());
-            ps.setString(5, subproject.getSubprojectDeadline().toString());
-            ps.setString(6, subproject.getSubprojectStatus());
-            ps.setInt(7, subproject.getSubprojectID());
+            ps.setString(4, subproject.getSubprojectDeadline().toString());
+            ps.setString(5, subproject.getSubprojectStatus());
+            ps.setInt(6, subproject.getSubprojectID());
 
             ps.executeUpdate();
 
@@ -130,7 +129,7 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
                 int timeEstimate = rs.getInt("subproject_time_estimate");
                 int dedicatedHours = rs.getInt("subproject_dedicated_hours");
                 LocalDate deadline = LocalDate.parse(rs.getString("subproject_deadline"));
-                String status = rs.getString("subproject_status");
+                String status = rs.getString("subproject_status").toUpperCase();
 
                 foundSubproject = new Subproject(subprojectID, projectID, name, description, timeEstimate, dedicatedHours, deadline, status);
 
@@ -143,25 +142,26 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
         return null;
     }
 
+    public int getProjectEstimatedHours(int projectID) {
+        int projectEstimedHours = 0;
+        Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
+        String SQL = "SELECT p.project_time_estimate\n" +
+                "FROM project p\n" +
+                "WHERE project_id = ?";
 
-        //Hjælpemetode
-        //TODO: Skal refaktoreres så den opdaterer subproject_dedicated_hours i databasen:
-        private int calculateSubprojectDedicatedHours(int subProjectID) {
-            int dedicatedHours = 0;
-            Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-            String SQL = "SELECT COALESCE(SUM(t.task_time_estimate), 0) AS total_task_dedicated_hours\n" +
-                    "FROM task t\n" +
-                    "JOIN subproject sp ON t.subproject_id = sp.subproject_id\n" +
-                    "WHERE sp.subproject_id = ?";
-            try (PreparedStatement ps = con.prepareStatement(SQL)) {
-                ps.setInt(1, subProjectID);
-                ResultSet rs = ps.executeQuery();
-                if (rs.next()) {
-                    dedicatedHours = rs.getInt("total_task_dedicated_hours");
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setInt(1, projectID);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()){
+                projectEstimedHours = rs.getInt("project_time_estimate");
             }
-            return dedicatedHours;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+        return projectEstimedHours;
     }
+
+
+}

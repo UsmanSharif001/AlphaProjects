@@ -6,15 +6,20 @@
 <div style="width: 100%; display: flex; flex-direction: column; gap: 32px; align-items: center;"
      layout:fragment="content">
 
-    <h1 style="align-self: flex-start;">Redigér projekt</h1>
-    <form th:action="@{/{projectID}/opdaterprojekt(projectID=${updateProject.getProjectID()})}" th:method="POST" th:object="${updateProject}" style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
+    <h1 style="align-self: flex-start;">Opret projekt</h1>
 
+    <form th:action="@{/projekter}" th:method="POST" th:object="${newProject}"
+          style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
         <label for="name">Navn:</label>
         <input type="text" th:field="*{projectName}" placeholder="Projektets navn…" id="name"/>
+
+        <!-- Beskrivelse -->
 
         <label for="description">Beskrivelse:</label>
         <textarea id="description" th:field="*{projectDescription}"
                   placeholder="Beskrivelse af projektet…"></textarea>
+
+        <!-- Projektleder - Drop down menu -->
 
         <label for="project-manager-name">Projektleder:</label>
         <select th:field="*{projectManagerID}" id="project-manager-name">
@@ -22,18 +27,20 @@
                     th:text="${projectmanager}"></option>
         </select>
 
-        <!-- Datepicker kan ikke hente nuværende dato værdi -->
+        <!-- Deadline - datepicker -->
 
         <label for="deadline">Deadline:</label>
-        <div style="display: flex; gap: 8px;">
-            <input type="date" th:field="*{projectDeadline}"
-                   th:value="${updateProject.projectDeadline}" id="deadline"/>
-        </div>
+        <input type="date" th:field="*{projectDeadline}"
+               th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" id="deadline"/>
+
+        <!-- Tidsestimat - heltal -->
 
         <label for="estimatedTime">Tidsestimat:</label>
         <div style="display: flex; gap: 8px; align-items: baseline;">
             <input type="number" th:field="*{projectTimeEstimate}" value="1" id="estimatedTime"/> <span>time(r)</span>
         </div>
+
+        <!-- Status - checkbox hvor man kun kan vælge én.-->
 
         <fieldset>
             <legend>Status:</legend>
@@ -51,19 +58,14 @@
                 <input type="radio" id="done" name="status" th:field="*{projectStatus}" th:value="DONE">
                 <label for="done">🟢 Afsluttet</label>
             </div>
-            <div>
-                <input type="radio" id="archived" name="status" th:field="*{projectStatus}" th:value="ARCHIVED">
-                <label for="archived">⚪️ Arkiveret</label>
-            </div>
         </fieldset>
 
         <div style="display: flex; gap: 16px;">
             <button type="button" class="secondary" style="width: 100%;" onclick="window.location.href='/projekter'">
                 Annuller
             </button>
-            <button type="submit" style="width: 100%;">Opdatér projekt</button>
+            <button type="submit" style="width: 100%;">Tilføj projekt</button>
         </div>
-
     </form>
 </div>
 </html>
