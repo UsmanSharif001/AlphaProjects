@@ -32,4 +32,8 @@ public class SubprojectService {
     public Subproject getSubprojectFromSubprojectID(int subprojectID){
         return subprojectRepository.getSubprojectFromSubprojectID(subprojectID);
     }
+
+    public int getProjectEstimatedHours(int projectID){
+        return subprojectRepository.getProjectEstimatedHours(projectID);
+    }
 }

@@ -25,10 +25,12 @@ public SubprojectController(SubprojectService subprojectService, ProjectService 
     public String getSubprojects(@PathVariable int projectid, Model model){
         Project project = projectService.getProjectFromProjectID(projectid);
         String projectName = project.getProjectName();
+        int projectTimeEstimate = subprojectService.getProjectEstimatedHours(projectid);
         List<Subproject> subprojectList = subprojectService.getSubprojects(projectid);
         model.addAttribute("projectName", projectName);
         model.addAttribute("subprojects", subprojectList);
         model.addAttribute("projectid", projectid);
+        model.addAttribute("projectTimeEstimate", projectTimeEstimate);
         return "subproject";
 }
 

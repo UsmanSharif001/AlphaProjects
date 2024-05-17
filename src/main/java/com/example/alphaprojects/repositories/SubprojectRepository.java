@@ -143,4 +143,26 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
         return null;
     }
 
+    public int getProjectEstimatedHours(int projectID) {
+        int projectEstimedHours = 0;
+        Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
+        String SQL = "SELECT p.project_time_estimate\n" +
+                "FROM project p\n" +
+                "WHERE project_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setInt(1, projectID);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()){
+                projectEstimedHours = rs.getInt("project_time_estimate");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return projectEstimedHours;
+    }
+
+
 }
