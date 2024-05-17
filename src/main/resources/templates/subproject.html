@@ -31,6 +31,7 @@
             <a th:href="@{/{subprojectID}/tasks(subprojectID=${subproject.getSubprojectID()})}">
         <button type="button" style="width: 100%"><span th th:text="${subproject.subprojectName}"></span>
         </button>
+            </a>
         </td>
         <td th:text="${subproject.subprojectDescription}"></td>
         <td th:text="${subproject.subprojectTimeEstimate}"></td>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
+<div style="width: 100%; display: flex; flex-direction: column; gap: 32px; align-items: center;"
+     layout:fragment="content">
+    <p style="align-self: center;">Shared vision</p>
+    <h1 style="align-self: center;" th:text="${project.getProjectName()}"></h1>
+
+    <div style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
+    <p th:text="${project.getProjectDescription()}"></p>
+        <button style="align-self: flex-end;" type="button" data-tooltip="Tilføj billede">🖼️</button>
+    </div>
+    <button type="button" style="width: 20%;" onclick="window.location.href='/projekter'">
+        Tilbage
+    </button>
+</div>
+</html>

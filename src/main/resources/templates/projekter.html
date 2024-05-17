@@ -59,7 +59,9 @@
                     <a th:href="@{/{projectID}/redigerprojekt(projectID=${project.getProjectID()})}">
                         <button type="button">✏️</button>
                     </a>
-                    <button type="button" disabled>🔭</button>
+                    <a th:href="@{/{projectID}/sharedvision(projectID=${project.getProjectID()})}">
+                    <button type="button" >🔭</button>
+                    </a>
                 </td>
                 <td th:text="${project.getProjectID()}" hidden></td>
             </tr>

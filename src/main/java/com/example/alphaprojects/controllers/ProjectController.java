@@ -98,6 +98,16 @@ public class ProjectController {
         return "redirect:/login";
     }
 
+    @GetMapping("/{projectid}/sharedvision")
+    private String sharedVision(@PathVariable int projectid, Model model, HttpSession session){
+        if (isLoggedIn(session)) {
+            Project projectToSharedVision = projectService.getProjectFromProjectID(projectid);
+            model.addAttribute("project", projectToSharedVision);
+            return "sharedVision";
+        }
+        return "redirect:/login";
+    }
+
     @ExceptionHandler(ProjectAddException.class)
     public String handleAddError(Model model, Exception exception) {
         model.addAttribute("message", exception.getMessage());
