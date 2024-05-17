@@ -1,31 +1,53 @@
 <!DOCTYPE html>
 <html data-theme="light" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-  <meta charset="UTF-8">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/pico.blue.min.css">
-  <link rel="icon" href="/favicon.svg">
-  <title>Alpha Projects</title>
-  <style>
-    :root {
-      --pico-font-family: "Kaisei Decol", serif;
-    }
-    html {
-      height: 100%;
-    }
-    body {
-      min-height: 100%;
-      background: url("/background.jpg") var(--pico-background-color);
-      background-size: cover;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/pico.blue.min.css">
+    <link rel="icon" href="/favicon.svg">
+    <title>Alpha Projects</title>
+    <style>
+        :root {
+            --pico-font-family: "Kaisei Decol", serif;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            min-height: 100%;
+            background: url("/background.jpg") var(--pico-background-color);
+            background-size: cover;
+        }
+
+        a:link {
+            text-decoration: none;
+        }
+
+        a:visited {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        a:active {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
 <main class="container">
-  <div layout:fragment="content">
-  </div>
+    <div style="display: flex; justify-content: flex-end; gap: 16px; margin-bottom: 24px; font-size: 0.8em">
+        <a style="color: currentColor" th:if="${isAdmin}" th:href="@{admin}">Admin</a>
+        <a style="color: currentColor" th:href="@{logout}">Log ud</a>
+    </div>
+    <div layout:fragment="content">
+    </div>
 </main>
 </body>
 </html>
