@@ -145,18 +145,6 @@ public class EmpController {
         return "redirect:/login";
     }
 
-    //TODO Tines metode, skal slettes på et tidspunkt, kan være jeg skal bruge den som inspiration.
-    //TODO Gælder også for html siden viewEmp
-//    @GetMapping("/vismedarbejder")
-//    public String viewEmp(Model model){
-//        Emp emp = empService.getEmp("Nikolaj@gmail.com","123");
-//        EmpDTO emp1 = new EmpDTO(emp.getEmpID(),emp.getName(),emp.getEmail(),emp.getPassword(),null);
-//        List<Skill> skillList = emp.getSkillList();
-//        model.addAttribute("listOfSkills", skillList);
-//        model.addAttribute("emp", emp1);
-//        return "viewEmp";
-//    }
-
     /*-----------------------------Skills--------------------------*/
 
 
@@ -195,8 +183,6 @@ public class EmpController {
 
     /*-----------------------------Logout--------------------------*/
 
-    //TODO have to figure out if we can make a logout button that works on all html pages
-    //TODO instead of inserting it on every HTML page
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
