@@ -67,7 +67,7 @@ public class EmpController {
 
 
 
-    /*-----------------------------Emp--------------------------*/
+    /*-----------------------------Emp Overview--------------------------*/
 
     @GetMapping("/medarbejdere")
     public String getListofEmployees(HttpSession session, Model model){
@@ -79,6 +79,8 @@ public class EmpController {
         }
         return "employeelist";
     }
+
+    /*-----------------------------Add Emp--------------------------*/
 
     @GetMapping("/tilføjmedarbejder")
     public String addEmp(HttpSession session, Model model) {
@@ -99,6 +101,32 @@ public class EmpController {
         if(isLoggedIn(session)){
         empService.addEmp(emp);
         return "redirect:/medarbejdere";
+        }
+        return "redirect:/login";
+    }
+
+    /*-----------------------------Update Emp--------------------------*/
+
+    @GetMapping("/{empID}/redigermedarbejder")
+    private String editEmp(@PathVariable int empID, HttpSession session, Model model) {
+        if(isLoggedIn(session)){
+            isAdmin(session,model);
+            Emp editEmp = empService.getEmpFromEmpID(empID);
+            model.addAttribute("emp", editEmp);
+            List<Skill> skillList = empService.getSkills();
+            model.addAttribute("listOfSkills", skillList);
+            List<Role> roleList = empService.getRoles();
+            model.addAttribute("listOfRoles", roleList);
+            return "editEmp";
+        }
+        return "redirect:/login";
+    }
+
+    @PostMapping("/{empID}/opdatermedarbejder")
+    public String updateEmp(@ModelAttribute Emp emp, HttpSession session) {
+        if(isLoggedIn(session)){
+            empService.updateEmp(emp);
+            return "redirect:/medarbejdere";
         }
         return "redirect:/login";
     }

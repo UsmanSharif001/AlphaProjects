@@ -19,6 +19,9 @@ public interface EmployeeRepositoryInterface {
 
     void deleteEmp(int empID);
 
+    Emp getEmpFromEmpID(int empID);
+
+    void updateEmp(Emp emp);
 
     List<Role> getRoles();
 
