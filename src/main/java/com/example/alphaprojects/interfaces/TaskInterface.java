@@ -1,5 +1,6 @@
 package com.example.alphaprojects.interfaces;
 
+import com.example.alphaprojects.model.EmpSkillDTO;
 import com.example.alphaprojects.model.Task;
 
 import java.util.List;
@@ -17,4 +18,9 @@ public interface TaskInterface {
     void deleteTask(int taskID);
 
     Task getTaskFromTaskID(int taskid);
+
+    List<EmpSkillDTO> getAllEmployeesWithSkills();
+
+
+    List<EmpSkillDTO> getEmployeesForTask(int taskID);
 }

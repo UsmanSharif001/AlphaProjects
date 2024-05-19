@@ -46,14 +46,22 @@
                 <label for="done">🟢 Afsluttet</label>
             </div>
         </fieldset>
-
         </p>
         <p>
+            <!-- Hidden fields for subprojectID and taskID -->
             <input type="hidden" id="subprojectid" th:field="*{subprojectID}">
-        </p>
-        <p>
             <input type="hidden" id="taskid" th:field="*{taskID}">
         </p>
+
+        <!-- Display assigned employees with skills as checkboxes -->
+        <fieldset>
+            <legend>Medarbejdere:</legend>
+            <div th:each="employee : ${task.assignedEmployeesWithSkills}">
+                <input type="checkbox" th:id="'emp_' + ${employee.empID}" th:name="'assignedEmployees'"
+                       th:value="${employee.empID}">
+                <label th:for="'emp_' + ${employee.empID}" th:text="${employee.empName}"></label>
+            </div>
+        </fieldset>
 
         <div style="display: flex; gap: 16px;">
             <a th:href="@{/{subprojectid}/tasks(subprojectid=${subprojectid})}" style="display: contents">

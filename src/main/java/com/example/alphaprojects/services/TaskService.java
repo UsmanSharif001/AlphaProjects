@@ -1,5 +1,6 @@
 package com.example.alphaprojects.services;
 
+import com.example.alphaprojects.model.EmpSkillDTO;
 import com.example.alphaprojects.model.Task;
 import com.example.alphaprojects.repositories.TaskRepository;
 import org.springframework.stereotype.Service;
@@ -40,4 +41,13 @@ public class TaskService {
     public int getSubprojectIDFromTask(int taskID) {
         return taskRepository.getSubprojectIDFromTask(taskID);
     }
+
+    public List<EmpSkillDTO> getAllEmployeesForTask() {
+        return taskRepository.getAllEmployeesWithSkills();
+    }
+
+    public List<EmpSkillDTO> getEmployeesForTask(int taskID) {
+        return taskRepository.getEmployeesForTask(taskID);
+    }
 }
+
