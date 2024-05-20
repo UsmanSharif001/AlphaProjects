@@ -87,34 +87,7 @@ public class TaskRepository implements TaskInterface {
         }
     }
 
-    @Override
-    public void editTask(Task task) {
-        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = """
-            UPDATE task SET task_name = ?, task_description = ?,
-            task_time_estimate = ?, task_deadline = ?, task_status = ? WHERE task_id = ?""";
-        try (PreparedStatement ps = con.prepareStatement(SQL)) {
-            ps.setString(1, task.getTaskName());
-            ps.setString(2, task.getTaskDescription());
-            ps.setInt(3, task.getTaskEstimate());
-            ps.setString(4, task.getTaskDeadline().toString());
-            ps.setString(5, task.getTaskStatus());
-            ps.setInt(6,task.getTaskID());
 
-            ps.executeUpdate();
-
-            // Retrieve the updated task
-            Task updatedTask = getTaskFromTaskID(task.getTaskID());
-
-            // Fetch the employees for the updated task
-            List<EmpSkillDTO> assignedEmployeesWithSkills = getEmployeesForTask(task.getTaskID());
-
-            // Set assigned employees with skills for the updated task
-            updatedTask.setAssignedEmployeesWithSkills(assignedEmployeesWithSkills);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 
     @Override
@@ -200,7 +173,6 @@ public class TaskRepository implements TaskInterface {
     }
 
 
-
     @Override
     public Task getTaskFromTaskID(int taskid) {
         Task foundTask;
@@ -234,7 +206,7 @@ public class TaskRepository implements TaskInterface {
         }
         return null;
     }
-
+    @Override
     public int getSubprojectIDFromTask(int taskID) {
         int subprojectID = 0;
         Connection con = ConnectionManager.getConnection(db_url,username,pwd);
@@ -329,6 +301,88 @@ public class TaskRepository implements TaskInterface {
         return emps;
     }
 
+    private void updateAssignedEmployees(int taskId, List<Integer> previousAssignedEmployeeIds, List<Integer> newAssignedEmployeeIds)  {
+        List<Integer> employeesToRemove = new ArrayList<>(previousAssignedEmployeeIds);
+        employeesToRemove.removeAll(newAssignedEmployeeIds);
+
+        List<Integer> employeesToAdd = new ArrayList<>(newAssignedEmployeeIds);
+        employeesToAdd.removeAll(previousAssignedEmployeeIds);
+
+        removeEmployeesFromTask(taskId, employeesToRemove);
+        addEmployeesToTask(taskId, employeesToAdd);
+    }
 
 
-}
+
+    private void removeEmployeesFromTask(int taskId, List<Integer> employeeIdsToRemove) {
+        Connection con = ConnectionManager.getConnection(db_url,username,pwd);
+        String sql = "DELETE FROM task_emp WHERE task_id = ? AND emp_id = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            for (int empId : employeeIdsToRemove) {
+                ps.setInt(1, taskId);
+                ps.setInt(2, empId);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void addEmployeesToTask(int taskId, List<Integer> employeeIdsToAdd) {
+        Connection con = ConnectionManager.getConnection(db_url,username,pwd);
+        String sql = "INSERT INTO task_emp (task_id, emp_id) VALUES (?, ?)";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            for (int empId : employeeIdsToAdd) {
+                ps.setInt(1, taskId);
+                ps.setInt(2, empId);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void updateTaskInformation(Task task) {
+        Connection con = ConnectionManager.getConnection(db_url,username,pwd);
+
+        String updateTaskSQL = "UPDATE task SET task_name = ?, task_description = ?, task_time_estimate = ?, task_deadline = ?, task_status = ? WHERE task_id = ?";
+        try (PreparedStatement ps = con.prepareStatement(updateTaskSQL)) {
+            ps.setString(1, task.getTaskName());
+            ps.setString(2, task.getTaskDescription());
+            ps.setInt(3, task.getTaskEstimate());
+            ps.setString(4, task.getTaskDeadline().toString());
+            ps.setString(5, task.getTaskStatus());
+            ps.setInt(6, task.getTaskID());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void editTask(Task task) {
+        updateTaskInformation(task);
+
+        List<Integer> previousAssignedEmployeeIds = getAssignedEmployeeIdsForTask(task.getTaskID());
+        List<Integer> newAssignedEmployeeIds = task.getSelectedEmpIDs();
+        updateAssignedEmployees(task.getTaskID(), previousAssignedEmployeeIds, newAssignedEmployeeIds);
+    }
+
+    private List<Integer> getAssignedEmployeeIdsForTask(int taskId) {
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+        List<Integer> employeeIds = new ArrayList<>();
+        String sql = "SELECT emp_id FROM task_emp WHERE task_id = ?";
+
+        ResultSet rs;
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, taskId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                employeeIds.add(rs.getInt("emp_id"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } return employeeIds;
+    }
+    }

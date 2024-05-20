@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,27 +92,54 @@ public class TaskController {
         return "redirect:/" + subprojectid + "/tasks";
     }
 
-
- //Skal have subrojectID med så man ved hvilket subprojekt tasken hører til
  @GetMapping("/{taskid}/edittask")
  public String editTask(@PathVariable int taskid, Model model) {
      Task editTask = taskService.getTaskFromTaskID(taskid);
-     int subprojectid = editTask.getSubprojectID(); // Denne her er jeg i tvivl om hvorvidt skal være der fordi subproject id skal med i url
-     List<EmpSkillDTO> assignedEmployeesWithSkills = taskService.getEmployeesForTask(taskid); // Fetch assigned employees
-     editTask.setAssignedEmployeesWithSkills(assignedEmployeesWithSkills); // Set assigned employees for the task
+     int subprojectid = editTask.getSubprojectID();
+     // Fetch all employees and their skills
+     List<EmpSkillDTO> allEmployees = taskService.getAllEmployeesForTask();
+     // Fetch assigned employees for the task
+     List<EmpSkillDTO> assignedEmployeesWithSkills = taskService.getEmployeesForTask(taskid);
+     editTask.setAssignedEmployeesWithSkills(assignedEmployeesWithSkills);
      model.addAttribute("task", editTask);
      model.addAttribute("subprojectid", subprojectid);
+     model.addAttribute("employees", allEmployees);
      return "editTask";
  }
 
 
+
     @PostMapping("/{subprojectid}/updatetask")
-    public String updateTask(@ModelAttribute Task task, @PathVariable int subprojectid) {
+    public String updateTask(@ModelAttribute Task task, @PathVariable int subprojectid,
+                             @RequestParam(value = "selectedEmployees", required = false) List<Integer> selectedEmployeeIds) {
         task.setSubprojectID(subprojectid);
+
+        // Get the existing assigned employee IDs from the task
+        List<Integer> existingEmployeeIds = task.getSelectedEmpIDs();
+
+        // Initialize the existingEmployeeIds list if it's null
+        if(existingEmployeeIds == null) {
+            existingEmployeeIds = new ArrayList<>();
+        }
+
+        // Merge the existing and selected employee IDs
+        if (selectedEmployeeIds != null) {
+            existingEmployeeIds.addAll(selectedEmployeeIds);
+        }
+
+        // Set the merged list of employee IDs back to the task
+        task.setSelectedEmpIDs(existingEmployeeIds);
+
+        // Update the task
         taskService.updateTask(task);
+
         return "redirect:/" + subprojectid + "/tasks";
     }
-    ///Prøvet at give den subprojektid med men virker ikke? Den får ikke subprojectid med
+
+
+
+
+
     @GetMapping("/{taskid}/deletetask")
     public String deleteTask(@PathVariable int taskid, Model model) {
         int subprojectID = taskService.getSubprojectIDFromTask(taskid);

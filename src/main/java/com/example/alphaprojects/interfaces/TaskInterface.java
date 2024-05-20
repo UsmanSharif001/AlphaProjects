@@ -19,6 +19,8 @@ public interface TaskInterface {
 
     Task getTaskFromTaskID(int taskid);
 
+    int getSubprojectIDFromTask(int taskID);
+
     List<EmpSkillDTO> getAllEmployeesWithSkills();
 
 

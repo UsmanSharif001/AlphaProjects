@@ -20,7 +20,7 @@
                 <th>Tidsestimat</th>
                 <th>Deadline</th>
                 <th>Status</th>
-                <th>Medarbejdere</th> <!-- New column for employees -->
+                <th>Medarbejdere</th>
                 <th></th>
             </tr>
             </thead>
@@ -37,15 +37,10 @@
                     <span th:case="*" th:text="${task.getTaskStatus()}"></span>
                 </td>
                 <td>
-                    <!-- Display assigned employees and their skills -->
+                    <!-- Show emp names -->
                     <ul>
                         <li th:each="employeeAndSkills : ${employeesForTasks[task.taskID]}">
-                            <!-- Display employee name -->
                             <span th:text="${employeeAndSkills.empName}"></span>:
-                            <ul>
-                                <!-- Display employee skills -->
-                                <li th:each="skill : ${employeeAndSkills.skills}" th:text="${skill.skillName}" style="margin-left: 10px;"></li>
-                            </ul>
                         </li>
                     </ul>
                 </td>
