@@ -9,7 +9,7 @@
 
     <div style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
     <p th:text="${project.getProjectDescription()}"></p>
-        <button style="align-self: flex-end;" type="button" data-tooltip="Tilføj billede">🖼️</button>
+        <button style="align-self: flex-end;" type="button" disabled data-tooltip="Tilføj billede">🖼️</button>
     </div>
     <button type="button" style="width: 20%;" onclick="window.location.href='/projekter'">
         Tilbage
