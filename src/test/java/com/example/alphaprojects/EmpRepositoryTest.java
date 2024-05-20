@@ -125,5 +125,17 @@ public class EmpRepositoryTest {
         assertEquals(epectedSkillList,actualSkillList);
     }
 
+    @Test
+    void CreateEmp(){
+    Emp emp = new Emp();
+    emp.setName("Mogens");
+    emp.setEmail("mogens@Alphasolutions.com");
+    emp.setPassword("123");
+    emp.setRoleID(1);
+    emp.setSkillList(List.of(new Skill(1,"Scrum Master")));
+    empRepository.addEmp(emp);
+    assertNotNull(emp);
+    }
+
 
 }
