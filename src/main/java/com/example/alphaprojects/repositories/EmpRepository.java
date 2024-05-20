@@ -108,7 +108,8 @@ public class EmpRepository implements EmployeeRepositoryInterface {
         try(PreparedStatement ps = con.prepareStatement(SQL)){
             ps.setInt(1, empID);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            String currentEmpName = "";
+            while (rs.next()) {
             int eID = rs.getInt("emp_id");
             String empName = rs.getString("emp_name");
             String empEmail = rs.getString("emp_email");
@@ -116,8 +117,12 @@ public class EmpRepository implements EmployeeRepositoryInterface {
             int roleID = rs.getInt("role_id");
             String rolename = rs.getString("role_name");
             Skill skill = new Skill(rs.getInt("skill_id"), rs.getString("skill_name"));
-            emp = new Emp(eID,empName,empEmail,empPassword,roleID,rolename,new ArrayList<>(List.of(skill)));
-
+            if(empName.equals(currentEmpName)) {
+                emp.addSkill(skill);
+            } else {
+                emp = new Emp(eID, empName, empEmail, empPassword, roleID, rolename, new ArrayList<>(List.of(skill)));
+                currentEmpName = empName;
+            }
             }
             return emp;
         } catch (SQLException e) {
