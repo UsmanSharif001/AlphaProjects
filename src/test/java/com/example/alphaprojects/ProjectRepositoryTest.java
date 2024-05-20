@@ -33,10 +33,11 @@ public class ProjectRepositoryTest {
     Project testProject = new Project(2, 3, "Usman", "testName", "this is a testproject", 0, 0, LocalDate.now(), "DONE");
     Project updatedTestProject = new Project(2, 3, "Usman", "newTestName", "this is a testproject", 0, 0, LocalDate.now(), "DONE");
 
-    @Test // TODO: Skriv om så den kun tester på addProject metoden
+    @Test // Er den her ok?
     void addProject() throws ProjectAddException {
         projectRepository.addNewProject(testProject);
-        Assertions.assertTrue(projectRepository.getListOfProjects().size() > 1);
+        Project foundProject = projectRepository.getProjectFromProjectID(testProject.getProjectID());
+        Assertions.assertEquals(testProject.getProjectName(), foundProject.getProjectName());
     }
 
 
