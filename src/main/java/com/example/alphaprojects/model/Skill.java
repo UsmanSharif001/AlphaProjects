@@ -37,17 +37,17 @@ public class Skill {
     }
 
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (!(o instanceof Skill skill)) return false;
-//        return skillID == skill.skillID && Objects.equals(skillName, skill.skillName);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(skillID, skillName);
-//    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Skill skill)) return false;
+        return skillID == skill.skillID && Objects.equals(skillName, skill.skillName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(skillID, skillName);
+    }
 
     @Override
     public String toString() {

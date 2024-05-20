@@ -119,7 +119,7 @@ public class EmpRepositoryTest {
     @Test
     void getEmpSkillList(){
         int idForNikolaj = 4;
-        List<Skill> epectedSkillList = new ArrayList<>(List.of(new Skill(1,"Scrum Master"),new Skill(2,"Project Manager"),new Skill(4,"Junior Python developer")));
+        List<Skill> epectedSkillList = new ArrayList<>(List.of(new Skill(1,"Scrum Master"),new Skill(2,"Project Manager"),new Skill(3,"Java developer")));
         Emp emp = empRepository.getEmpFromEmpID(idForNikolaj);
         List<Skill> actualSkillList = emp.getSkillList();
         assertEquals(epectedSkillList,actualSkillList);
