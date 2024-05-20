@@ -3,6 +3,7 @@ package com.example.alphaprojects;
 
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.EmpDTO;
+import com.example.alphaprojects.model.Role;
 import com.example.alphaprojects.model.Skill;
 import com.example.alphaprojects.repositories.EmpRepository;
 import org.assertj.core.api.Assert;
@@ -161,6 +162,29 @@ public class EmpRepositoryTest {
     assertEquals(expectedEmail,actualEmail);
     assertEquals(expectedPassword,actualPassword);
     assertEquals(expectedRoleID,actualRoleID);
+    }
+
+    @Test
+    void getRoles(){
+        int expectedSize = 2;
+        int actualSize = empRepository.getRoles().size();
+        assertEquals(expectedSize,actualSize);
+    }
+
+    @Test
+    void getSkills(){
+        int expectedSize = 4;
+        int actualSize = empRepository.getSkills().size();
+        assertEquals(expectedSize,actualSize);
+    }
+
+    @Test
+    void addSkill(){
+        Skill skill = new Skill();
+        skill.setSkillName("Test Skill");
+        empRepository.addSkill(skill);
+        assertNotNull(skill);
+
     }
 
 
