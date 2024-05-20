@@ -24,29 +24,6 @@ public class TaskRepository implements TaskInterface {
     @Value("${spring.datasource.password}")
     private String pwd;
 
-    /*@Override
-    public void addTask(Task newTask) {
-
-        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "INSERT INTO task (subproject_id, task_name, task_description, task_time_estimate, task_deadline, task_status) VALUES(?,?,?,?,?,?);";
-
-        try (PreparedStatement ps = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
-
-            ps.setInt(1, newTask.getSubprojectID());
-            ps.setString(2, newTask.getTaskName());
-            ps.setString(3, newTask.getTaskDescription());
-            ps.setInt(4, newTask.getTaskEstimate());
-            ps.setString(5, newTask.getTaskDeadline().toString());
-            ps.setString(6, newTask.getTaskStatus());
-
-            ps.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-    }*/
-
     @Override
     public void addTask(Task newTask) {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
@@ -56,7 +33,6 @@ public class TaskRepository implements TaskInterface {
         try (PreparedStatement taskPS = con.prepareStatement(taskSQL, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement empTaskPS = con.prepareStatement(empTaskSQL)) {
 
-            // Insert the task
             taskPS.setInt(1, newTask.getSubprojectID());
             taskPS.setString(2, newTask.getTaskName());
             taskPS.setString(3, newTask.getTaskDescription());

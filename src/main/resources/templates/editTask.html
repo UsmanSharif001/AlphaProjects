@@ -56,10 +56,11 @@
             <input type="hidden" id="taskid" th:field="*{taskID}">
         </p>
 
-        <!-- Multi-select dropdown for adding employees with names & skill(s) -->
+        <!-- Drop-down multi select for emp's names & skill(s) -->
         <p>
-            <label for="selectedEmployees">Vælg medarbejdere:</label>
-            <select id="selectedEmployees" name="selectedEmployees" multiple="multiple">
+            <label for="selectedEmployees">Vælg medarbejdere (ctrl + venstre klik for flere):</label>
+            <select id="selectedEmployees" name="selectedEmployees" multiple="multiple"
+                    style="overflow: auto; max-height: 500px; max-width: 500px;">
                 <option th:each="employee : ${employees}" th:value="${employee.empID}"
                         th:selected="${#lists.contains(task.assignedEmployeesWithSkills, employee)}">
                     <span th:text="${employee.empName}"></span>:
@@ -67,6 +68,7 @@
                 </option>
             </select>
         </p>
+
 
         <div style="display: flex; gap: 16px;">
             <a th:href="@{/{subprojectid}/tasks(subprojectid=${subprojectid})}" style="display: contents">

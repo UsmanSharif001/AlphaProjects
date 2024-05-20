@@ -37,7 +37,7 @@
                     <span th:case="*" th:text="${task.getTaskStatus()}"></span>
                 </td>
                 <td>
-                    <!-- Show emp names -->
+                    <!-- Shows employee's names on task page -->
                     <ul>
                         <li th:each="employeeAndSkills : ${employeesForTasks[task.taskID]}">
                             <span th:text="${employeeAndSkills.empName}"></span>:

@@ -34,7 +34,7 @@ public class TaskController {
     // Det her må kunne gøres smartere:
     @GetMapping("/{subprojectid}/tasks")
     public String getTasks(@PathVariable int subprojectid, Model model) {
-        // Retrieve list of tasks for the subproject
+
         List<Task> listOfTasks = taskService.getTaskList(subprojectid);
 
         // Fetch project and subproject details
@@ -44,7 +44,10 @@ public class TaskController {
         String projectName = project.getProjectName();
         String subprojectName = subproject.getSubprojectName();
 
-        // For each task, retrieve the list of employees and their skills
+        // 1.Laver ny liste af emps for hver task. Key = task id Value = emps tilknyttet til den opgave
+        // 2.Dernæst itererer den igennem alle tasks og identificere deres unikke taskID
+        // 3.Dernæst finder den emps til den specifikke task
+        // 4.Afslutningsvis indsætter(put) den valuen(emps) og keyen(taskID) sammen så man nu kan hente emps på den bestemte task ud fra den unikke taskID
         Map<Integer, List<EmpSkillDTO>> employeesForTasks = new HashMap<>();
         for (Task task : listOfTasks) {
             int taskID = task.getTaskID();
@@ -52,7 +55,6 @@ public class TaskController {
             employeesForTasks.put(taskID, employees);
         }
 
-        // Add attributes to the model
         model.addAttribute("listOfTasks", listOfTasks);
         model.addAttribute("subprojectid", subprojectid);
         model.addAttribute("projectName", projectName);
@@ -60,7 +62,6 @@ public class TaskController {
         model.addAttribute("subprojectName", subprojectName);
         model.addAttribute("employeesForTasks", employeesForTasks);
 
-        // Return the view
         return "tasks";
     }
 
@@ -74,15 +75,6 @@ public class TaskController {
         return "addTask";
     }
 
-
-    /*@PostMapping("/{subprojectid}/savetask")
-    public String saveTask(@ModelAttribute Task newTask, @PathVariable int subprojectid) {
-        newTask.setSubprojectID(subprojectid);
-        newTask.setSelectedEmpIDs();
-        taskService.createTask(newTask);
-        return "redirect:/" + subprojectid + "/tasks";
-    }*/
-
     @PostMapping("/{subprojectid}/savetask")
     public String saveTask(@ModelAttribute Task newTask, @PathVariable int subprojectid,
                            @RequestParam(value = "selectedEmployees", required = false) List<Integer> selectedEmployeeIds) {
@@ -92,52 +84,48 @@ public class TaskController {
         return "redirect:/" + subprojectid + "/tasks";
     }
 
- @GetMapping("/{taskid}/edittask")
- public String editTask(@PathVariable int taskid, Model model) {
-     Task editTask = taskService.getTaskFromTaskID(taskid);
-     int subprojectid = editTask.getSubprojectID();
-     // Fetch all employees and their skills
-     List<EmpSkillDTO> allEmployees = taskService.getAllEmployeesForTask();
-     // Fetch assigned employees for the task
-     List<EmpSkillDTO> assignedEmployeesWithSkills = taskService.getEmployeesForTask(taskid);
-     editTask.setAssignedEmployeesWithSkills(assignedEmployeesWithSkills);
-     model.addAttribute("task", editTask);
-     model.addAttribute("subprojectid", subprojectid);
-     model.addAttribute("employees", allEmployees);
-     return "editTask";
- }
-
+    @GetMapping("/{taskid}/edittask")
+    public String editTask(@PathVariable int taskid, Model model) {
+        Task editTask = taskService.getTaskFromTaskID(taskid);
+        int subprojectid = editTask.getSubprojectID();
+        // get all employees and their skills
+        List<EmpSkillDTO> allEmployees = taskService.getAllEmployeesForTask();
+        // get assigned employees for the task
+        List<EmpSkillDTO> assignedEmployeesWithSkills = taskService.getEmployeesForTask(taskid);
+        editTask.setAssignedEmployeesWithSkills(assignedEmployeesWithSkills);
+        model.addAttribute("task", editTask);
+        model.addAttribute("subprojectid", subprojectid);
+        model.addAttribute("employees", allEmployees);
+        return "editTask";
+    }
 
 
     @PostMapping("/{subprojectid}/updatetask")
     public String updateTask(@ModelAttribute Task task, @PathVariable int subprojectid,
+                             //Indsætter emps
                              @RequestParam(value = "selectedEmployees", required = false) List<Integer> selectedEmployeeIds) {
         task.setSubprojectID(subprojectid);
 
-        // Get the existing assigned employee IDs from the task
+        // Hent de eksisterende emps på deres emp_id specifict til opgaven
         List<Integer> existingEmployeeIds = task.getSelectedEmpIDs();
 
-        // Initialize the existingEmployeeIds list if it's null
-        if(existingEmployeeIds == null) {
+        // Hvis der ikke er nogle emp ids - lav en ny liste
+        if (existingEmployeeIds == null) {
             existingEmployeeIds = new ArrayList<>();
         }
 
-        // Merge the existing and selected employee IDs
+        // Hvis der allerede er emps tilknyttet tasken skal de nye nu emps også tilføjes til existingEmployeeids
         if (selectedEmployeeIds != null) {
             existingEmployeeIds.addAll(selectedEmployeeIds);
         }
 
-        // Set the merged list of employee IDs back to the task
+        // Den nu opdateret empliste (om de er fjernet, tilføjet eller samme) bliver tilføjet til opgaven
         task.setSelectedEmpIDs(existingEmployeeIds);
 
-        // Update the task
         taskService.updateTask(task);
 
         return "redirect:/" + subprojectid + "/tasks";
     }
-
-
-
 
 
     @GetMapping("/{taskid}/deletetask")
@@ -147,7 +135,6 @@ public class TaskController {
         taskService.deleteTask(taskid);
         return "redirect:/" + subprojectID + "/tasks";
     }
-
 
 
 }
