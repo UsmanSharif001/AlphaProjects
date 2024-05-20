@@ -126,7 +126,7 @@ public class EmpRepositoryTest {
     }
 
     @Test
-    void CreateEmp(){
+    void createEmp(){
     Emp emp = new Emp();
     emp.setName("Mogens");
     emp.setEmail("mogens@Alphasolutions.com");
@@ -135,6 +135,32 @@ public class EmpRepositoryTest {
     emp.setSkillList(List.of(new Skill(1,"Scrum Master")));
     empRepository.addEmp(emp);
     assertNotNull(emp);
+    }
+
+    @Test
+    void updateEmp(){
+    String expectedName = "Mogens";
+    String expectedEmail = "Mogens@Alphasolutions.com";
+    String expectedPassword = "987";
+    int expectedRoleID = 2;
+
+    Emp emp = empRepository.getEmpFromEmpID(4);
+    emp.setName(expectedName);
+    emp.setEmail(expectedEmail);
+    emp.setPassword(expectedPassword);
+    emp.setRoleID(expectedRoleID);
+
+    empRepository.updateEmp(emp);
+
+    String actualName = emp.getName();
+    String actualEmail = emp.getEmail();
+    String actualPassword = emp.getPassword();
+    int actualRoleID = emp.getRoleID();
+
+    assertEquals(expectedName,actualName);
+    assertEquals(expectedEmail,actualEmail);
+    assertEquals(expectedPassword,actualPassword);
+    assertEquals(expectedRoleID,actualRoleID);
     }
 
 
