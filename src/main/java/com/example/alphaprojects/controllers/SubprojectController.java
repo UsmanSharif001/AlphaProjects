@@ -1,5 +1,7 @@
 package com.example.alphaprojects.controllers;
 
+import com.example.alphaprojects.Exceptions.SubprojectAddException;
+import com.example.alphaprojects.Exceptions.SubprojectEditException;
 import com.example.alphaprojects.model.Project;
 import com.example.alphaprojects.model.Subproject;
 import com.example.alphaprojects.services.ProjectService;
@@ -54,7 +56,7 @@ public String createSubproject(@PathVariable int projectid, Model model, HttpSes
 }
 
 @PostMapping("/{projectid}/gemsubprojekt")
-public String saveSubproject(@PathVariable int projectid, @ModelAttribute Subproject newSubproject, HttpSession session){
+public String saveSubproject(@PathVariable int projectid, @ModelAttribute Subproject newSubproject, HttpSession session) throws SubprojectAddException{
     if (isLoggedIn(session)) {
         newSubproject.setProjectID(projectid);
         subprojectService.createSubproject(newSubproject);
@@ -76,7 +78,7 @@ public String editSubproject(@PathVariable int subprojectid, Model model, HttpSe
 }
 
 @PostMapping("/{subprojectid}/opdatersubprojekt")
-public String updateSubproject(@ModelAttribute Subproject subproject, @PathVariable int subprojectid, HttpSession session){
+public String updateSubproject(@ModelAttribute Subproject subproject, @PathVariable int subprojectid, HttpSession session) throws SubprojectEditException{
     if (isLoggedIn(session)) {
         subproject.setSubprojectID(subprojectid);
         subprojectService.editSubproject(subproject);
@@ -94,6 +96,20 @@ public String deleteSubproject(@PathVariable int subprojectid, HttpSession sessi
         return "redirect:/" + projectID + "/subprojekter";
     }
     return "redirect:/login";
+}
+
+@ExceptionHandler(SubprojectAddException.class)
+public String handleAddError(Model model, Exception exception){
+    model.addAttribute("message", exception.getMessage());
+    System.out.println(exception.getMessage());
+    return "error/subprojectAddError";
+}
+
+@ExceptionHandler(SubprojectEditException.class)
+public String handleEditError(Model model, Exception exception){
+    model.addAttribute("message", exception.getMessage());
+    System.out.println(exception.getMessage());
+    return "error/subprojectEditError";
 }
 
 }

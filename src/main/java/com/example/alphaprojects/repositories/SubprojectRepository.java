@@ -1,5 +1,7 @@
 package com.example.alphaprojects.repositories;
 
+import com.example.alphaprojects.Exceptions.SubprojectAddException;
+import com.example.alphaprojects.Exceptions.SubprojectEditException;
 import com.example.alphaprojects.interfaces.SubprojectRepositoryInterface;
 import com.example.alphaprojects.model.Subproject;
 import com.example.alphaprojects.util.ConnectionManager;
@@ -56,7 +58,8 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
     }
 
     //Create subproject
-    public void createSubproject(Subproject subproject) {
+    @Override
+    public void createSubproject(Subproject subproject) throws SubprojectAddException {
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = "INSERT INTO subproject (project_id, subproject_name, subproject_description, subproject_time_estimate, subproject_dedicated_hours, subproject_deadline, subproject_status) VALUES (?,?,?,?,?,?,?);";
 
@@ -71,14 +74,15 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
 
             ps.executeUpdate();
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new SubprojectAddException("Husk at udfylde alle felterne.");
         }
     }
 
 
     //Edit subproject
-    public void editSubproject(Subproject subproject) {
+    @Override
+    public void editSubproject(Subproject subproject) throws SubprojectEditException {
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = "UPDATE subproject SET subproject_name = ?, subproject_description = ?, subproject_time_estimate = ?, subproject_deadline = ?, subproject_status = ? WHERE subproject_id = ?;";
 
@@ -92,8 +96,8 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
 
             ps.executeUpdate();
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new SubprojectEditException("Husk at udfylde alle felterne.");
         }
     }
 
