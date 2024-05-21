@@ -64,7 +64,7 @@ public class EmpRepository implements EmployeeRepositoryInterface {
                 JOIN emp_skills on emp.emp_id = emp_skills.emp_id
                 JOIN skill on emp_skills.skill_id = skill.skill_id
                 JOIN role on emp.role_id = role.role_id
-                ORDER BY emp.emp_id
+                ORDER BY emp.role_id;
                 """;
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
