@@ -1,34 +1,48 @@
+
 package com.example.alphaprojects.controllers;
-
-
 import com.example.alphaprojects.model.*;
 import com.example.alphaprojects.services.EmpService;
 import com.example.alphaprojects.services.ProjectService;
 import com.example.alphaprojects.services.SubprojectService;
 import com.example.alphaprojects.services.TaskService;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+import org.springframework.stereotype.Controller;
+
+
 @Controller
 @RequestMapping("")
 public class TaskController {
 
+
+    // <editor-fold desc="Task Controller Dependency Injections">
     private final SubprojectService subprojectService;
     private final ProjectService projectService;
     private final TaskService taskService;
-    private final EmpService empService;
 
-    public TaskController(TaskService taskService, SubprojectService subprojectService, ProjectService projectService, EmpService empService) {
+    public TaskController(TaskService taskService, SubprojectService subprojectService, ProjectService projectService) {
         this.taskService = taskService;
         this.subprojectService = subprojectService;
         this.projectService = projectService;
-        this.empService = empService;
+    }
+    // </editor-fold>
+
+
+    // <editor-fold desc="Task Controller CRUD-Methods">
+    @GetMapping("/{subprojectid}/addtask")
+    public String addTask(@PathVariable int subprojectid, Model model) {
+        Task newTask = new Task();
+        model.addAttribute("task", newTask);
+        model.addAttribute("subprojectID", subprojectid);
+        List<EmpSkillDTO> employees = taskService.getAllEmployeesForTask();
+        model.addAttribute("employees", employees);
+        return "addTask";
     }
 
     // Det her må kunne gøres smartere:
@@ -37,7 +51,7 @@ public class TaskController {
 
         List<Task> listOfTasks = taskService.getTaskList(subprojectid);
 
-        // Fetch project and subproject details
+        // Henter projekt og subprojekt
         Subproject subproject = subprojectService.getSubprojectFromSubprojectID(subprojectid);
         int projectID = subproject.getProjectID();
         Project project = projectService.getProjectFromProjectID(projectID);
@@ -65,25 +79,6 @@ public class TaskController {
         return "tasks";
     }
 
-    @GetMapping("/{subprojectid}/addtask")
-    public String addTask(@PathVariable int subprojectid, Model model) {
-        Task newTask = new Task();
-        model.addAttribute("task", newTask);
-        model.addAttribute("subprojectID", subprojectid);
-        List<EmpSkillDTO> employees = taskService.getAllEmployeesForTask();
-        model.addAttribute("employees", employees);
-        return "addTask";
-    }
-
-    @PostMapping("/{subprojectid}/savetask")
-    public String saveTask(@ModelAttribute Task newTask, @PathVariable int subprojectid,
-                           @RequestParam(value = "selectedEmployees", required = false) List<Integer> selectedEmployeeIds) {
-        newTask.setSubprojectID(subprojectid);
-        newTask.setSelectedEmpIDs(selectedEmployeeIds); // Set the selected employees
-        taskService.createTask(newTask);
-        return "redirect:/" + subprojectid + "/tasks";
-    }
-
     @GetMapping("/{taskid}/edittask")
     public String editTask(@PathVariable int taskid, Model model) {
         Task editTask = taskService.getTaskFromTaskID(taskid);
@@ -99,10 +94,30 @@ public class TaskController {
         return "editTask";
     }
 
+    @GetMapping("/{taskid}/deletetask")
+    public String deleteTask(@PathVariable int taskid, Model model) {
+        int subprojectID = taskService.getSubprojectIDFromTask(taskid);
+        model.addAttribute("subprojectid", taskid);
+        taskService.deleteTask(taskid);
+        return "redirect:/" + subprojectID + "/tasks";
+    }
+    //</editor-fold>
+
+
+    // <editor-fold desc="Task Controller POST-Methods">
+    @PostMapping("/{subprojectid}/savetask")
+    public String saveTask(@ModelAttribute Task newTask, @PathVariable int subprojectid,
+                           @RequestParam(value = "selectedEmployees", required = false) List<Integer> selectedEmployeeIds) {
+        newTask.setSubprojectID(subprojectid);
+        newTask.setSelectedEmpIDs(selectedEmployeeIds); // Set the selected employees
+        taskService.createTask(newTask);
+        return "redirect:/" + subprojectid + "/tasks";
+    }
+
 
     @PostMapping("/{subprojectid}/updatetask")
     public String updateTask(@ModelAttribute Task task, @PathVariable int subprojectid,
-                             //Indsætter emps
+                             // RequestParam selectedEmployees bliver lagt i selectedEmployeeIds listen. Required = false betyder at den gerne må være null listen - dvs. der kan godt være 0 emps tilknyttet til en task - kontra hvis den var true.
                              @RequestParam(value = "selectedEmployees", required = false) List<Integer> selectedEmployeeIds) {
         task.setSubprojectID(subprojectid);
 
@@ -127,14 +142,6 @@ public class TaskController {
         return "redirect:/" + subprojectid + "/tasks";
     }
 
-
-    @GetMapping("/{taskid}/deletetask")
-    public String deleteTask(@PathVariable int taskid, Model model) {
-        int subprojectID = taskService.getSubprojectIDFromTask(taskid);
-        model.addAttribute("subprojectid", taskid);
-        taskService.deleteTask(taskid);
-        return "redirect:/" + subprojectID + "/tasks";
-    }
-
+    // </editor-fold>
 
 }

@@ -1,5 +1,5 @@
+// <editor-fold desc="Task Package Declaration & Import of Libraries">
 package com.example.alphaprojects.repositories;
-
 import com.example.alphaprojects.interfaces.TaskInterface;
 import com.example.alphaprojects.model.EmpSkillDTO;
 import com.example.alphaprojects.model.Skill;
@@ -7,12 +7,12 @@ import com.example.alphaprojects.model.Task;
 import com.example.alphaprojects.util.ConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.web.bind.annotation.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+// </editor-fold>
 
 @Repository
 public class TaskRepository implements TaskInterface {
@@ -24,6 +24,10 @@ public class TaskRepository implements TaskInterface {
     @Value("${spring.datasource.password}")
     private String pwd;
 
+
+    // <editor-fold desc="Task CRUD-Management Methods">
+
+    @GetMapping("/{subprojectid}/tasks")
     @Override
     public void addTask(Task newTask) {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
@@ -41,14 +45,12 @@ public class TaskRepository implements TaskInterface {
             taskPS.setString(6, newTask.getTaskStatus());
             taskPS.executeUpdate();
 
-            // Retrieve the auto-generated task ID
             ResultSet generatedKeys = taskPS.getGeneratedKeys();
             int taskID = -1;
             if (generatedKeys.next()) {
                 taskID = generatedKeys.getInt(1);
             }
 
-            // Insert selected employees and their associated task ID
             List<Integer> selectedEmployeeIds = newTask.getSelectedEmpIDs();
             if (selectedEmployeeIds != null) {
                 for (int empId : selectedEmployeeIds) {
@@ -63,36 +65,6 @@ public class TaskRepository implements TaskInterface {
         }
     }
 
-
-
-
-    @Override
-    public Task getTask(int taskID) {
-        Task task = null;
-        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "SELECT * FROM task WHERE task_id = ?";
-        try (PreparedStatement ps = con.prepareStatement(SQL)) {
-            ps.setInt(1, taskID);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                task = new Task(
-                        rs.getInt("task_id"),
-                        rs.getInt("subproject_id"),
-                        rs.getString("task_name"),
-                        rs.getString("task_description"),
-                        rs.getInt("task_time_estimate"),
-                        LocalDate.parse(rs.getString("task_deadline")),
-                        rs.getString("task_status")
-                );
-            }
-
-            return task;
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public List<Task> getTasks(int subprojectID) {
@@ -116,7 +88,7 @@ public class TaskRepository implements TaskInterface {
                         tasksResultSet.getString("task_status")
                 );
 
-                // Get the list of assigned employees with their skills for this task
+                // Få listen af emps og deres skills for den specifikke task
                 List<EmpSkillDTO> assignedEmployeesWithSkills = getEmployeesForTask(taskId);
                 task.setAssignedEmployeesWithSkills(assignedEmployeesWithSkills);
 
@@ -129,6 +101,16 @@ public class TaskRepository implements TaskInterface {
         return taskList;
     }
 
+    @Override
+    public void editTask(Task task) {
+        updateTaskInformation(task);
+
+        List<Integer> previousAssignedEmployeeIds = getAssignedEmployeeIdsForTask(task.getTaskID());
+
+        List<Integer> newAssignedEmployeeIds = task.getSelectedEmpIDs();
+
+        updateAssignedEmployees(task.getTaskID(), previousAssignedEmployeeIds, newAssignedEmployeeIds);
+    }
 
     @Override
     public void deleteTask(int taskId) {
@@ -148,7 +130,9 @@ public class TaskRepository implements TaskInterface {
             }
     }
 
+    // </editor-fold>
 
+    // <editor-fold desc="Assisting Task Methods">
     @Override
     public Task getTaskFromTaskID(int taskid) {
         Task foundTask;
@@ -169,10 +153,10 @@ public class TaskRepository implements TaskInterface {
                 String status = rs.getString("task_status").toUpperCase();
                 foundTask = new Task(taskid, subprojectID,name,description,timeEstimate,deadline,status);
 
-                // Retrieve employee skills for the task
+                // Hent emps og deres skills
                 List<EmpSkillDTO> assignedEmployeesWithSkills = getEmployeesForTask(taskid);
 
-                // Set assigned employees with skills for the task
+                // Tilføj emps med deres skills til opgaven
                 foundTask.setAssignedEmployeesWithSkills(assignedEmployeesWithSkills);
                 return foundTask;
             }
@@ -182,6 +166,7 @@ public class TaskRepository implements TaskInterface {
         }
         return null;
     }
+
     @Override
     public int getSubprojectIDFromTask(int taskID) {
         int subprojectID = 0;
@@ -220,6 +205,7 @@ public class TaskRepository implements TaskInterface {
                 int skillID = rs.getInt("skill_id");
                 String skillName = rs.getString("skill_name");
 
+                //Samler alle skills fra employee indtil et EmpSkillDTO, Forsikre at der ikke er dobbelt EmpSkillDTO - kun en empSkillDTO per medarbejder med alle samlet skills pr. emp.
                 EmpSkillDTO empSkillDTO = emps.stream()
                         .filter(e -> e.getEmpID() == empID)
                         .findFirst()
@@ -239,7 +225,7 @@ public class TaskRepository implements TaskInterface {
 
     @Override
     public List<EmpSkillDTO> getEmployeesForTask(int taskID) {
-        List<EmpSkillDTO> emps = new ArrayList<>();
+        List<EmpSkillDTO> empSkillDTOS = new ArrayList<>();
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
             SELECT emp.emp_id, emp.emp_name, skill.skill_id, skill.skill_name 
@@ -258,45 +244,45 @@ public class TaskRepository implements TaskInterface {
                 int skillID = rs.getInt("skill_id");
                 String skillName = rs.getString("skill_name");
 
-                // Check if the employee already exists in the list
-                EmpSkillDTO empSkillDTO = emps.stream()
+                // 1 emp = 1 empSkillDTO - derved undgår vi duplikation v. tilfælde af emps med flere skills.
+                // Her samler vi alle skills i en liste i ét empSkillDTO -ved at vi undgår at duplére kan vi nu samle alle de skill(s) der er tilknyttet til emp i en liste
+                EmpSkillDTO empSkillDTO = empSkillDTOS.stream()
                         .filter(e -> e.getEmpID() == empID)
                         .findFirst()
                         .orElseGet(() -> {
                             EmpSkillDTO newEmp = new EmpSkillDTO(empID, empName, new ArrayList<>());
-                            emps.add(newEmp);
+                            empSkillDTOS.add(newEmp);
                             return newEmp;
                         });
 
-                // Add the skill to the employee's skill list
+                // Tilføjer skill til empSkillDTO
                 empSkillDTO.getSkills().add(new Skill(skillID, skillName));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return emps;
+        return empSkillDTOS;
     }
 
-    private void updateAssignedEmployees(int taskId, List<Integer> previousAssignedEmployeeIds, List<Integer> newAssignedEmployeeIds)  {
+    private void updateAssignedEmployees(int taskID, List<Integer> previousAssignedEmployeeIds, List<Integer> newAssignedEmployeeIds)  {
+
         List<Integer> employeesToRemove = new ArrayList<>(previousAssignedEmployeeIds);
         employeesToRemove.removeAll(newAssignedEmployeeIds);
 
         List<Integer> employeesToAdd = new ArrayList<>(newAssignedEmployeeIds);
         employeesToAdd.removeAll(previousAssignedEmployeeIds);
 
-        removeEmployeesFromTask(taskId, employeesToRemove);
-        addEmployeesToTask(taskId, employeesToAdd);
+        removeEmployeesFromTask(taskID, employeesToRemove);
+        addEmployeesToTask(taskID, employeesToAdd);
     }
 
-
-
-    private void removeEmployeesFromTask(int taskId, List<Integer> employeeIdsToRemove) {
+    private void removeEmployeesFromTask(int taskID, List<Integer> employeeIdsToRemove) {
         Connection con = ConnectionManager.getConnection(db_url,username,pwd);
         String sql = "DELETE FROM task_emp WHERE task_id = ? AND emp_id = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            for (int empId : employeeIdsToRemove) {
-                ps.setInt(1, taskId);
-                ps.setInt(2, empId);
+            for (int empID : employeeIdsToRemove) {
+                ps.setInt(1, taskID);
+                ps.setInt(2, empID);
                 ps.executeUpdate();
             }
         } catch (SQLException e) {
@@ -304,13 +290,13 @@ public class TaskRepository implements TaskInterface {
         }
     }
 
-    private void addEmployeesToTask(int taskId, List<Integer> employeeIdsToAdd) {
+    private void addEmployeesToTask(int taskID, List<Integer> employeeIdsToAdd) {
         Connection con = ConnectionManager.getConnection(db_url,username,pwd);
         String sql = "INSERT INTO task_emp (task_id, emp_id) VALUES (?, ?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
-            for (int empId : employeeIdsToAdd) {
-                ps.setInt(1, taskId);
-                ps.setInt(2, empId);
+            for (int empID : employeeIdsToAdd) {
+                ps.setInt(1, taskID);
+                ps.setInt(2, empID);
                 ps.executeUpdate();
             }
         } catch (SQLException e) {
@@ -336,15 +322,6 @@ public class TaskRepository implements TaskInterface {
         }
     }
 
-    @Override
-    public void editTask(Task task) {
-        updateTaskInformation(task);
-
-        List<Integer> previousAssignedEmployeeIds = getAssignedEmployeeIdsForTask(task.getTaskID());
-        List<Integer> newAssignedEmployeeIds = task.getSelectedEmpIDs();
-        updateAssignedEmployees(task.getTaskID(), previousAssignedEmployeeIds, newAssignedEmployeeIds);
-    }
-
     private List<Integer> getAssignedEmployeeIdsForTask(int taskId) {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         List<Integer> employeeIds = new ArrayList<>();
@@ -361,4 +338,7 @@ public class TaskRepository implements TaskInterface {
             throw new RuntimeException(e);
         } return employeeIds;
     }
+
+    // </editor-fold>
+
     }
