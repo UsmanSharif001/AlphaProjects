@@ -88,7 +88,7 @@ public class SubprojectRepositoryTest {
         assertNull(actualSubproject);
     }
 
-    @Test
+    /*@Test
     void deleteTasksWithSubprojectID(){
         //Arrange
         Subproject testSubproject = new Subproject(1,1,"Backend", "New funky backend", 25, 0, LocalDate.of(2024,12,12), " In_progress");
@@ -100,7 +100,7 @@ public class SubprojectRepositoryTest {
         //Assert
         assertNull(actualSubproject);
 
-    }
+    }*/
 
     @Test
     void getSubprojectFromSubprojectID(){

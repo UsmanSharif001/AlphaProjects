@@ -51,7 +51,7 @@ CREATE table subproject(
                            subproject_deadline DATE,
                            subproject_status VARCHAR(200),
                            PRIMARY KEY(subproject_id),
-                           FOREIGN KEY(project_id) REFERENCES project(project_id)
+                           FOREIGN KEY(project_id) REFERENCES project(project_id) ON DELETE CASCADE
 );
 
 CREATE table task(
@@ -63,14 +63,14 @@ CREATE table task(
                      task_deadline DATE,
                      task_status VARCHAR(200),
                      PRIMARY KEY(task_id),
-                     FOREIGN KEY(subproject_id) REFERENCES subproject(subproject_id)
+                     FOREIGN KEY(subproject_id) REFERENCES subproject(subproject_id) ON DELETE CASCADE
 );
 
 CREATE table task_emp(
                          task_id INT NOT NULL,
                          emp_id INT NOT NULL,
                          PRIMARY KEY(task_id,emp_id),
-                         FOREIGN KEY(task_id) REFERENCES task(task_id),
+                         FOREIGN KEY(task_id) REFERENCES task(task_id)ON DELETE CASCADE,
                          FOREIGN KEY(emp_id) REFERENCES emp(emp_id)
 );
 
@@ -109,7 +109,7 @@ VALUES
 
 INSERT into subproject(project_id, subproject_name, subproject_description, subproject_time_estimate, subproject_dedicated_hours, subproject_deadline,subproject_status)
 VALUES
-    (1,'Backend','New funky backend', 25, 0,'2024-12-12',' In_progress');
+    (1,'Backend','New funky backend', 25, 0,'2024-12-12','In_progress');
 
 INSERT into task(subproject_id, task_name, task_description, task_time_estimate, task_deadline,task_status)
 VALUES
