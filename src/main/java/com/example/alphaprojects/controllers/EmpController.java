@@ -67,7 +67,7 @@ public class EmpController {
 
 
 
-    /*-----------------------------Emp--------------------------*/
+    /*-----------------------------Emp Overview--------------------------*/
 
     @GetMapping("/medarbejdere")
     public String getListofEmployees(HttpSession session, Model model){
@@ -79,6 +79,8 @@ public class EmpController {
         }
         return "employeelist";
     }
+
+    /*-----------------------------Add Emp--------------------------*/
 
     @GetMapping("/tilføjmedarbejder")
     public String addEmp(HttpSession session, Model model) {
@@ -103,6 +105,32 @@ public class EmpController {
         return "redirect:/login";
     }
 
+    /*-----------------------------Update Emp--------------------------*/
+
+    @GetMapping("/{empID}/redigermedarbejder")
+    private String editEmp(@PathVariable int empID, HttpSession session, Model model) {
+        if(isLoggedIn(session)){
+            isAdmin(session,model);
+            Emp editEmp = empService.getEmpFromEmpID(empID);
+            model.addAttribute("emp", editEmp);
+            List<Skill> skillList = empService.getSkills();
+            model.addAttribute("listOfSkills", skillList);
+            List<Role> roleList = empService.getRoles();
+            model.addAttribute("listOfRoles", roleList);
+            return "editEmp";
+        }
+        return "redirect:/login";
+    }
+
+    @PostMapping("/{empID}/opdatermedarbejder")
+    public String updateEmp(@ModelAttribute Emp emp, HttpSession session) {
+        if(isLoggedIn(session)){
+            empService.updateEmp(emp);
+            return "redirect:/medarbejdere";
+        }
+        return "redirect:/login";
+    }
+
     /*-----------------------------Delete Emp--------------------------*/
 
     //TODO Not tested and have to figure out where it should redirect to
@@ -116,18 +144,6 @@ public class EmpController {
 
         return "redirect:/login";
     }
-
-    //TODO Tines metode, skal slettes på et tidspunkt, kan være jeg skal bruge den som inspiration.
-    //TODO Gælder også for html siden viewEmp
-//    @GetMapping("/vismedarbejder")
-//    public String viewEmp(Model model){
-//        Emp emp = empService.getEmp("Nikolaj@gmail.com","123");
-//        EmpDTO emp1 = new EmpDTO(emp.getEmpID(),emp.getName(),emp.getEmail(),emp.getPassword(),null);
-//        List<Skill> skillList = emp.getSkillList();
-//        model.addAttribute("listOfSkills", skillList);
-//        model.addAttribute("emp", emp1);
-//        return "viewEmp";
-//    }
 
     /*-----------------------------Skills--------------------------*/
 
@@ -167,8 +183,6 @@ public class EmpController {
 
     /*-----------------------------Logout--------------------------*/
 
-    //TODO have to figure out if we can make a logout button that works on all html pages
-    //TODO instead of inserting it on every HTML page
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();

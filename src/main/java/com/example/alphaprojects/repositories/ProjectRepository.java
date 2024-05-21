@@ -28,7 +28,7 @@ public class ProjectRepository implements ProjectInterface {
     public List<Project> getListOfProjects() {
         List<Project> projectList = new ArrayList<>();
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "SELECT * FROM AlphaSolution_db.project WHERE project_Status != 'archived'";
+        String SQL = "SELECT * FROM project WHERE project_Status != 'archived'";
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ResultSet projectsResultSet = ps.executeQuery();
             while (projectsResultSet.next()) {
@@ -102,7 +102,7 @@ public class ProjectRepository implements ProjectInterface {
         int skillIDforProjectManager = 2;
 
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "SELECT emp_id FROM AlphaSolution_db.emp_skills WHERE skill_id = " + skillIDforProjectManager;
+        String SQL = "SELECT emp_id FROM emp_skills WHERE skill_id = " + skillIDforProjectManager;
 
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
@@ -125,7 +125,7 @@ public class ProjectRepository implements ProjectInterface {
         String projectManager = "";
 
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "SELECT emp_name FROM AlphaSolution_db.emp WHERE emp_id = ?";
+        String SQL = "SELECT emp_name FROM emp WHERE emp_id = ?";
 
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ps.setInt(1, empID);
@@ -144,7 +144,7 @@ public class ProjectRepository implements ProjectInterface {
         int managerID = 0;
 
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "SELECT emp_id FROM AlphaSolution_db.emp WHERE emp_name = ?";
+        String SQL = "SELECT emp_id FROM emp WHERE emp_name = ?";
 
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ps.setString(1, managerName);
@@ -190,7 +190,7 @@ public class ProjectRepository implements ProjectInterface {
     public List<Project> getListOfArchivedProjects() {
         List<Project> archivedProjectList = new ArrayList<>();
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "SELECT * FROM AlphaSolution_db.project WHERE project_Status = 'archived'";
+        String SQL = "SELECT * FROM project WHERE project_Status = 'archived'";
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ResultSet projectsResultSet = ps.executeQuery();
             while (projectsResultSet.next()) {

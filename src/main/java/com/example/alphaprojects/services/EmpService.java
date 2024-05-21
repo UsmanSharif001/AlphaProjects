@@ -30,6 +30,14 @@ public class EmpService {
         return empRepository.addEmp(emp);
     }
 
+    public Emp getEmpFromEmpID(int empId) {
+        return empRepository.getEmpFromEmpID(empId);
+    }
+
+    public void updateEmp(Emp emp) {
+        empRepository.updateEmp(emp);
+    }
+
     public void deleteEmp(int empID){
         empRepository.deleteEmp(empID);
     }
