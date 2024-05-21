@@ -116,7 +116,7 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
     }
 
 
-    //Hjælpemetode til at finde et subproject ud fra subprojectID
+    //Get subproject from subprojectID
     public Subproject getSubprojectFromSubprojectID(int subprojectID) {
         Subproject foundSubproject;
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
@@ -147,6 +147,7 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
         return null;
     }
 
+    //Gets a specific projects estimated hours
     public int getProjectEstimatedHours(int projectID) {
         int projectEstimedHours = 0;
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
