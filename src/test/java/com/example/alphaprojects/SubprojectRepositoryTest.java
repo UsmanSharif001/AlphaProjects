@@ -30,19 +30,19 @@ public class SubprojectRepositoryTest {
         //Arrange
         Subproject testSubproject = new Subproject(2,1,"Backend", "New funky backend", 25, 0, LocalDate.of(2024,12,12), " IN_PROGRESS");
         List<Subproject> testSubprojectList = new ArrayList<>(List.of(testSubproject));
-        int projectIdForProject1 = testSubproject.getProjectID();
+        int projectIdForProject2 = testSubproject.getProjectID();
 
         //Act
-        List<Subproject> subprojectsWithProjectId1 = subprojectRepository.getSubprojects(projectIdForProject1);
+        List<Subproject> subprojectsWithProjectId2 = subprojectRepository.getSubprojects(projectIdForProject2);
 
 
         //Assert
-        assertEquals(testSubprojectList.size(), subprojectsWithProjectId1.size());
+        assertEquals(testSubprojectList.size(), subprojectsWithProjectId2.size());
 
         //Sammenligning af nøjagtige elementer i subprojects liste
         for (int i = 0; i < testSubprojectList.size(); i++) {
             Subproject expectedSubproject = testSubprojectList.get(i);
-            Subproject actualSubproject = subprojectsWithProjectId1.get(i);
+            Subproject actualSubproject = subprojectsWithProjectId2.get(i);
 
             assertEquals(expectedSubproject.getSubprojectID(), actualSubproject.getSubprojectID(), "Subproject ID mismatch at index " + i);
             assertEquals(expectedSubproject.getProjectID(), actualSubproject.getProjectID(), "Project ID mismatch at index " + i);
