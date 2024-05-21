@@ -3,27 +3,26 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout">
 
-<div layout:fragment="content">
+<div style="width: 100%; display: flex; flex-direction: column; gap: 32px; align-items: center;"
+     layout:fragment="content">
 
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
-        <h1 style="margin: 0;">Admin</h1>
-        <div style="display: flex; gap: 16px">
+    <h1 style="align-self: flex-start;">Administrator indstillinger</h1>
+
+    <div style=" background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px; display: flex; justify-content: center; align-items: center;">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <a th:href="@{/medarbejdere}">
+                <button style="width: 400px; max-width: 100%; margin: 8px;">Rettigheder</button>
+            </a>
+
+
+            <a th:href="@{skills}">
+                <button style="width: 400px; max-width: 100%; margin: 8px;">Ressourcer</button>
+            </a>
+
+            <a th:href="@{/projekter}">
+                <button style="width: 400px; max-width: 100%; margin: 8px;" class="secondary"> Tilbage</button>
+            </a>
         </div>
     </div>
-    <div>
-    <a th:href="@{/medarbejdere}">
-        <button> Medarbejdere</button> </a>
-    </div>
-    <div>
-        <a th:href="@{skills}"><button> Skills</button></a>
-    </div>
-    <div style="display: flex; justify-content: flex-start;">
-    <a th:href="@{/projekter}"> <button> Tilbage</button></a>
-    </div>
 </div>
-
-
-
-
-
 </html>
