@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("h2")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class SubprojectRepositoryTest {
 
     @Autowired
@@ -26,18 +28,20 @@ public class SubprojectRepositoryTest {
     @Test
     void getSubprojects(){
         //Arrange
-        int projectIdForProject1 = 1;
+        Subproject testSubproject = new Subproject(2,1,"Backend", "New funky backend", 25, 0, LocalDate.of(2024,12,12), " IN_PROGRESS");
+        List<Subproject> testSubprojectList = new ArrayList<>(List.of(testSubproject));
+        int projectIdForProject1 = testSubproject.getProjectID();
 
         //Act
         List<Subproject> subprojectsWithProjectId1 = subprojectRepository.getSubprojects(projectIdForProject1);
-        List<Subproject> expectedSubprojectsFound = new ArrayList<>(List.of(new Subproject(1,1,"Backend", "New funky backend", 25, 0, LocalDate.of(2024,12,12), " In_progress")));
+
 
         //Assert
-        assertEquals(expectedSubprojectsFound.size(), subprojectsWithProjectId1.size());
+        assertEquals(testSubprojectList.size(), subprojectsWithProjectId1.size());
 
         //Sammenligning af nøjagtige elementer i subprojects liste
-        for (int i = 0; i < expectedSubprojectsFound.size(); i++) {
-            Subproject expectedSubproject = expectedSubprojectsFound.get(i);
+        for (int i = 0; i < testSubprojectList.size(); i++) {
+            Subproject expectedSubproject = testSubprojectList.get(i);
             Subproject actualSubproject = subprojectsWithProjectId1.get(i);
 
             assertEquals(expectedSubproject.getSubprojectID(), actualSubproject.getSubprojectID(), "Subproject ID mismatch at index " + i);
@@ -55,8 +59,10 @@ public class SubprojectRepositoryTest {
     void createSubproject() throws SubprojectAddException {
         //Arrange
         Subproject testSubproject = new Subproject(1,1,"Backend", "New funky backend", 25, 0, LocalDate.of(2024,12,12), " In_progress");
+
         //Act
         subprojectRepository.createSubproject(testSubproject);
+
         //Assert
         assertNotNull(testSubproject);
     }
@@ -88,28 +94,16 @@ public class SubprojectRepositoryTest {
         assertNull(actualSubproject);
     }
 
-    /*@Test
-    void deleteTasksWithSubprojectID(){
-        //Arrange
-        Subproject testSubproject = new Subproject(1,1,"Backend", "New funky backend", 25, 0, LocalDate.of(2024,12,12), " In_progress");
-
-        //Act
-        subprojectRepository.deleteSubproject(testSubproject.getSubprojectID());
-        Subproject actualSubproject = subprojectRepository.getSubprojectFromSubprojectID(testSubproject.getSubprojectID());
-
-        //Assert
-        assertNull(actualSubproject);
-
-    }*/
-
     @Test
     void getSubprojectFromSubprojectID(){
         //Arrange
         int existingSubprojectID = 1;
         int notExistingSubprojectID = 0;
+
         //Act
         Subproject found = subprojectRepository.getSubprojectFromSubprojectID(existingSubprojectID);
         Subproject notFound = subprojectRepository.getSubprojectFromSubprojectID(notExistingSubprojectID);
+
         //Assert
         assertNotNull(found);
         assertNull(notFound);
