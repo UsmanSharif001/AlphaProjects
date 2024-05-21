@@ -8,15 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 
 // </editor-fold>
 
@@ -61,16 +58,52 @@ public class TaskRepositoryTest {
     @Test
     void editTask() {
         // Arrange: Opretter en task der senere skal editeres
-        Task initialTask = new Task(1, 1, "Create x method", "You can do it", 5, LocalDate.of(2024, 2, 12), "Done");
-        taskRepository.addTask(initialTask);
+        Task TestTask = new Task(1, 1, "Create x method", "You can do it", 5, LocalDate.of(2024, 2, 12), "Done");
+        taskRepository.addTask(TestTask);
 
         // Act: Ændre tiden fra 5 til 10
-        Task updatedTask = new Task(1, 1, "Create x method", "You can do it", 10, LocalDate.of(2024, 2, 12), "Done");
-        taskRepository.editTask(updatedTask);
+        Task updatedTestTask = new Task(1, 1, "Create x method", "You can do it", 10, LocalDate.of(2024, 2, 12), "Done");
+        taskRepository.editTask(updatedTestTask);
         Task actualTask = taskRepository.getTaskFromTaskID(1);
 
         // Assert: Tjekker om tiden er blevet opdateret.
         assertEquals(10, actualTask.getTaskEstimate());
+
+    }
+
+    @Test
+    void deleteTask() {
+
+        // Arrange: Opretter en task der senere skal slettes
+        Task TestTask = new Task(1, 2, "Create ABC method", "You can do it", 10, LocalDate.of(2024, 2, 12), "Done");
+
+        //Act: Sletter tasken
+        taskRepository.deleteTask(TestTask.getTaskID());
+        Task isThereATask = taskRepository.getTaskFromTaskID(TestTask.getTaskID());
+
+        //Assert: Forventer at den task med det taskID er null - fordi den er blevet slettet
+        assertNull(isThereATask);
+
+    }
+
+    @Test
+    void getTaskFromTaskID() {
+
+        //Arrange: Opretter et eksisterende og ikke eksisterende taskID
+        int existingTaskID = 1;
+        int notexistingTaskID = 0;
+
+        //Act: Gøre brug af metoden getTaskFromTaskID og sætter vores test tasks i
+        Task found = taskRepository.getTaskFromTaskID(existingTaskID);
+        Task notFound = taskRepository.getTaskFromTaskID(notexistingTaskID);
+
+        //Assert
+        assertNotNull(found);
+        assertNull(notFound);
+
+
+
+
 
     }
 
