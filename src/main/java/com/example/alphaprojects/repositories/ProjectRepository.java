@@ -94,6 +94,21 @@ public class ProjectRepository implements ProjectInterface {
     }
 
     @Override
+    public void editDescription(Project project) throws ProjectEditException {
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+        String SQL = "UPDATE project SET project_description = ? WHERE project_id = ?;";
+
+        try (PreparedStatement ps = con.prepareStatement(SQL)) {
+            ps.setString(1, project.getProjectDescription());
+            ps.setInt(2, project.getProjectID());
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            throw new ProjectEditException("Husk at udfylde feltet.");
+        }
+    }
+
+    @Override
     public List<ProjectManagerDTO> getProjectManagers() {
         List<ProjectManagerDTO> projectManagerList = new ArrayList<>();
         ProjectManagerDTO projectManagerDTO = null;

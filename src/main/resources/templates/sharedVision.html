@@ -8,9 +8,14 @@
     <h1 style="align-self: center;" th:text="${project.getProjectName()}"></h1>
 
     <div style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
-    <p th:text="${project.getProjectDescription()}"></p>
-        <div  style="display: flex; justify-content: flex-end;">
-        <button type="button" data-tooltip="Tilføj billede">🖼️</button>
+        <p th:text="${project.getProjectDescription()}"></p>
+        <div style="display: flex; justify-content: flex-end;">
+            <a th:href="@{/{projectID}/redigerbeskrivelse(projectID=${project.getProjectID()})}">
+                <button type="button" data-tooltip="Redigér beskrivelse" onclick="window.location.href='/projekter'">
+                    ✏️
+                </button>
+            </a>
+            <button type="button" data-tooltip="Tilføj billede">🖼️</button>
         </div>
     </div>
     <button type="button" style="width: 20%;" onclick="window.location.href='/projekter'">
