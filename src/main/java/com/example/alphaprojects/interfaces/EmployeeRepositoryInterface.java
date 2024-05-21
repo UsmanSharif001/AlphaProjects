@@ -1,5 +1,6 @@
 package com.example.alphaprojects.interfaces;
 
+import com.example.alphaprojects.Exceptions.EmpDeleteException;
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.EmpDTO;
 import com.example.alphaprojects.model.Role;
@@ -17,7 +18,7 @@ public interface EmployeeRepositoryInterface {
 
     Emp addEmp(Emp emp);
 
-    void deleteEmp(int empID);
+    void deleteEmp(int empID) throws EmpDeleteException;
 
     Emp getEmpFromEmpID(int empID);
 
