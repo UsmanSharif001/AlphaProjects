@@ -1,5 +1,6 @@
 package com.example.alphaprojects.repositories;
 
+import com.example.alphaprojects.Exceptions.EmpDeleteException;
 import com.example.alphaprojects.interfaces.EmployeeRepositoryInterface;
 import com.example.alphaprojects.model.*;
 import com.example.alphaprojects.util.ConnectionManager;
@@ -105,24 +106,24 @@ public class EmpRepository implements EmployeeRepositoryInterface {
                 JOIN role on emp.role_id = role.role_id
                 WHERE emp.emp_id = ?
                 """;
-        try(PreparedStatement ps = con.prepareStatement(SQL)){
+        try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ps.setInt(1, empID);
             ResultSet rs = ps.executeQuery();
             String currentEmpName = "";
             while (rs.next()) {
-            int eID = rs.getInt("emp_id");
-            String empName = rs.getString("emp_name");
-            String empEmail = rs.getString("emp_email");
-            String empPassword = rs.getString("emp_password");
-            int roleID = rs.getInt("role_id");
-            String rolename = rs.getString("role_name");
-            Skill skill = new Skill(rs.getInt("skill_id"), rs.getString("skill_name"));
-            if(empName.equals(currentEmpName)) {
-                emp.addSkill(skill);
-            } else {
-                emp = new Emp(eID, empName, empEmail, empPassword, roleID, rolename, new ArrayList<>(List.of(skill)));
-                currentEmpName = empName;
-            }
+                int eID = rs.getInt("emp_id");
+                String empName = rs.getString("emp_name");
+                String empEmail = rs.getString("emp_email");
+                String empPassword = rs.getString("emp_password");
+                int roleID = rs.getInt("role_id");
+                String rolename = rs.getString("role_name");
+                Skill skill = new Skill(rs.getInt("skill_id"), rs.getString("skill_name"));
+                if (empName.equals(currentEmpName)) {
+                    emp.addSkill(skill);
+                } else {
+                    emp = new Emp(eID, empName, empEmail, empPassword, roleID, rolename, new ArrayList<>(List.of(skill)));
+                    currentEmpName = empName;
+                }
             }
             return emp;
         } catch (SQLException e) {
@@ -181,7 +182,7 @@ public class EmpRepository implements EmployeeRepositoryInterface {
             ps.setString(2, emp.getEmail());
             ps.setString(3, emp.getPassword());
             ps.setInt(4, emp.getRoleID());
-            ps.setInt(5,emp.getEmpID());
+            ps.setInt(5, emp.getEmpID());
             ps.executeUpdate();
 
             String SQLdeleteEmpSkills = """
@@ -207,25 +208,38 @@ public class EmpRepository implements EmployeeRepositoryInterface {
         }
     }
 
-    //TODO Not tested and prob not working with ppl on projects, have to figure out what to do
     @Override
-    public void deleteEmp(int empID) {
-        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+    public void deleteEmp(int empID) throws EmpDeleteException {
 
-        String SQLdeleteFromEmpSkill = "DELETE FROM emp_skills WHERE emp_id = ?";
-        try (PreparedStatement ps = con.prepareStatement(SQLdeleteFromEmpSkill)) {
+        try {
+
+            Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+
+            String SQLGetProjectManagerID = "SELECT project_manager_id FROM project WHERE project_manager_id = ?";
+            PreparedStatement ps = con.prepareStatement(SQLGetProjectManagerID);
             ps.setInt(1, empID);
-            ps.executeUpdate();
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                throw new EmpDeleteException("Medarbejderen er projektleder på et eller flere projekter og kan derfor ikke slettes");
+            }
+
+            String SQLdeleteFromEmpSkill = "DELETE FROM emp_skills WHERE emp_id = ?";
+            PreparedStatement psDeleteEmpSKill = con.prepareStatement(SQLdeleteFromEmpSkill);
+            psDeleteEmpSKill.setInt(1, empID);
+            psDeleteEmpSKill.executeUpdate();
+
+
+            String SQLdeleteFromTaskEmp = "DELETE FROM task_emp WHERE emp_id = ?";
+            PreparedStatement psDeleteTask = con.prepareStatement(SQLdeleteFromTaskEmp);
+            psDeleteTask.setInt(1, empID);
+            psDeleteTask.executeUpdate();
+
 
             String SQLdeleteFromEmp = "DELETE FROM emp WHERE emp_id = ?";
             PreparedStatement psDelete = con.prepareStatement(SQLdeleteFromEmp);
             psDelete.setInt(1, empID);
             psDelete.executeUpdate();
 
-            String SQLdeleteFromTaskEmp = "DELETE FROM task_emp WHERE emp_id = ?";
-            PreparedStatement psDeleteTask = con.prepareStatement(SQLdeleteFromTaskEmp);
-            psDeleteTask.setInt(1, empID);
-            psDeleteTask.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

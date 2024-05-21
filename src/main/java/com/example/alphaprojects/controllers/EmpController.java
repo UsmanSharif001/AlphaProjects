@@ -1,6 +1,8 @@
 package com.example.alphaprojects.controllers;
 
 
+import com.example.alphaprojects.Exceptions.EmpDeleteException;
+import com.example.alphaprojects.Exceptions.ProjectAddException;
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.EmpDTO;
 import com.example.alphaprojects.model.Role;
@@ -134,7 +136,7 @@ public class EmpController {
 
     //TODO Not tested and have to figure out where it should redirect to
     @GetMapping("/{empID}/sletmedarbejder")
-    public String deleteEmp(@PathVariable int empID, HttpSession session){
+    public String deleteEmp(@PathVariable int empID, HttpSession session)throws EmpDeleteException{
         if(isLoggedIn(session)){
             empService.deleteEmp(empID);
             return "redirect:/medarbejdere";
@@ -142,6 +144,7 @@ public class EmpController {
 
         return "redirect:login";
     }
+
 
     /*-----------------------------Skills--------------------------*/
 
@@ -185,6 +188,15 @@ public class EmpController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:login";
+    }
+
+    /*-----------------------------Exeption handling--------------------------*/
+
+    @ExceptionHandler(EmpDeleteException.class)
+    public String handleAddError(Model model, Exception exception) {
+        model.addAttribute("message", exception.getMessage());
+        System.out.println(exception.getMessage());
+        return "error/empDeleteError";
     }
 
 }
