@@ -13,7 +13,7 @@
 
         <label for="description">Beskrivelse:</label>
         <textarea id="description" th:field="*{projectDescription}"
-                  placeholder="Beskrivelse af projektet…"></textarea>
+                  placeholder="Beskrivelse af projektet…" maxlength="3000"></textarea>
 
         <div style="display: flex; gap: 16px;">
             <a th:href="@{/{projectID}/sharedvision(projectID=${projectID})}" style="display: contents">

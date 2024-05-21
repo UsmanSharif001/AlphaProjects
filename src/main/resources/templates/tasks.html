@@ -18,9 +18,9 @@
                 <th>Opgave</th>
                 <th>Beskrivelse</th>
                 <th data-tooltip="Antal timer opgaven kræver at udføre" data-placement="bottom">Tidsestimat</th>
+                <th>Medarbejdere</th>
                 <th>Deadline</th>
                 <th>Status</th>
-                <th>Medarbejdere</th>
                 <th></th>
             </tr>
             </thead>
@@ -29,19 +29,19 @@
                 <td th:text="${task.taskName}"></td>
                 <td th:text="${task.taskDescription}"></td>
                 <td th:text="${task.taskEstimate} + ' t'"></td>
-                <td th:text="${task.taskDeadline}"></td>
-                <td th:switch="${task.getTaskStatus()}" style="text-align: center">
-                    <span th:case="NOT_STARTED" data-tooltip="Ikke påbegyndt" style="border: none;">🔴</span>
-                    <span th:case="IN_PROGRESS" data-tooltip="Igangværende" style="border: none;">🟡</span>
-                    <span th:case="DONE" data-tooltip="Afsluttet" style="border: none;">🟢</span>
-                    <span th:case="*" th:text="${task.getTaskStatus()}"></span>
-                </td>
                 <td>
                     <ul>
                         <li th:each="employeeName : ${employeesForTasks[task.taskID]}">
                             <span th:text="${employeeName.empName}"></span>:
                         </li>
                     </ul>
+                </td>
+                <td th:text="${task.taskDeadline}"></td>
+                <td th:switch="${task.getTaskStatus()}" style="text-align: center">
+                    <span th:case="NOT_STARTED" data-tooltip="Ikke påbegyndt" style="border: none;">🔴</span>
+                    <span th:case="IN_PROGRESS" data-tooltip="Igangværende" style="border: none;">🟡</span>
+                    <span th:case="DONE" data-tooltip="Afsluttet" style="border: none;">🟢</span>
+                    <span th:case="*" th:text="${task.getTaskStatus()}"></span>
                 </td>
                 <td>
                     <a th:href="@{'/' + ${task.taskID} + '/edittask'}">

@@ -133,7 +133,6 @@ public class EmpController {
 
     /*-----------------------------Delete Emp--------------------------*/
 
-    //TODO Not tested and have to figure out where it should redirect to
     @GetMapping("/sletmedarbejder")
     public String deleteEmp(HttpSession session){
         if(isLoggedIn(session)){
