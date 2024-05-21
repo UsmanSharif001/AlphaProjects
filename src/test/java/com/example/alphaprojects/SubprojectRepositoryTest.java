@@ -1,5 +1,7 @@
 package com.example.alphaprojects;
 
+import com.example.alphaprojects.Exceptions.SubprojectAddException;
+import com.example.alphaprojects.Exceptions.SubprojectEditException;
 import com.example.alphaprojects.model.Subproject;
 import com.example.alphaprojects.repositories.SubprojectRepository;
 import org.junit.jupiter.api.Assertions;
@@ -50,7 +52,7 @@ public class SubprojectRepositoryTest {
     }
 
     @Test
-    void createSubproject(){
+    void createSubproject() throws SubprojectAddException {
         //Arrange
         Subproject testSubproject = new Subproject(1,1,"Backend", "New funky backend", 25, 0, LocalDate.of(2024,12,12), " In_progress");
         //Act
@@ -60,7 +62,7 @@ public class SubprojectRepositoryTest {
     }
 
     @Test
-    void editSubproject(){
+    void editSubproject() throws SubprojectEditException {
         //Arrange
         Subproject testSubproject = new Subproject(1,1,"Backend", "New funky backend", 25, 0, LocalDate.of(2024,12,12), " In_progress");
         testSubproject.setSubprojectTimeEstimate(30);
@@ -76,15 +78,28 @@ public class SubprojectRepositoryTest {
     @Test
     void deleteSubproject(){
         //Arrange
-        int subprojectIDOfSubprojectToDelete = 1;
+        Subproject testSubproject = new Subproject(1,1,"Backend", "New funky backend", 25, 0, LocalDate.of(2024,12,12), " In_progress");
 
         //Act
-        subprojectRepository.deleteSubproject(subprojectIDOfSubprojectToDelete);
-        Subproject actualSubproject = subprojectRepository.getSubprojectFromSubprojectID(subprojectIDOfSubprojectToDelete);
+        subprojectRepository.deleteSubproject(testSubproject.getSubprojectID());
+        Subproject actualSubproject = subprojectRepository.getSubprojectFromSubprojectID(testSubproject.getSubprojectID());
 
         //Assert
         assertNull(actualSubproject);
-        //TODO: Fejler, metoden skal refactoreres så den også sletter taskene på subproject.
+    }
+
+    @Test
+    void deleteTasksWithSubprojectID(){
+        //Arrange
+        Subproject testSubproject = new Subproject(1,1,"Backend", "New funky backend", 25, 0, LocalDate.of(2024,12,12), " In_progress");
+
+        //Act
+        subprojectRepository.deleteSubproject(testSubproject.getSubprojectID());
+        Subproject actualSubproject = subprojectRepository.getSubprojectFromSubprojectID(testSubproject.getSubprojectID());
+
+        //Assert
+        assertNull(actualSubproject);
+
     }
 
     @Test
