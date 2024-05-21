@@ -2,14 +2,12 @@ package com.example.alphaprojects.controllers;
 
 
 import com.example.alphaprojects.Exceptions.EmpDeleteException;
-import com.example.alphaprojects.Exceptions.ProjectAddException;
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.EmpDTO;
 import com.example.alphaprojects.model.Role;
 import com.example.alphaprojects.model.Skill;
 import com.example.alphaprojects.services.EmpService;
 import jakarta.servlet.http.HttpSession;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -134,7 +132,6 @@ public class EmpController {
 
     /*-----------------------------Delete Emp--------------------------*/
 
-    //TODO Not tested and have to figure out where it should redirect to
     @GetMapping("/{empID}/sletmedarbejder")
     public String deleteEmp(@PathVariable int empID, HttpSession session)throws EmpDeleteException{
         if(isLoggedIn(session)){
@@ -190,7 +187,7 @@ public class EmpController {
         return "redirect:login";
     }
 
-    /*-----------------------------Exeption handling--------------------------*/
+    /*-----------------------------Exception handling--------------------------*/
 
     @ExceptionHandler(EmpDeleteException.class)
     public String handleAddError(Model model, Exception exception) {
