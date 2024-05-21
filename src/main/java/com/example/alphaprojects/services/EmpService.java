@@ -1,5 +1,6 @@
 package com.example.alphaprojects.services;
 
+import com.example.alphaprojects.Exceptions.EmpDeleteException;
 import com.example.alphaprojects.interfaces.EmployeeRepositoryInterface;
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.EmpDTO;
@@ -38,7 +39,7 @@ public class EmpService {
         empRepository.updateEmp(emp);
     }
 
-    public void deleteEmp(int empID){
+    public void deleteEmp(int empID) throws EmpDeleteException {
         empRepository.deleteEmp(empID);
     }
 
