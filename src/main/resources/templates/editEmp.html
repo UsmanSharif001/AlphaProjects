@@ -6,7 +6,7 @@
 <div style="width: 100%; display: flex; flex-direction: column; gap: 32px; align-items: center;"
      layout:fragment="content">
 
-    <h1 style="align-self: flex-start;">Redigér projekt</h1>
+    <h1 style="align-self: flex-start;">Redigér medarbejderprofil</h1>
     <form th:action="@{/{empID}/opdatermedarbejder(empID=${emp.getEmpID()})}" th:method="POST" th:object="${emp}" style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
 
         <label for="name">Navn</label>
@@ -18,7 +18,7 @@
 
         <input type="hidden" id="password" th:field="*{password}"/>
 
-        <label for="role">Role</label>
+        <label for="role">Rettighedsprofil</label>
         <select id="role" name="role" th:field="*{roleID}">
             <option th:each="role: ${listOfRoles}"
                     th:value="${role.role_id}"
@@ -34,8 +34,14 @@
                    th:value="${skill.skillName}">
             <label th:text="${skill}"></label>
         </div>
-    <button type="submit">Opdatér Medarbejder</button>
+        <div style="display: flex; gap: 16px; margin-top: 32px">
+            <a th:href="@{/medarbejdere}" style="display: contents">
+                <button type="button" class="secondary" style="width: 100%;">
+                    Annuller
+                </button>
+            </a>
+            <button type="submit" style="width: 100%;">Opdatér Medarbejder</button>
+        </div>
     </form>
-    <a th:href="@{/medarbejdere}"> <button> Tilbage</button> </a>
 </div>
 </html>
