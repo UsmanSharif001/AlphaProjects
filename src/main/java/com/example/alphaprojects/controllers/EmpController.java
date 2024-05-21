@@ -134,7 +134,6 @@ public class EmpController {
 
     /*-----------------------------Delete Emp--------------------------*/
 
-    //TODO Not tested and have to figure out where it should redirect to
     @GetMapping("/{empID}/sletmedarbejder")
     public String deleteEmp(@PathVariable int empID, HttpSession session)throws EmpDeleteException{
         if(isLoggedIn(session)){
@@ -190,7 +189,7 @@ public class EmpController {
         return "redirect:login";
     }
 
-    /*-----------------------------Exeption handling--------------------------*/
+    /*-----------------------------Exception handling--------------------------*/
 
     @ExceptionHandler(EmpDeleteException.class)
     public String handleAddError(Model model, Exception exception) {

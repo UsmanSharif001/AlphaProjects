@@ -5,9 +5,13 @@ import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.EmpDTO;
 import com.example.alphaprojects.model.Skill;
 import com.example.alphaprojects.repositories.EmpRepository;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
@@ -17,12 +21,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("h2")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class EmpRepositoryTest {
 
     @Autowired
     EmpRepository empRepository;
 
     @Test
+    @Order(1)
     void loginCorrect(){
     String email = "Nikolaj@gmail.com";
     String password = "123";
@@ -32,6 +38,7 @@ public class EmpRepositoryTest {
     }
 
     @Test
+    @Order(2)
     void loginWrongEmail(){
         String email = "Niko@gmail.com";
         String password = "123";
@@ -40,6 +47,7 @@ public class EmpRepositoryTest {
     }
 
     @Test
+    @Order(3)
     void loginWrongPassword(){
         String email = "Nikolaj@gmail.com";
         String password = "Forkert kode";
@@ -48,6 +56,7 @@ public class EmpRepositoryTest {
     }
 
     @Test
+    @Order(4)
     void getAllEmp(){
         int actualSize = empRepository.getAllEmp().size();
         int expectedSize = 4;
@@ -55,6 +64,7 @@ public class EmpRepositoryTest {
     }
 
     @Test
+    @Order(5)
     void getEmpByCorrectEmpID(){
         int idForNikolaj = 4;
         Emp expectedEmp = empRepository.getEmpFromEmpID(idForNikolaj);
@@ -62,6 +72,7 @@ public class EmpRepositoryTest {
     }
 
     @Test
+    @Order(6)
     void getEmpByIncorrectEmpID(){
         int incorrectEmpID = 10;
         Emp expectedIncorrectEmp = empRepository.getEmpFromEmpID(incorrectEmpID);
@@ -69,6 +80,7 @@ public class EmpRepositoryTest {
     }
 
     @Test
+    @Order(7)
     void getEmpName(){
         int idForNikolaj = 4;
         String expectedName = "Nikolaj";
@@ -79,6 +91,7 @@ public class EmpRepositoryTest {
     }
 
     @Test
+    @Order(8)
     void getEmpEmail(){
         int idForNikolaj = 4;
         String expectedEmail = "Nikolaj@gmail.com";
@@ -88,6 +101,7 @@ public class EmpRepositoryTest {
     }
 
     @Test
+    @Order(9)
     void getEmpPassword(){
         int idForNikolaj = 4;
         String expectedPassword = "123";
@@ -97,6 +111,7 @@ public class EmpRepositoryTest {
     }
 
     @Test
+    @Order(10)
     void getEmpRoleID(){
         int idForNikolaj = 4;
         int expectedRoleID = 1;
@@ -106,6 +121,7 @@ public class EmpRepositoryTest {
     }
 
     @Test
+    @Order(11)
     void getEmpRoleName(){
         int idforNikolaj = 4;
         String expectedRoleName = "Admin";
@@ -115,6 +131,7 @@ public class EmpRepositoryTest {
     }
 
     @Test
+    @Order(12)
     void getEmpSkillList(){
         int idForNikolaj = 4;
         List<Skill> expectedSkillList = new ArrayList<>(List.of(new Skill(1,"Scrum Master"),new Skill(2,"Project Manager"),new Skill(3,"Java developer")));
@@ -124,6 +141,7 @@ public class EmpRepositoryTest {
     }
 
     @Test
+    @Order(13)
     void createEmp(){
     Emp emp = new Emp();
     emp.setName("Niels");
@@ -136,6 +154,7 @@ public class EmpRepositoryTest {
     }
 
     @Test
+    @Order(14)
     void updateEmp(){
     String expectedName = "Mogens";
     String expectedEmail = "Mogens@Alphasolutions.com";
@@ -162,6 +181,7 @@ public class EmpRepositoryTest {
     }
 
     @Test
+    @Order(15)
     void getRoles(){
         int expectedSize = 2;
         int actualSize = empRepository.getRoles().size();
@@ -169,6 +189,7 @@ public class EmpRepositoryTest {
     }
 
     @Test
+    @Order(16)
     void getSkills(){
         int expectedSize = 4;
         int actualSize = empRepository.getSkills().size();
@@ -176,6 +197,7 @@ public class EmpRepositoryTest {
     }
 
     @Test
+    @Order(17)
     void addSkill(){
         Skill skill = new Skill();
         skill.setSkillName("Test Skill");
