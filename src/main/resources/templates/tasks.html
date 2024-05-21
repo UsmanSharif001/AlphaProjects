@@ -20,6 +20,7 @@
                 <th data-tooltip="Antal timer opgaven kræver at udføre" data-placement="bottom">Tidsestimat</th>
                 <th>Deadline</th>
                 <th>Status</th>
+                <th>Medarbejdere</th>
                 <th></th>
             </tr>
             </thead>
@@ -29,23 +30,29 @@
                 <td th:text="${task.taskDescription}"></td>
                 <td th:text="${task.taskEstimate} + ' t'"></td>
                 <td th:text="${task.taskDeadline}"></td>
-                <td th:switch="${task.getTaskStatus().toUpperCase()}" style="text-align: center">
+                <td th:switch="${task.getTaskStatus()}" style="text-align: center">
                     <span th:case="NOT_STARTED" data-tooltip="Ikke påbegyndt" style="border: none;">🔴</span>
                     <span th:case="IN_PROGRESS" data-tooltip="Igangværende" style="border: none;">🟡</span>
                     <span th:case="DONE" data-tooltip="Afsluttet" style="border: none;">🟢</span>
                     <span th:case="*" th:text="${task.getTaskStatus()}"></span>
                 </td>
                 <td>
-                    <a th:href="@{'/' + ${task.getTaskID()} + '/edittask'}">
+                    <ul>
+                        <li th:each="employeeName : ${employeesForTasks[task.taskID]}">
+                            <span th:text="${employeeName.empName}"></span>:
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <a th:href="@{'/' + ${task.taskID} + '/edittask'}">
                         <button type="button" data-tooltip="Redigér">✏️</button>
                     </a>
-                    <a th:href="@{'/' + ${task.getTaskID()} + '/deletetask'}">
+                    <a th:href="@{'/' + ${task.taskID} + '/deletetask'}">
                         <button type="button" data-tooltip="Slet">🗑</button>
                     </a>
                 </td>
             </tr>
             </tbody>
-
         </table>
 
         <div style="display: flex; justify-content: center">
@@ -53,7 +60,7 @@
                 <button type="button"><div th:text=" 'Tilbage til ' +  ${subprojectName}"></div>
                 </button>
             </a>
-            </button>
         </div>
     </div>
+</div>
 </html>
