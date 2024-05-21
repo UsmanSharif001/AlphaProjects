@@ -28,7 +28,7 @@ public class ProjectRepository implements ProjectInterface {
     public List<Project> getListOfProjects() {
         List<Project> projectList = new ArrayList<>();
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "SELECT * FROM project WHERE project_Status != 'archived'";
+        String SQL = "SELECT * FROM project WHERE project_Status != 'archived' ORDER BY project_deadline";
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ResultSet projectsResultSet = ps.executeQuery();
             while (projectsResultSet.next()) {

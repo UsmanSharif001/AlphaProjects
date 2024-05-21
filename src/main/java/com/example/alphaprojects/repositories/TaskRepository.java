@@ -99,7 +99,7 @@ public class TaskRepository implements TaskInterface {
     public List<Task> getTasks(int subprojectID) {
         List<Task> taskList = new ArrayList<>();
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "SELECT * FROM task WHERE subproject_id = ?;";
+        String SQL = "SELECT * FROM task WHERE subproject_id = ? ORDER BY task_deadline;";
 
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ps.setInt(1, subprojectID);
