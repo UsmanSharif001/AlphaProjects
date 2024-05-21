@@ -222,6 +222,11 @@ public class EmpRepository implements EmployeeRepositoryInterface {
             psDelete.setInt(1, empID);
             psDelete.executeUpdate();
 
+            String SQLdeleteFromTaskEmp = "DELETE FROM task_emp WHERE emp_id = ?";
+            PreparedStatement psDeleteTask = con.prepareStatement(SQLdeleteFromTaskEmp);
+            psDeleteTask.setInt(1, empID);
+            psDeleteTask.executeUpdate();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
