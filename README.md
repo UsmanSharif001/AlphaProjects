@@ -38,7 +38,8 @@ spring.datasource.password=password1
 ```
 4. Byg og kør projektet med Maven:
 ```
-mvn packagejava -jar target/opskriftsbog-0.0.1-SNAPSHOT.jar
+mvn package
+java -jar target/opskriftsbog-0.0.1-SNAPSHOT.jar
 ```
 5. Applikationen kan nu køres lokalt på http://localhost:8080
 
