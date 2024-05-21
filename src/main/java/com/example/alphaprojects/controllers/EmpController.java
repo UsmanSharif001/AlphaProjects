@@ -1,6 +1,8 @@
 package com.example.alphaprojects.controllers;
 
 
+import com.example.alphaprojects.Exceptions.EmpDeleteException;
+import com.example.alphaprojects.Exceptions.ProjectAddException;
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.EmpDTO;
 import com.example.alphaprojects.model.Role;
@@ -55,6 +57,7 @@ public class EmpController {
     }
 
     /*-----------------------------Admin--------------------------*/
+
     @GetMapping("/admin")
     public String admin(HttpSession session, Model model){
         if (isLoggedIn(session)){
@@ -65,8 +68,6 @@ public class EmpController {
 
     }
 
-
-
     /*-----------------------------Emp Overview--------------------------*/
 
     @GetMapping("/medarbejdere")
@@ -75,9 +76,9 @@ public class EmpController {
             isAdmin(session,model);
             List<Emp> empList = empService.getAllEmp();
             model.addAttribute("empList", empList);
-
+            return "employeelist";
         }
-        return "employeelist";
+        return "redirect:login";
     }
 
     /*-----------------------------Add Emp--------------------------*/
@@ -93,7 +94,7 @@ public class EmpController {
         model.addAttribute("listOfRoles", roleList);
         return "addEmp";
     }
-    return "redirect:/login";
+    return "redirect:login";
     }
 
     @PostMapping("/gemmedarbejder")
@@ -102,7 +103,7 @@ public class EmpController {
         empService.addEmp(emp);
         return "redirect:/medarbejdere";
         }
-        return "redirect:/login";
+        return "redirect:login";
     }
 
     /*-----------------------------Update Emp--------------------------*/
@@ -119,7 +120,7 @@ public class EmpController {
             model.addAttribute("listOfRoles", roleList);
             return "editEmp";
         }
-        return "redirect:/login";
+        return "redirect:login";
     }
 
     @PostMapping("/{empID}/opdatermedarbejder")
@@ -128,21 +129,21 @@ public class EmpController {
             empService.updateEmp(emp);
             return "redirect:/medarbejdere";
         }
-        return "redirect:/login";
+        return "redirect:login";
     }
 
     /*-----------------------------Delete Emp--------------------------*/
 
-    @GetMapping("/sletmedarbejder")
-    public String deleteEmp(HttpSession session){
+    @GetMapping("/{empID}/sletmedarbejder")
+    public String deleteEmp(@PathVariable int empID, HttpSession session)throws EmpDeleteException{
         if(isLoggedIn(session)){
-            Emp emp = (Emp) session.getAttribute("emp");
-            empService.deleteEmp(emp.getEmpID());
-            return "redirect:/projekter";
+            empService.deleteEmp(empID);
+            return "redirect:/medarbejdere";
         }
 
-        return "redirect:/login";
+        return "redirect:login";
     }
+
 
     /*-----------------------------Skills--------------------------*/
 
@@ -155,7 +156,7 @@ public class EmpController {
             model.addAttribute("skillList", skillList);
             return "skillList";
         }
-        return "redirect:/login";
+        return "redirect:login";
     }
 
 
@@ -167,7 +168,7 @@ public class EmpController {
             model.addAttribute("skill", new Skill());
             return "addSkill";
         }
-        return "redirect:/login";
+        return "redirect:login";
     }
 
 
@@ -177,7 +178,7 @@ public class EmpController {
             empService.addSkill(skill);
             return "redirect:/skills";
         }
-        return "redirect:/login";
+        return "redirect:login";
     }
 
     /*-----------------------------Logout--------------------------*/
@@ -185,7 +186,16 @@ public class EmpController {
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/login";
+        return "redirect:login";
+    }
+
+    /*-----------------------------Exeption handling--------------------------*/
+
+    @ExceptionHandler(EmpDeleteException.class)
+    public String handleAddError(Model model, Exception exception) {
+        model.addAttribute("message", exception.getMessage());
+        System.out.println(exception.getMessage());
+        return "error/empDeleteError";
     }
 
 }

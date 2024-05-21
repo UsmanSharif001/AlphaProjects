@@ -31,10 +31,13 @@
                 <td th:text="${emp.name}"></td>
                 <td th:text="${emp.email}"></td>
                 <td th:text="${emp.roleName}"></td>
-                <td><a th:href="@{/{empID}/redigermedarbejder(empID=${emp.getEmpID()})}">
+                <td> <a th:href="@{/{empID}/redigermedarbejder(empID=${emp.getEmpID()})}">
                     <button type="button" data-tooltip="Redigér medarbejderprofil">✏️</button>
+                    <a th:href="@{/{empID}/sletmedarbejder(empID=${emp.getEmpID()})}">
+                        <button type="button" data-tooltip="Slet">🗑️</button> </a>
                 </a>
                 </td>
+
 
             </tr>
 

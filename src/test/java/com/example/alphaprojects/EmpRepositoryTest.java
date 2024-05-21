@@ -3,11 +3,8 @@ package com.example.alphaprojects;
 
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.EmpDTO;
-import com.example.alphaprojects.model.Role;
 import com.example.alphaprojects.model.Skill;
 import com.example.alphaprojects.repositories.EmpRepository;
-import org.assertj.core.api.Assert;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,7 +27,7 @@ public class EmpRepositoryTest {
     String email = "Nikolaj@gmail.com";
     String password = "123";
     EmpDTO emp = empRepository.login(email, password);
-        Assertions.assertNotNull(emp);
+        assertNotNull(emp);
 
     }
 
@@ -39,7 +36,7 @@ public class EmpRepositoryTest {
         String email = "Niko@gmail.com";
         String password = "123";
         EmpDTO emp = empRepository.login(email, password);
-        Assertions.assertNull(emp);
+        assertNull(emp);
     }
 
     @Test
@@ -47,14 +44,14 @@ public class EmpRepositoryTest {
         String email = "Nikolaj@gmail.com";
         String password = "Forkert kode";
         EmpDTO emp = empRepository.login(email, password);
-        Assertions.assertNull(emp);
+        assertNull(emp);
     }
 
     @Test
     void getAllEmp(){
         int actualSize = empRepository.getAllEmp().size();
         int expectedSize = 4;
-        Assertions.assertEquals(expectedSize, actualSize);
+        assertEquals(expectedSize, actualSize);
     }
 
     @Test
@@ -120,17 +117,17 @@ public class EmpRepositoryTest {
     @Test
     void getEmpSkillList(){
         int idForNikolaj = 4;
-        List<Skill> epectedSkillList = new ArrayList<>(List.of(new Skill(1,"Scrum Master"),new Skill(2,"Project Manager"),new Skill(3,"Java developer")));
+        List<Skill> expectedSkillList = new ArrayList<>(List.of(new Skill(1,"Scrum Master"),new Skill(2,"Project Manager"),new Skill(3,"Java developer")));
         Emp emp = empRepository.getEmpFromEmpID(idForNikolaj);
         List<Skill> actualSkillList = emp.getSkillList();
-        assertEquals(epectedSkillList,actualSkillList);
+        assertEquals(expectedSkillList,actualSkillList);
     }
 
     @Test
     void createEmp(){
     Emp emp = new Emp();
-    emp.setName("Mogens");
-    emp.setEmail("mogens@Alphasolutions.com");
+    emp.setName("Niels");
+    emp.setEmail("Niels@Alphasolutions.com");
     emp.setPassword("123");
     emp.setRoleID(1);
     emp.setSkillList(List.of(new Skill(1,"Scrum Master")));
