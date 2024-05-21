@@ -50,10 +50,12 @@
 
         <div style="display: flex; justify-content: center">
             <a th:href="@{/{projectID}/subprojekter(projectID=${projectID})}">
-                <button type="button"><div th:text=" 'Tilbage til ' +  ${subprojectName}"></div>
+                <button class="secondary" type="button">
+                    <div th:text=" 'Tilbage til ' +  ${subprojectName}"></div>
                 </button>
             </a>
             </button>
         </div>
     </div>
+</div>
 </html>

@@ -7,59 +7,60 @@
 
     <h1 style="align-self: flex-start;">Redigér subprojekt</h1>
 
-<form th:action="@{/{subprojectid}/opdatersubprojekt(subprojectid=${subprojectid})}" th:method="POST" th:object="${subproject}"
-      style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
-    <p>
-        <label for="subprojectName">Navn</label>
-        <input id="subprojectName" type="text" th:field="*{subprojectName}">
-    </p>
-    <p>
-        <label for="subprojectDescription">Beskrivelse:</label>
-        <input id="subprojectDescription" type="text" th:field="*{subprojectDescription}"/>
-    </p>
-    <p>
-        <label for="subprojectTimeEstimate">Tidsestimat:</label>
-        <input id="subprojectTimeEstimate" type="text" th:field="*{subprojectTimeEstimate}"/>
-    </p>
-    <p>
-        <label for="deadline">Deadline:</label>
-    <div style="display: flex; gap: 8px;">
-        <input type="date" th:field="*{subprojectDeadline}"
-               th:value="${subproject.subprojectDeadline}" id="deadline"/>
-    </div>
-    </p>
-    <fieldset>
-        <legend>Status:</legend>
-        <div>
-            <input type="radio" id="not-started" name="status" th:field="*{subprojectStatus}"
-                   th:value="NOT_STARTED">
-            <label for="not-started">🔴 Ikke påbegyndt</label>
+    <form th:action="@{/{subprojectid}/opdatersubprojekt(subprojectid=${subprojectid})}" th:method="POST"
+          th:object="${subproject}"
+          style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
+        <p>
+            <label for="subprojectName">Navn</label>
+            <input id="subprojectName" type="text" th:field="*{subprojectName}">
+        </p>
+        <p>
+            <label for="subprojectDescription">Beskrivelse:</label>
+            <input id="subprojectDescription" type="text" th:field="*{subprojectDescription}"/>
+        </p>
+        <p>
+            <label for="subprojectTimeEstimate">Tidsestimat:</label>
+            <input id="subprojectTimeEstimate" type="text" th:field="*{subprojectTimeEstimate}"/>
+        </p>
+        <p>
+            <label for="deadline">Deadline:</label>
+        <div style="display: flex; gap: 8px;">
+            <input type="date" th:field="*{subprojectDeadline}"
+                   th:value="${subproject.subprojectDeadline}" id="deadline"/>
         </div>
-        <div>
-            <input type="radio" id="in-progress" name="status" th:field="*{subprojectStatus}"
-                   th:value="IN_PROGRESS">
-            <label for="in-progress">🟡 Igangværende</label>
-        </div>
-        <div>
-            <input type="radio" id="done" name="status" th:field="*{subprojectStatus}" th:value="DONE">
-            <label for="done">🟢 Afsluttet</label>
-        </div>
-    </fieldset>
-    <p>
-        <input type="hidden" id="projectid" th:field="*{projectID}">
-    </p>
-    <p>
-        <input type="hidden" id="subprojectid" th:field="*{subprojectID}">
-    </p>
+        </p>
+        <fieldset>
+            <legend>Status:</legend>
+            <div>
+                <input type="radio" id="not-started" name="status" th:field="*{subprojectStatus}"
+                       th:value="NOT_STARTED">
+                <label for="not-started">🔴 Ikke påbegyndt</label>
+            </div>
+            <div>
+                <input type="radio" id="in-progress" name="status" th:field="*{subprojectStatus}"
+                       th:value="IN_PROGRESS">
+                <label for="in-progress">🟡 Igangværende</label>
+            </div>
+            <div>
+                <input type="radio" id="done" name="status" th:field="*{subprojectStatus}" th:value="DONE">
+                <label for="done">🟢 Afsluttet</label>
+            </div>
+        </fieldset>
+        <p>
+            <input type="hidden" id="projectid" th:field="*{projectID}">
+        </p>
+        <p>
+            <input type="hidden" id="subprojectid" th:field="*{subprojectID}">
+        </p>
 
-    <div style="display: flex; gap: 16px;">
-        <a th:href="@{/{projectid}/subprojekter(projectid=${projectid})}" style="display: contents">
-        <button type="button" class="secondary" style="width: 100%;">
-            Annuller
-        </button>
-        </a>
-    <button type="submit" style="width: 100%;">Tilføj opdateringer</button>
-    </div>
-</form>
+        <div style="display: flex; gap: 16px;">
+            <a th:href="@{/{projectid}/subprojekter(projectid=${projectid})}" style="display: contents">
+                <button type="button" class="secondary" style="width: 100%;">
+                    Annuller
+                </button>
+            </a>
+            <button type="submit" style="width: 100%;">Tilføj opdateringer</button>
+        </div>
+    </form>
 </div>
 </html>

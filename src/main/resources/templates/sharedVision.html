@@ -4,21 +4,22 @@
 
 <div style="width: 100%; display: flex; flex-direction: column; gap: 32px; align-items: center;"
      layout:fragment="content">
-    <p style="align-self: center;">Shared vision</p>
-    <h1 style="align-self: center;" th:text="${project.getProjectName()}"></h1>
+
+    <h1 style="margin: 0; align-self: flex-start;" th:text="${project.getProjectName()} + ' - Shared Vision'">Shared Vision</h1>
 
     <div style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
-        <p th:text="${project.getProjectDescription()}"></p>
-        <div style="display: flex; justify-content: flex-end;">
+        <p style="margin-left: 16px; margin-bottom: 32px" th:text="${project.getProjectDescription()}"></p>
+
+        <div style="display: flex; justify-content: center; gap: 16px">
             <a th:href="@{/{projectID}/redigerbeskrivelse(projectID=${project.getProjectID()})}">
-                <button type="button" data-tooltip="Redigér beskrivelse" onclick="window.location.href='/projekter'">
-                    ✏️
+                <button type="button" style="width: 300px; max-width: 100%" onclick="window.location.href='/projekter'">
+                    Redigér beskrivelse
                 </button>
             </a>
-            <button type="button" data-tooltip="Tilføj billede">🖼️</button>
+            <button type="button" style="width: 300px; max-width: 100%" disabled>Tilføj billede</button>
         </div>
     </div>
-    <button type="button" style="width: 20%;" onclick="window.location.href='/projekter'">
+    <button type="button" style="width: 20%;" class="secondary" onclick="window.location.href='/projekter'">
         Tilbage
     </button>
 </div>
