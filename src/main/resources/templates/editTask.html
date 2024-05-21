@@ -51,12 +51,11 @@
         </fieldset>
         </p>
         <p>
-            <!-- Hidden fields for subprojectID and taskID -->
             <input type="hidden" id="subprojectid" th:field="*{subprojectID}">
             <input type="hidden" id="taskid" th:field="*{taskID}">
         </p>
 
-        <!-- Drop-down multi select for emp's names & skill(s) -->
+        <!-- Drop-down multi tilføjelse for emp's names & skill(s) -->
         <p>
             <label for="selectedEmployees">Vælg medarbejdere (ctrl + venstre klik for flere):</label>
             <select id="selectedEmployees" name="selectedEmployees" multiple="multiple"
