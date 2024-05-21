@@ -52,4 +52,4 @@ Alle er velkomne til at komme med bidrag, vi ser dog helst at du læser CONTRIBU
 Dette projekt er udgivet under MIT licensen.
 
 ### Kontakt
-Hvis du har spørgsmål, er du velkommen til at sende en email til mala0007@stud.kea.dk, thsk0001@stud.kea.dk, ussh0001@@stud.kea.dk eller nipe0001@stud.kea.dk.
+Hvis du har spørgsmål, er du velkommen til at sende en email til mala0007@stud.kea.dk, thsk0001@stud.kea.dk, ussh0001@stud.kea.dk eller nipe0001@stud.kea.dk.
