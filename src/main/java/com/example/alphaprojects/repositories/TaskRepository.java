@@ -1,5 +1,7 @@
 // <editor-fold desc="Task Package Declaration & Import of Libraries">
 package com.example.alphaprojects.repositories;
+import com.example.alphaprojects.Exceptions.TaskAddException;
+import com.example.alphaprojects.Exceptions.TaskEditException;
 import com.example.alphaprojects.interfaces.TaskInterface;
 import com.example.alphaprojects.model.EmpSkillDTO;
 import com.example.alphaprojects.model.Skill;
@@ -29,7 +31,7 @@ public class TaskRepository implements TaskInterface {
 
     @GetMapping("/{subprojectid}/tasks")
     @Override
-    public void addTask(Task newTask) {
+    public void addTask(Task newTask) throws TaskAddException {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String taskSQL = "INSERT INTO task (subproject_id, task_name, task_description, task_time_estimate, task_deadline, task_status) VALUES(?,?,?,?,?,?);";
         String empTaskSQL = "INSERT INTO task_emp (emp_id, task_id) VALUES(?,?);";
@@ -61,7 +63,7 @@ public class TaskRepository implements TaskInterface {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new TaskAddException("Fejl - udfyld alle felter");
         }
     }
 
@@ -102,14 +104,20 @@ public class TaskRepository implements TaskInterface {
     }
 
     @Override
-    public void editTask(Task task) {
-        updateTaskInformation(task);
+    public void editTask(Task task) throws TaskEditException {
 
-        List<Integer> previousAssignedEmployeeIds = getAssignedEmployeeIdsForTask(task.getTaskID());
+       try {
+           updateTaskInformation(task);
 
-        List<Integer> newAssignedEmployeeIds = task.getSelectedEmpIDs();
+           List<Integer> previousAssignedEmployeeIds = getAssignedEmployeeIdsForTask(task.getTaskID());
 
-        updateAssignedEmployees(task.getTaskID(), previousAssignedEmployeeIds, newAssignedEmployeeIds);
+           List<Integer> newAssignedEmployeeIds = task.getSelectedEmpIDs();
+
+           updateAssignedEmployees(task.getTaskID(), previousAssignedEmployeeIds, newAssignedEmployeeIds);
+       } catch (Exception e) {
+           throw new TaskEditException("Editeringen mislykkedes. Prøv igen");
+       }
+
     }
 
     @Override

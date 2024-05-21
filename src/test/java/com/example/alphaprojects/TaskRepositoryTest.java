@@ -1,6 +1,8 @@
 package com.example.alphaprojects;
 // <editor-fold desc="Task Test Packages and Import of libraries">
 
+import com.example.alphaprojects.Exceptions.TaskAddException;
+import com.example.alphaprojects.Exceptions.TaskEditException;
 import com.example.alphaprojects.model.Task;
 import com.example.alphaprojects.repositories.TaskRepository;
 import org.junit.jupiter.api.Test;
@@ -45,7 +47,7 @@ public class TaskRepositoryTest {
     }
 
     @Test
-    void addTasks() {
+    void addTasks() throws TaskAddException {
 
         //Arrange - Creating a testTask
         Task testTask = new Task(1,1,"Create x method", "You can do it", 5, LocalDate.of(2024,2,12),"Done");
@@ -56,7 +58,7 @@ public class TaskRepositoryTest {
     }
 
     @Test
-    void editTask() {
+    void editTask() throws TaskEditException, TaskAddException {
         // Arrange: Opretter en task der senere skal editeres
         Task TestTask = new Task(1, 1, "Create x method", "You can do it", 5, LocalDate.of(2024, 2, 12), "Done");
         taskRepository.addTask(TestTask);

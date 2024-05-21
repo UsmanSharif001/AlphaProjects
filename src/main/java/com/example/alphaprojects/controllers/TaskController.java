@@ -1,5 +1,7 @@
 
 package com.example.alphaprojects.controllers;
+import com.example.alphaprojects.Exceptions.TaskAddException;
+import com.example.alphaprojects.Exceptions.TaskEditException;
 import com.example.alphaprojects.model.*;
 import com.example.alphaprojects.services.EmpService;
 import com.example.alphaprojects.services.ProjectService;
@@ -136,7 +138,7 @@ public class TaskController {
     // <editor-fold desc="Task Controller POST-Methods">
     @PostMapping("/{subprojectid}/savetask")
     public String saveTask(@ModelAttribute Task newTask, @PathVariable int subprojectid,
-                           @RequestParam(value = "selectedEmployees", required = false) List<Integer> selectedEmployeeIds, HttpSession session) {
+                           @RequestParam(value = "selectedEmployees", required = false) List<Integer> selectedEmployeeIds, HttpSession session) throws TaskAddException {
 
         if (isLoggedIn(session)) {
             newTask.setSubprojectID(subprojectid);
@@ -151,7 +153,7 @@ public class TaskController {
     @PostMapping("/{subprojectid}/updatetask")
     public String updateTask(@ModelAttribute Task task, @PathVariable int subprojectid,
                              // RequestParam selectedEmployees bliver lagt i selectedEmployeeIds listen. Required = false betyder at den gerne må være null listen - dvs. der kan godt være 0 emps tilknyttet til en task - kontra hvis den var true.
-                             @RequestParam(value = "selectedEmployees", required = false) List<Integer> selectedEmployeeIds, HttpSession session) {
+                             @RequestParam(value = "selectedEmployees", required = false) List<Integer> selectedEmployeeIds, HttpSession session) throws TaskEditException {
 
         if (isLoggedIn(session)){
             task.setSubprojectID(subprojectid);
