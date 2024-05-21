@@ -19,8 +19,9 @@ public interface EmployeeRepositoryInterface {
 
     void deleteEmp(int empID);
 
-    //TODO have to figure out if this is needed
-    List<Role> getListOfRoleNamesForEmp();
+    Emp getEmpFromEmpID(int empID);
+
+    void updateEmp(Emp emp);
 
     List<Role> getRoles();
 

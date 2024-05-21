@@ -1,5 +1,7 @@
 package com.example.alphaprojects.services;
 
+import com.example.alphaprojects.Exceptions.SubprojectAddException;
+import com.example.alphaprojects.Exceptions.SubprojectEditException;
 import com.example.alphaprojects.model.Subproject;
 import com.example.alphaprojects.repositories.SubprojectRepository;
 import org.springframework.stereotype.Service;
@@ -17,11 +19,11 @@ public class SubprojectService {
         return subprojectRepository.getSubprojects(projectID);
     }
 
-    public void createSubproject(Subproject subproject){
+    public void createSubproject(Subproject subproject) throws SubprojectAddException {
         subprojectRepository.createSubproject(subproject);
     }
 
-    public void editSubproject(Subproject subproject){
+    public void editSubproject(Subproject subproject) throws SubprojectEditException {
         subprojectRepository.editSubproject(subproject);
     }
 
