@@ -4,6 +4,7 @@ package com.example.alphaprojects.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Task {
 
@@ -15,6 +16,9 @@ public class Task {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate taskDeadline;
     private String taskStatus;
+    private List<Integer> selectedEmpIDs;
+    private List<Emp> assignedEmployees;
+    private List<EmpSkillDTO> assignedEmployeesWithSkills;
 
     public Task() {}
 
@@ -26,6 +30,43 @@ public class Task {
         this.taskEstimate = taskEstimate;
         this.taskDeadline = taskDeadline;
         this.taskStatus = taskStatus;
+    }
+
+    public Task(int taskID, int subprojectID, String taskName, String taskDescription, int taskEstimate, LocalDate taskDeadline, String taskStatus, List<Integer> selectedEmpIDs, List<Emp> assignedEmployees, List<EmpSkillDTO> assignedEmployeesWithSkills) {
+        this.taskID = taskID;
+        this.subprojectID = subprojectID;
+        this.taskName = taskName;
+        this.taskDescription = taskDescription;
+        this.taskEstimate = taskEstimate;
+        this.taskDeadline = taskDeadline;
+        this.taskStatus = taskStatus;
+        this.selectedEmpIDs = selectedEmpIDs;
+        this.assignedEmployees = assignedEmployees;
+        this.assignedEmployeesWithSkills = assignedEmployeesWithSkills;
+    }
+
+    public List<EmpSkillDTO> getAssignedEmployeesWithSkills() {
+        return assignedEmployeesWithSkills;
+    }
+
+    public void setAssignedEmployeesWithSkills(List<EmpSkillDTO> assignedEmployeesWithSkills) {
+        this.assignedEmployeesWithSkills = assignedEmployeesWithSkills;
+    }
+
+    public List<Emp> getAssignedEmployees() {
+        return assignedEmployees;
+    }
+
+    public void setAssignedEmployees(List<Emp> assignedEmployees) {
+        this.assignedEmployees = assignedEmployees;
+    }
+
+    public List<Integer> getSelectedEmpIDs() {
+        return selectedEmpIDs;
+    }
+
+    public void setSelectedEmpIDs(List<Integer> selectedEmpIDs) {
+        this.selectedEmpIDs = selectedEmpIDs;
     }
 
     public int getTaskID() {

@@ -27,7 +27,6 @@
                    th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" id="deadline"/>
 
         </p>
-
         <fieldset>
             <legend>Status:</legend>
             <div>
@@ -45,6 +44,18 @@
                 <label for="done">🟢 Afsluttet</label>
             </div>
         </fieldset>
+
+        <p style="position: relative;">
+            <label for="selectedEmployees">Vælg medarbejdere:</label>
+            <select id="selectedEmployees" name="selectedEmployees" multiple="multiple"
+                    style="overflow: auto; max-height: 500px; max-width: 500px;">
+                <option th:each="employee : ${employees}" th:value="${employee.empID}">
+                    <span th:text="${employee.empName}"></span>:
+                    <span th:text="${employee.skills}" style="margin-left: 10px;"></span>
+                </option>
+            </select>
+        </p>
+
         <p>
             <input type="hidden" id="subprojectID" th:value="${subprojectID}">
         </p>
