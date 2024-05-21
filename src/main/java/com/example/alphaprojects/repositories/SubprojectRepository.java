@@ -103,7 +103,6 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
 
     //Delete subproject
     public void deleteSubproject(int subprojectID) {
-        deleteTasksWithSubprojectID(subprojectID);
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = "DELETE FROM subproject WHERE subproject_id = ?;";
 
@@ -116,21 +115,8 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
         }
     }
 
-    //Hjælpmetode til at slette tasks på specifikt subprojectID
-    public void deleteTasksWithSubprojectID(int subprojectID){
-        Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "DELETE FROM task WHERE subproject_id = ?;";
 
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
-            ps.setInt(1, subprojectID);
-            ps.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    //Hjælpemetode til at finde et subproject ud fra subprojectID
+    //Get subproject from subprojectID
     public Subproject getSubprojectFromSubprojectID(int subprojectID) {
         Subproject foundSubproject;
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
@@ -161,6 +147,7 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
         return null;
     }
 
+    //Gets a specific projects estimated hours
     public int getProjectEstimatedHours(int projectID) {
         int projectEstimedHours = 0;
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
