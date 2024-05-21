@@ -6,15 +6,19 @@
 <div layout:fragment="content">
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
-        <h1 style="margin: 0;">Skills</h1>
+        <h1 style="margin: 0;">Komptencer</h1>
         <div style="display: flex; gap: 16px">
+            <a th:href="@{tilføjskill}">
+                <button>Tilføj Komptence</button>
+            </a>
         </div>
     </div>
+
     <div class="overflow-auto">
         <table>
             <thead>
             <tr>
-                <th>Navn</th>
+                <th>Kompetenceliste</th>
 
             </tr>
             </thead>
@@ -26,12 +30,7 @@
             </tr>
             </tbody>
         </table>
-        <div>
-            <a th:href="@{tilføjskill}">
-                <button> Tilføj Skill</button>
-            </a>
-        </div>
-        <div>
+        <div style="display: flex; justify-content: center;">
             <a th:href="@{admin}">
                 <button class="secondary"> Tilbage</button>
             </a>
