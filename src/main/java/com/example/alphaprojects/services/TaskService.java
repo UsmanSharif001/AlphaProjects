@@ -1,4 +1,6 @@
 package com.example.alphaprojects.services;
+import com.example.alphaprojects.Exceptions.TaskAddException;
+import com.example.alphaprojects.Exceptions.TaskEditException;
 import com.example.alphaprojects.model.EmpSkillDTO;
 import com.example.alphaprojects.model.Task;
 import com.example.alphaprojects.repositories.TaskRepository;
@@ -18,11 +20,11 @@ public class TaskService {
     // </editor-fold>
 
     // <editor-fold desc="Task CRUD-Management Methods">
-    public void createTask(Task task) {
+    public void createTask(Task task) throws TaskAddException {
         taskRepository.addTask(task);
     }
 
-    public void updateTask(Task task) {
+    public void updateTask(Task task) throws TaskEditException {
         taskRepository.editTask(task);
     }
 
