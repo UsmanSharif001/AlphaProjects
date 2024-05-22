@@ -1,6 +1,7 @@
 package com.example.alphaprojects;
 
 
+import com.example.alphaprojects.Exceptions.EmpDeleteException;
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.EmpDTO;
 import com.example.alphaprojects.model.Skill;
@@ -202,6 +203,24 @@ public class EmpRepositoryTest {
         skill.setSkillName("Test Skill");
         empRepository.addSkill(skill);
         assertNotNull(skill);
+
+    }
+
+    @Test
+    @Order(18)
+    void deleteEmp() throws EmpDeleteException {
+    int empIDforNikolaj = 4;
+    empRepository.deleteEmp(empIDforNikolaj);
+    int actualSize = empRepository.getAllEmp().size();
+    int expectedSize = 4;
+    assertEquals(expectedSize,actualSize);
+    }
+
+    @Test
+    @Order(19)
+    void tryToDeleteProjectManager() {
+        int empIDforProjectManager = 1;
+       assertThrows(EmpDeleteException.class, () -> empRepository.deleteEmp(empIDforProjectManager));
 
     }
 
