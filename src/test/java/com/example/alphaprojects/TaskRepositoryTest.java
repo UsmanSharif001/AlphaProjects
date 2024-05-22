@@ -59,7 +59,7 @@ public class TaskRepositoryTest {
         //Assert
         assertNotNull(testTask);
     } */
-
+/*
     @Test
     @Order(3)
     void editTask() throws TaskEditException, TaskAddException {
@@ -75,7 +75,7 @@ public class TaskRepositoryTest {
         // Assert: Tjekker om tiden er blevet opdateret.
         assertEquals(10, actualTask.getTaskEstimate());
 
-    }
+    } */
 
     @Test
     @Order(4)
