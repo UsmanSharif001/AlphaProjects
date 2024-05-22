@@ -4,50 +4,51 @@ import com.example.alphaprojects.Exceptions.ProjectAddException;
 import com.example.alphaprojects.Exceptions.ProjectEditException;
 import com.example.alphaprojects.model.Project;
 import com.example.alphaprojects.repositories.ProjectRepository;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ActiveProfiles("h2")
 public class ProjectRepositoryTest {
 
     @Autowired
     ProjectRepository projectRepository;
 
+    // Test projects:
+    Project testProject = new Project(2, 3, "Usman", "testName", "this is a testproject", 0, 0, LocalDate.now(), "ARCHIVED");
+    Project updatedTestProject = new Project(2, 3, "Usman", "newTestName", "this is a testproject", 0, 0, LocalDate.now(), "DONE");
+
     @Test
+    @Order(1)
     void getListOfProjects(){
         List<Project> projectList = projectRepository.getListOfProjects();
         int expectedNumberOfProjects = 1;
         Assertions.assertEquals(expectedNumberOfProjects, projectList.size());
     }
 
-    // Test projects:
-    Project testProject = new Project(2, 3, "Usman", "testName", "this is a testproject", 0, 0, LocalDate.now(), "DONE");
-    Project updatedTestProject = new Project(2, 3, "Usman", "newTestName", "this is a testproject", 0, 0, LocalDate.now(), "DONE");
-
-    @Test // Er den her ok?
+    @Test
+    @Order(6)
     void addProject() throws ProjectAddException {
         projectRepository.addNewProject(testProject);
         Project foundProject = projectRepository.getProjectFromProjectID(testProject.getProjectID());
         Assertions.assertEquals(testProject.getProjectName(), foundProject.getProjectName());
     }
 
-
-    @Test // Er det her godt nok til at teste edit?
+    @Test
+    @Order(8)
     void editProject() throws ProjectEditException {
         projectRepository.editProject(updatedTestProject);
         Assertions.assertEquals(updatedTestProject.getProjectName(), "newTestName");
     }
 
-    @Test // Er den for lang?
+    @Test
+    @Order(2)
     void getListOfProjectManagers(){
         int expectedSize = 2;
         int actualSize = projectRepository.getProjectManagers().size();
@@ -59,10 +60,10 @@ public class ProjectRepositoryTest {
         Assertions.assertEquals(expectedSize, actualSize);
         Assertions.assertEquals(expectedName, actualName);
         Assertions.assertEquals(expectedID, actualID);
-
     }
 
     @Test
+    @Order(3)
     void getProjectManagerName(){
         int idForUsman = 3;
         String expectedName = "Usman";
@@ -72,6 +73,7 @@ public class ProjectRepositoryTest {
     }
 
     @Test
+    @Order(4)
     void getManagerID(){
         String projectManagerName = "Usman";
         int expectedID = 3;
@@ -81,6 +83,7 @@ public class ProjectRepositoryTest {
     }
 
     @Test
+    @Order(5)
     void getProjectFromProjectID(){
         int projectIDforAlphaProject = 1;
         Project project = projectRepository.getProjectFromProjectID(projectIDforAlphaProject);
@@ -90,8 +93,8 @@ public class ProjectRepositoryTest {
 
         Assertions.assertEquals(expectedProjectName, actualProjectName);
     }
-
     @Test // TODO: Tilføj et arkiveret projekt til H2 DB
+    @Order(7)
     void getListOfArchivedProjects() throws ProjectAddException {
         testProject.setProjectStatus("archived");
         projectRepository.addNewProject(testProject);
@@ -100,7 +103,6 @@ public class ProjectRepositoryTest {
         int actualSize = projectRepository.getListOfArchivedProjects().size();
 
         Assertions.assertEquals(expectedSize, actualSize);
-
     }
 
 }
