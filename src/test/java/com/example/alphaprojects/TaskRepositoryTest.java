@@ -30,9 +30,9 @@ public class TaskRepositoryTest {
     @Autowired
     TaskRepository taskRepository;
 
-    //Te
 
-   /* @Test
+
+    @Test
     @Order(1)
     void getTasksForSubproject() {
 
@@ -47,9 +47,9 @@ public class TaskRepositoryTest {
         assertFalse(tasksForSubproject.isEmpty());
         assertEquals(2, tasksForSubproject.size());
 
-    } */
+    }
 
-   /* @Test
+    @Test
     @Order(2)
     void addTasks() throws TaskAddException {
 
@@ -59,8 +59,8 @@ public class TaskRepositoryTest {
         taskRepository.addTask(testTask);
         //Assert
         assertNotNull(testTask);
-    } */
-/*
+    }
+
     @Test
     @Order(3)
     void editTask() throws TaskEditException, TaskAddException {
@@ -76,41 +76,41 @@ public class TaskRepositoryTest {
         // Assert: Tjekker om tiden er blevet opdateret.
         assertEquals(10, actualTask.getTaskEstimate());
 
-    } */
-//    @Test
-//    @Order(4)
-//    void getTaskFromTaskID() {
-//
-//        //Arrange: Opretter et eksisterende og ikke eksisterende taskID
-//        int existingTaskID = 1;
-//        int notexistingTaskID = 0;
-//
-////        //Act: Gøre brug af metoden getTaskFromTaskID og sætter vores test tasks i
-////        Task found = taskRepository.getTaskFromTaskID(existingTaskID);
-////        Task notFound = taskRepository.getTaskFromTaskID(notexistingTaskID);
-////
-////        //Assert
-////        assertNotNull(found);
-////        assertNull(notFound);
-////
-////
-////    }
-//
-//    @Test
-//    @Order(5)
-//    void deleteTask() {
-//
-//        // Arrange: Opretter en task der senere skal slettes
-//        Task TestTask = new Task(1, 2, "Create ABC method", "You can do it", 10, LocalDate.of(2024, 2, 12), "Done");
-//
-//        //Act: Sletter tasken
-//        taskRepository.deleteTask(TestTask.getTaskID());
-//        Task isThereATask = taskRepository.getTaskFromTaskID(TestTask.getTaskID());
-//
-//        //Assert: Forventer at den task med det taskID er null - fordi den er blevet slettet
-//        assertNull(isThereATask);
-//
-//    }
+    }
+  @Test
+    @Order(4)
+    void getTaskFromTaskID() {
+
+        //Arrange: Opretter et eksisterende og ikke eksisterende taskID
+        int existingTaskID = 1;
+        int notexistingTaskID = 0;
+
+        //Act: Gøre brug af metoden getTaskFromTaskID og sætter vores test tasks i
+        Task found = taskRepository.getTaskFromTaskID(existingTaskID);
+        Task notFound = taskRepository.getTaskFromTaskID(notexistingTaskID);
+
+        //Assert
+        assertNotNull(found);
+        assertNull(notFound);
+
+
+    }
+
+    @Test
+    @Order(5)
+    void deleteTask() {
+
+        // Arrange: Opretter en task der senere skal slettes
+        Task TestTask = new Task(1, 2, "Create ABC method", "You can do it", 10, LocalDate.of(2024, 2, 12), "Done");
+
+        //Act: Sletter tasken
+        taskRepository.deleteTask(TestTask.getTaskID());
+        Task isThereATask = taskRepository.getTaskFromTaskID(TestTask.getTaskID());
+
+        //Assert: Forventer at den task med det taskID er null - fordi den er blevet slettet
+        assertNull(isThereATask);
+
+    }
 
 
 
