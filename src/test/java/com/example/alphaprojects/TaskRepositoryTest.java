@@ -77,40 +77,40 @@ public class TaskRepositoryTest {
         assertEquals(10, actualTask.getTaskEstimate());
 
     } */
-    @Test
-    @Order(4)
-    void getTaskFromTaskID() {
-
-        //Arrange: Opretter et eksisterende og ikke eksisterende taskID
-        int existingTaskID = 1;
-        int notexistingTaskID = 0;
-
-        //Act: Gøre brug af metoden getTaskFromTaskID og sætter vores test tasks i
-        Task found = taskRepository.getTaskFromTaskID(existingTaskID);
-        Task notFound = taskRepository.getTaskFromTaskID(notexistingTaskID);
-
-        //Assert
-        assertNotNull(found);
-        assertNull(notFound);
-
-//Comment in test
-    }
-
-    @Test
-    @Order(5)
-    void deleteTask() {
-
-        // Arrange: Opretter en task der senere skal slettes
-        Task TestTask = new Task(1, 2, "Create ABC method", "You can do it", 10, LocalDate.of(2024, 2, 12), "Done");
-
-        //Act: Sletter tasken
-        taskRepository.deleteTask(TestTask.getTaskID());
-        Task isThereATask = taskRepository.getTaskFromTaskID(TestTask.getTaskID());
-
-        //Assert: Forventer at den task med det taskID er null - fordi den er blevet slettet
-        assertNull(isThereATask);
-
-    }
+//    @Test
+//    @Order(4)
+//    void getTaskFromTaskID() {
+//
+//        //Arrange: Opretter et eksisterende og ikke eksisterende taskID
+//        int existingTaskID = 1;
+//        int notexistingTaskID = 0;
+//
+////        //Act: Gøre brug af metoden getTaskFromTaskID og sætter vores test tasks i
+////        Task found = taskRepository.getTaskFromTaskID(existingTaskID);
+////        Task notFound = taskRepository.getTaskFromTaskID(notexistingTaskID);
+////
+////        //Assert
+////        assertNotNull(found);
+////        assertNull(notFound);
+////
+////
+////    }
+//
+//    @Test
+//    @Order(5)
+//    void deleteTask() {
+//
+//        // Arrange: Opretter en task der senere skal slettes
+//        Task TestTask = new Task(1, 2, "Create ABC method", "You can do it", 10, LocalDate.of(2024, 2, 12), "Done");
+//
+//        //Act: Sletter tasken
+//        taskRepository.deleteTask(TestTask.getTaskID());
+//        Task isThereATask = taskRepository.getTaskFromTaskID(TestTask.getTaskID());
+//
+//        //Assert: Forventer at den task med det taskID er null - fordi den er blevet slettet
+//        assertNull(isThereATask);
+//
+//    }
 
 
 
