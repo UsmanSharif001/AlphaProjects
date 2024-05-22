@@ -89,7 +89,7 @@ public class TaskController {
                List<EmpSkillDTO> employees = taskService.getEmployeesForTask(taskID);
                employeesForTasks.put(taskID, employees);
            }
-//Added comment in controller
+
            model.addAttribute("listOfTasks", listOfTasks);
            model.addAttribute("subprojectid", subprojectid);
            model.addAttribute("projectName", projectName);
