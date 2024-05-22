@@ -27,6 +27,8 @@ public class EmpRepositoryTest {
     @Autowired
     EmpRepository empRepository;
 
+
+    //TODO husk at slette det her
     @Test
     @Order(1)
     void loginCorrect(){
@@ -44,7 +46,6 @@ public class EmpRepositoryTest {
         String password = "123";
         EmpDTO emp = empRepository.login(email, password);
         assertNull(emp);
-
     }
 
 
