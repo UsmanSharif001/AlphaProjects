@@ -44,4 +44,8 @@ public class ProjectService {
     public List<Project> getListOfArchivedProjects() {
         return projectRepository.getListOfArchivedProjects();
     }
+
+    public void editDescription(Project updateProject) throws ProjectEditException {
+        projectRepository.editDescription(updateProject);
+    }
 }

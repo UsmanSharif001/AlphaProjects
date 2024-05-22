@@ -21,6 +21,8 @@ public interface ProjectInterface {
 
     void editProject(Project project) throws ProjectAddException, ProjectEditException;
 
+    void editDescription(Project project) throws ProjectEditException;
+
     List<ProjectManagerDTO> getProjectManagers();
 
     Project getProjectFromProjectID(int projectID);

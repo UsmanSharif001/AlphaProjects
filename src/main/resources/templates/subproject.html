@@ -5,7 +5,7 @@
 <div layout:fragment="content">
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
-        <h1 style="margin: 0;" th:text="${projectName} + ' - subprojekter'">Subprojektoversigt</h1>
+        <h1 style="margin: 0;" th:text="${projectName} + ' - Subprojekter'">Subprojektoversigt</h1>
         <a th:href="@{/{projectid}/opretsubprojekt(projectid=${projectid})}">
             <button style="margin: 0;" type="submit"> Opret Subprojekt</button>
         </a>
@@ -71,7 +71,7 @@
         </table>
     </div>
     <div style="display: flex; justify-content: center;">
-        <button type="button" onclick="window.location.href='/projekter'">
+        <button type="button" class="secondary" onclick="window.location.href='/projekter'">
             Tilbage til projekter
         </button>
     </div>

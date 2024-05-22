@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout">
 
 <div style="width: 100%; display: flex; flex-direction: column; gap: 32px; align-items: center;"
      layout:fragment="content">
-    <h1 style="align-self: flex-start;">Tilføj medarbejder kompetence</h1>
 
-    <form th:action="@{gemskill}" th:method="POST" th:object="${skill}"
+    <h1 style="align-self: flex-start;">Redigér beskrivelse</h1>
+
+    <form th:action="@{/{projectID}/opdaterbeskrivelse(projectID=${projectID})}" th:method="POST"
+          th:object="${updateProject}"
           style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
 
-        <label for="name" hidden >Kompetence</label>
-        <input id="name" type="text" th:field="*{skillName}" placeholder="Skriv kompetencen her..." style="margin-top: 24px;"/>
+        <label for="description">Beskrivelse:</label>
+        <textarea id="description" th:field="*{projectDescription}"
+                  placeholder="Beskrivelse af projektet…" maxlength="3000"></textarea>
 
         <div style="display: flex; gap: 16px;">
-            <a th:href="@{skills}" style="display: contents">
+            <a th:href="@{/{projectID}/sharedvision(projectID=${projectID})}" style="display: contents">
                 <button type="button" class="secondary" style="width: 100%;">
                     Annuller
                 </button>

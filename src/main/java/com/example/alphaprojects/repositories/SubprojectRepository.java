@@ -35,7 +35,7 @@ public class SubprojectRepository implements SubprojectRepositoryInterface {
     public List<Subproject> getSubprojects(int projectID) {
         List<Subproject> subprojectList = new ArrayList<>();
         Connection connection = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "SELECT * FROM subproject WHERE project_id = ?;";
+        String SQL = "SELECT * FROM subproject WHERE project_id = ? ORDER BY subproject_deadline;";
 
         try (PreparedStatement ps = connection.prepareStatement(SQL)) {
             ps.setInt(1, projectID);

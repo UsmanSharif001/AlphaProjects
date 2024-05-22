@@ -28,7 +28,7 @@ public class ProjectRepository implements ProjectInterface {
     public List<Project> getListOfProjects() {
         List<Project> projectList = new ArrayList<>();
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
-        String SQL = "SELECT * FROM project WHERE project_Status != 'archived'";
+        String SQL = "SELECT * FROM project WHERE project_Status != 'archived' ORDER BY project_deadline";
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ResultSet projectsResultSet = ps.executeQuery();
             while (projectsResultSet.next()) {
@@ -90,6 +90,21 @@ public class ProjectRepository implements ProjectInterface {
 
         } catch (Exception e) {
             throw new ProjectEditException("Husk at udfylde alle felterne.");
+        }
+    }
+
+    @Override
+    public void editDescription(Project project) throws ProjectEditException {
+        Connection con = ConnectionManager.getConnection(db_url, username, pwd);
+        String SQL = "UPDATE project SET project_description = ? WHERE project_id = ?;";
+
+        try (PreparedStatement ps = con.prepareStatement(SQL)) {
+            ps.setString(1, project.getProjectDescription());
+            ps.setInt(2, project.getProjectID());
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            throw new ProjectEditException("Husk at udfylde feltet.");
         }
     }
 

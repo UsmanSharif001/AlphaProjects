@@ -35,11 +35,15 @@
                    th:value="${skill.skillName}">
             <label th:text="${skill}"></label>
         </div>
-
-        <button type="submit">Tilføj</button>
-
+        <div style="display: flex; gap: 16px; margin-top: 32px">
+            <a th:href="@{/medarbejdere}" style="display: contents">
+                <button type="button" class="secondary" style="width: 100%;">
+                    Annuller
+                </button>
+            </a>
+            <button type="submit" style="width: 100%;">Opdatér Medarbejder</button>
+        </div>
     </form>
-    <a th:href="@{medarbejdere}"> <button> Tilbage</button>
     </a>
 </div>
 </html>

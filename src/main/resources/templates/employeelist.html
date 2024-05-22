@@ -8,15 +8,19 @@
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
         <h1 style="margin: 0;">Medarbejdere</h1>
         <div style="display: flex; gap: 16px">
+            <a th:href="@{tilføjmedarbejder}">
+                <button> Tilføj Medarbejder</button>
+            </a>
         </div>
     </div>
+
     <div class="overflow-auto">
         <table>
             <thead>
             <tr>
                 <th>Navn</th>
                 <th>Email</th>
-                <th>Role</th>
+                <th>Rettighedsprofil</th>
                 <th></th>
 
             </tr>
@@ -28,9 +32,9 @@
                 <td th:text="${emp.email}"></td>
                 <td th:text="${emp.roleName}"></td>
                 <td> <a th:href="@{/{empID}/redigermedarbejder(empID=${emp.getEmpID()})}">
-                    <button type="button" data-tooltip="Redigér">✏️</button>
+                    <button type="button" data-tooltip="Redigér medarbejderprofil">✏️</button>
                     <a th:href="@{/{empID}/sletmedarbejder(empID=${emp.getEmpID()})}">
-                        <button type="button" data-tooltip="Slet">🗑️</button> </a>
+                        <button type="button" data-tooltip="Slet medarbejder">🗑️</button> </a>
                 </a>
                 </td>
 
@@ -40,14 +44,9 @@
 
             </tbody>
         </table>
-        <div>
-            <a th:href="@{tilføjmedarbejder}">
-                <button> Tilføj Medarbejder</button>
-            </a>
-        </div>
-        <div>
+        <div style="display: flex; justify-content: center;">
             <a th:href="@{admin}">
-                <button> Tilbage</button>
+                <button class="secondary"> Tilbage</button>
             </a>
         </div>
     </div>

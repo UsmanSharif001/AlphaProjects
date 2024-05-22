@@ -33,8 +33,8 @@ public class ProjectController {
     private String getProjects(Model model, HttpSession session) {
         if (isLoggedIn(session)) {
             EmpDTO emp = (EmpDTO) session.getAttribute("emp");
-            if(emp.getRoleID() == 1) {
-                model.addAttribute("isAdmin",true);
+            if (emp.getRoleID() == 1) {
+                model.addAttribute("isAdmin", true);
             }
             List<Project> projectList = projectService.getListOfProjects();
             model.addAttribute("projects", projectList);
@@ -87,6 +87,27 @@ public class ProjectController {
         return "redirect:/login";
     }
 
+    @GetMapping("{projectID}/redigerbeskrivelse")
+    public String updateDescription(@PathVariable int projectID, Model model, HttpSession session) {
+        if (isLoggedIn(session)) {
+            Project updateProject = projectService.getProjectFromProjectID(projectID);
+            model.addAttribute("projectID", projectID);
+            model.addAttribute("updateProject", updateProject);
+            return "editDescription";
+        }
+        return "redirect:/login";
+    }
+
+    @PostMapping("{projectID}/opdaterbeskrivelse")
+    public String updateDescription(@ModelAttribute Project updateProject, @PathVariable int projectID, HttpSession session) throws ProjectEditException {
+        if (isLoggedIn(session)) {
+            updateProject.setProjectID(projectID);
+            projectService.editDescription(updateProject);
+            return "redirect:/{projectID}/sharedvision";
+        }
+        return "redirect:/login";
+    }
+
     @GetMapping("/arkiveredeprojekter")
     private String getArchivedProjects(Model model, HttpSession session) {
         if (isLoggedIn(session)) {
@@ -99,7 +120,7 @@ public class ProjectController {
     }
 
     @GetMapping("/{projectid}/sharedvision")
-    private String sharedVision(@PathVariable int projectid, Model model, HttpSession session){
+    private String sharedVision(@PathVariable int projectid, Model model, HttpSession session) {
         if (isLoggedIn(session)) {
             Project projectToSharedVision = projectService.getProjectFromProjectID(projectid);
             model.addAttribute("project", projectToSharedVision);
