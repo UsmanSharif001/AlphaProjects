@@ -31,7 +31,9 @@ public class TaskRepositoryTest {
     TaskRepository taskRepository;
 
 
-   /* @Test
+/*
+
+    @Test
     @Order(1)
     void getTasksForSubproject() {
 
@@ -46,9 +48,9 @@ public class TaskRepositoryTest {
         assertFalse(tasksForSubproject.isEmpty());
         assertEquals(2, tasksForSubproject.size());
 
-    } */
+    }
 
-   /* @Test
+    @Test
     @Order(2)
     void addTasks() throws TaskAddException {
 
@@ -58,8 +60,8 @@ public class TaskRepositoryTest {
         taskRepository.addTask(testTask);
         //Assert
         assertNotNull(testTask);
-    } */
-/*
+    }
+
     @Test
     @Order(3)
     void editTask() throws TaskEditException, TaskAddException {
@@ -75,9 +77,8 @@ public class TaskRepositoryTest {
         // Assert: Tjekker om tiden er blevet opdateret.
         assertEquals(10, actualTask.getTaskEstimate());
 
-    } */
-
-    @Test
+    }
+  @Test
     @Order(4)
     void getTaskFromTaskID() {
 
@@ -93,7 +94,7 @@ public class TaskRepositoryTest {
         assertNotNull(found);
         assertNull(notFound);
 
-//Comment in test
+
     }
 
     @Test
@@ -111,6 +112,7 @@ public class TaskRepositoryTest {
         assertNull(isThereATask);
 
     }
+*/
 
 
 
