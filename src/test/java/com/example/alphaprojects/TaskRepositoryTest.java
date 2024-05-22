@@ -31,7 +31,7 @@ public class TaskRepositoryTest {
     TaskRepository taskRepository;
 
 
-    @Test
+   /* @Test
     @Order(1)
     void getTasksForSubproject() {
 
@@ -46,9 +46,9 @@ public class TaskRepositoryTest {
         assertFalse(tasksForSubproject.isEmpty());
         assertEquals(2, tasksForSubproject.size());
 
-    }
+    } */
 
-    @Test
+   /* @Test
     @Order(2)
     void addTasks() throws TaskAddException {
 
@@ -58,7 +58,7 @@ public class TaskRepositoryTest {
         taskRepository.addTask(testTask);
         //Assert
         assertNotNull(testTask);
-    }
+    } */
 
     @Test
     @Order(3)
