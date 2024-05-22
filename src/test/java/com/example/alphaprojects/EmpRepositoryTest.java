@@ -28,7 +28,7 @@ public class EmpRepositoryTest {
     EmpRepository empRepository;
 
 
-    //TODO husk at slette det her
+    //TODO husk at slette det her husk igen at slette
     @Test
     @Order(1)
     void loginCorrect(){
