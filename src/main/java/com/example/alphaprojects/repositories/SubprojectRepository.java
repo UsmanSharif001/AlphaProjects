@@ -1,17 +1,13 @@
 package com.example.alphaprojects.repositories;
 
-import com.example.alphaprojects.Exceptions.SubprojectAddException;
-import com.example.alphaprojects.Exceptions.SubprojectEditException;
+import com.example.alphaprojects.exceptions.SubprojectAddException;
+import com.example.alphaprojects.exceptions.SubprojectEditException;
 import com.example.alphaprojects.interfaces.SubprojectRepositoryInterface;
 import com.example.alphaprojects.model.Subproject;
 import com.example.alphaprojects.util.ConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
-import com.example.alphaprojects.interfaces.SubprojectRepositoryInterface;
-import com.example.alphaprojects.util.ConnectionManager;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

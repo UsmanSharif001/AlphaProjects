@@ -1,7 +1,7 @@
 package com.example.alphaprojects;
 
-import com.example.alphaprojects.Exceptions.ProjectAddException;
-import com.example.alphaprojects.Exceptions.ProjectEditException;
+import com.example.alphaprojects.exceptions.ProjectAddException;
+import com.example.alphaprojects.exceptions.ProjectEditException;
 import com.example.alphaprojects.model.Project;
 import com.example.alphaprojects.repositories.ProjectRepository;
 import org.junit.jupiter.api.*;

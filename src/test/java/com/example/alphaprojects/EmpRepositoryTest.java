@@ -1,7 +1,7 @@
 package com.example.alphaprojects;
 
 
-import com.example.alphaprojects.Exceptions.EmpDeleteException;
+import com.example.alphaprojects.exceptions.EmpDeleteException;
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.EmpDTO;
 import com.example.alphaprojects.model.Skill;

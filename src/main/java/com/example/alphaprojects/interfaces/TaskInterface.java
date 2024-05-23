@@ -1,7 +1,7 @@
 package com.example.alphaprojects.interfaces;
 
-import com.example.alphaprojects.Exceptions.TaskAddException;
-import com.example.alphaprojects.Exceptions.TaskEditException;
+import com.example.alphaprojects.exceptions.TaskAddException;
+import com.example.alphaprojects.exceptions.TaskEditException;
 import com.example.alphaprojects.model.EmpSkillDTO;
 import com.example.alphaprojects.model.Task;
 

@@ -1,6 +1,6 @@
 package com.example.alphaprojects.repositories;
 
-import com.example.alphaprojects.Exceptions.EmpDeleteException;
+import com.example.alphaprojects.exceptions.EmpDeleteException;
 import com.example.alphaprojects.interfaces.EmployeeRepositoryInterface;
 import com.example.alphaprojects.model.*;
 import com.example.alphaprojects.util.ConnectionManager;

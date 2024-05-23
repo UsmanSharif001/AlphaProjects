@@ -1,7 +1,7 @@
 package com.example.alphaprojects.controllers;
 
-import com.example.alphaprojects.Exceptions.SubprojectAddException;
-import com.example.alphaprojects.Exceptions.SubprojectEditException;
+import com.example.alphaprojects.exceptions.SubprojectAddException;
+import com.example.alphaprojects.exceptions.SubprojectEditException;
 import com.example.alphaprojects.model.Project;
 import com.example.alphaprojects.model.Subproject;
 import com.example.alphaprojects.services.ProjectService;

@@ -1,7 +1,7 @@
 // <editor-fold desc="Task Package Declaration & Import of Libraries">
 package com.example.alphaprojects.repositories;
-import com.example.alphaprojects.Exceptions.TaskAddException;
-import com.example.alphaprojects.Exceptions.TaskEditException;
+import com.example.alphaprojects.exceptions.TaskAddException;
+import com.example.alphaprojects.exceptions.TaskEditException;
 import com.example.alphaprojects.interfaces.TaskInterface;
 import com.example.alphaprojects.model.EmpSkillDTO;
 import com.example.alphaprojects.model.Skill;
