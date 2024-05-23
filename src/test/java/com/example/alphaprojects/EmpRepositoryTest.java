@@ -1,6 +1,7 @@
 package com.example.alphaprojects;
 
 
+import com.example.alphaprojects.Exceptions.EmpDeleteException;
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.EmpDTO;
 import com.example.alphaprojects.model.Skill;
@@ -26,6 +27,8 @@ public class EmpRepositoryTest {
     @Autowired
     EmpRepository empRepository;
 
+
+    //TODO husk at slette det her husk igen at slette
     @Test
     @Order(1)
     void loginCorrect(){
@@ -44,6 +47,7 @@ public class EmpRepositoryTest {
         EmpDTO emp = empRepository.login(email, password);
         assertNull(emp);
     }
+
 
     @Test
     @Order(3)
@@ -202,6 +206,24 @@ public class EmpRepositoryTest {
         skill.setSkillName("Test Skill");
         empRepository.addSkill(skill);
         assertNotNull(skill);
+
+    }
+
+    @Test
+    @Order(18)
+    void deleteEmp() throws EmpDeleteException {
+    int empIDforNikolaj = 4;
+    empRepository.deleteEmp(empIDforNikolaj);
+    int actualSize = empRepository.getAllEmp().size();
+    int expectedSize = 4;
+    assertEquals(expectedSize,actualSize);
+    }
+
+    @Test
+    @Order(19)
+    void tryToDeleteProjectManager() {
+        int empIDforProjectManager = 1;
+       assertThrows(EmpDeleteException.class, () -> empRepository.deleteEmp(empIDforProjectManager));
 
     }
 

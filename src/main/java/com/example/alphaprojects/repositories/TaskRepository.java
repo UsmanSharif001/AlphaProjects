@@ -105,20 +105,26 @@ public class TaskRepository implements TaskInterface {
 
     @Override
     public void editTask(Task task) throws TaskEditException {
+        try {
 
-       try {
-           updateTaskInformation(task);
+            updateTaskInformation(task);
 
-           List<Integer> previousAssignedEmployeeIds = getAssignedEmployeeIdsForTask(task.getTaskID());
+            List<Integer> previousAssignedEmployeeIds = getAssignedEmployeeIdsForTask(task.getTaskID());
+            if (previousAssignedEmployeeIds == null) {
+                previousAssignedEmployeeIds = new ArrayList<>();
+            }
 
-           List<Integer> newAssignedEmployeeIds = task.getSelectedEmpIDs();
+            List<Integer> newAssignedEmployeeIds = task.getSelectedEmpIDs();
+            if (newAssignedEmployeeIds == null) {
+                newAssignedEmployeeIds = new ArrayList<>();
+            }
 
-           updateAssignedEmployees(task.getTaskID(), previousAssignedEmployeeIds, newAssignedEmployeeIds);
-       } catch (Exception e) {
-           throw new TaskEditException("Editeringen mislykkedes. Prøv igen");
-       }
-
+            updateAssignedEmployees(task.getTaskID(), previousAssignedEmployeeIds, newAssignedEmployeeIds);
+        } catch (Exception e) {
+            throw new TaskEditException("Editeringen mislykkedes. Prøv igen");
+        }
     }
+
 
     @Override
     public void deleteTask(int taskId) {
