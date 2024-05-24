@@ -25,7 +25,7 @@
       <tbody>
       <tr th:each="project : ${archivedProjects}">
         <td>
-          <a th:href="@{/{projectID}/subprojects(projectID=${project.getProjectID()})}">
+          <a th:href="@{/{projectID}/subprojekter(projectID=${project.getProjectID()})}">
             <button type="submit" style="width: 100%"><span th:text="${project.getProjectName()}"></span>
             </button>
           </a>
@@ -45,7 +45,7 @@
           <a th:href="@{/{projectID}/redigerprojekt(projectID=${project.getProjectID()})}">
             <button type="button" data-tooltip="Redigér">✏️</button>
           </a>
-          <button type="button" disabled data-tooltip="Shared vision">🔭</button>
+          <button type="button" data-tooltip="Shared vision">🔭</button>
         </td>
         <td th:text="${project.getProjectID()}" hidden></td>
       </tr>
