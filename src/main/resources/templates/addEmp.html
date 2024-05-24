@@ -11,13 +11,13 @@
           style="background-color: rgba(82, 95, 122, 0.25); padding: 32px; width: 100%; max-width: 708px; border-radius: 45px;">
 
         <label for="name">Navn</label>
-        <input id="name" type="text" th:field="*{name}" placeholder="Medarbejderens navn"/>
+        <input id="name" type="text" th:field="*{name}" required placeholder="Medarbejderens navn"/>
 
         <label for="email">Email</label>
-        <input id="email" type="email" th:field="*{email}" placeholder="Navn@Alphasolutions.com"/>
+        <input id="email" type="email" th:field="*{email}" required placeholder="Navn@Alphasolutions.com"/>
 
         <label for="password">Password</label>
-        <input id="password" type="password" th:field="*{password}"/>
+        <input id="password" type="password" th:field="*{password}" required/>
 
         <label for="role">Role</label>
         <select id="role" name="role" th:field="*{roleID}">
