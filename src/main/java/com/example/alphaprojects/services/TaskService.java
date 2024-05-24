@@ -1,6 +1,6 @@
 package com.example.alphaprojects.services;
-import com.example.alphaprojects.Exceptions.TaskAddException;
-import com.example.alphaprojects.Exceptions.TaskEditException;
+import com.example.alphaprojects.exceptions.TaskAddException;
+import com.example.alphaprojects.exceptions.TaskEditException;
 import com.example.alphaprojects.model.EmpSkillDTO;
 import com.example.alphaprojects.model.Task;
 import com.example.alphaprojects.repositories.TaskRepository;

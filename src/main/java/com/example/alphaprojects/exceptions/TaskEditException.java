@@ -1,4 +1,4 @@
-package com.example.alphaprojects.Exceptions;
+package com.example.alphaprojects.exceptions;
 
 public class TaskEditException extends Exception{
 
