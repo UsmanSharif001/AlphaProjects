@@ -1,6 +1,6 @@
-INSERT into skill(skill_name) 
+INSERT into skill(skill_name)
 VALUES
-('Scrum Master'), 
+('Scrum Master'),
 ('Project Manager'),
 ('Java developer'),
 ('Junior Python developer');
