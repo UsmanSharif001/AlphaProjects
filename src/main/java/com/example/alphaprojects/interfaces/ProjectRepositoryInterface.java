@@ -7,7 +7,7 @@ import com.example.alphaprojects.model.ProjectManagerDTO;
 
 import java.util.List;
 
-public interface ProjectInterface {
+public interface ProjectRepositoryInterface {
 
     List<Project> getListOfProjects();
 

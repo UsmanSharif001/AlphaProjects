@@ -2,7 +2,7 @@
 package com.example.alphaprojects.repositories;
 import com.example.alphaprojects.exceptions.TaskAddException;
 import com.example.alphaprojects.exceptions.TaskEditException;
-import com.example.alphaprojects.interfaces.TaskInterface;
+import com.example.alphaprojects.interfaces.TaskRepositoryInterface;
 import com.example.alphaprojects.model.EmpSkillDTO;
 import com.example.alphaprojects.model.Skill;
 import com.example.alphaprojects.model.Task;
@@ -17,7 +17,7 @@ import java.util.List;
 // </editor-fold>
 
 @Repository
-public class TaskRepository implements TaskInterface {
+public class TaskRepositoryRepository implements TaskRepositoryInterface {
 
     @Value("${spring.datasource.url}")
     private String db_url;

@@ -7,7 +7,7 @@ import com.example.alphaprojects.model.Task;
 
 import java.util.List;
 
-public interface TaskInterface {
+public interface TaskRepositoryInterface {
     void addTask(Task newTask) throws TaskAddException;
 
 
