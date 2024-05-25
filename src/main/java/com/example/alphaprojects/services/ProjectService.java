@@ -4,16 +4,16 @@ import com.example.alphaprojects.exceptions.ProjectAddException;
 import com.example.alphaprojects.exceptions.ProjectEditException;
 import com.example.alphaprojects.model.Project;
 import com.example.alphaprojects.model.ProjectManagerDTO;
-import com.example.alphaprojects.repositories.ProjectRepository;
+import com.example.alphaprojects.repositories.ProjectRepositoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ProjectService {
-    private ProjectRepository projectRepository;
+    private ProjectRepositoryRepository projectRepository;
 
-    public ProjectService(ProjectRepository projectRepository) {
+    public ProjectService(ProjectRepositoryRepository projectRepository) {
         this.projectRepository = projectRepository;
     }
 

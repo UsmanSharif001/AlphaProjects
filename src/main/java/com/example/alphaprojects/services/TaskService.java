@@ -3,7 +3,7 @@ import com.example.alphaprojects.exceptions.TaskAddException;
 import com.example.alphaprojects.exceptions.TaskEditException;
 import com.example.alphaprojects.model.EmpSkillDTO;
 import com.example.alphaprojects.model.Task;
-import com.example.alphaprojects.repositories.TaskRepository;
+import com.example.alphaprojects.repositories.TaskRepositoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +12,9 @@ import java.util.List;
 public class TaskService {
 
     // <editor-fold desc="Dependency Injection">
-    private TaskRepository taskRepository;
+    private TaskRepositoryRepository taskRepository;
 
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(TaskRepositoryRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
     // </editor-fold>
