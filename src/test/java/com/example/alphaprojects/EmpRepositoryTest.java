@@ -146,13 +146,18 @@ public class EmpRepositoryTest {
     @Order(13)
     void createEmp(){
     Emp emp = new Emp();
+    emp.setEmpID(5);
     emp.setName("Niels");
     emp.setEmail("Niels@Alphasolutions.com");
     emp.setPassword("123");
     emp.setRoleID(1);
     emp.setSkillList(List.of(new Skill(1,"Scrum Master")));
     empRepository.addEmp(emp);
+
+    Emp empFoound = empRepository.getEmpFromEmpID(emp.getEmpID());
+
     assertNotNull(emp);
+    assertEquals(empFoound.getName(),emp.getName());
     }
 
     @Test

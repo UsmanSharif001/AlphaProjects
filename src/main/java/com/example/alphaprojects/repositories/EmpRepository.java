@@ -32,7 +32,7 @@ public class EmpRepository implements EmployeeRepositoryInterface {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """ 
                 SELECT * FROM emp
-                WHERE emp_email = ? and emp_password = ?        
+                WHERE emp_email = ? and emp_password = ?
                 """;
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ps.setString(1, email);
