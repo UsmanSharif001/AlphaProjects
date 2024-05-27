@@ -17,7 +17,7 @@ import java.util.List;
 // </editor-fold>
 
 @Repository
-public class TaskRepositoryRepository implements TaskRepositoryInterface {
+public class TaskRepository implements TaskRepositoryInterface {
 
     @Value("${spring.datasource.url}")
     private String db_url;

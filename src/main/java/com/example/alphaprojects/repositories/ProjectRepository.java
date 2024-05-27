@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class ProjectRepositoryRepository implements ProjectRepositoryInterface {
+public class ProjectRepository implements ProjectRepositoryInterface {
 
     @Value("${spring.datasource.url}")
     private String db_url;

@@ -28,7 +28,6 @@ public class EmpRepositoryTest {
     EmpRepository empRepository;
 
 
-    //TODO husk at slette det her husk igen at slette
     @Test
     @Order(1)
     void loginCorrect(){
@@ -99,8 +98,8 @@ public class EmpRepositoryTest {
         int idForNikolaj = 4;
         String expectedEmail = "Nikolaj@gmail.com";
         Emp emp = empRepository.getEmpFromEmpID(idForNikolaj);
-        String actualName = emp.getEmail();
-        assertEquals(expectedEmail,actualName);
+        String actualEmail = emp.getEmail();
+        assertEquals(expectedEmail,actualEmail);
     }
 
     @Test
@@ -109,8 +108,8 @@ public class EmpRepositoryTest {
         int idForNikolaj = 4;
         String expectedPassword = "123";
         Emp emp = empRepository.getEmpFromEmpID(idForNikolaj);
-        String actualName = emp.getPassword();
-        assertEquals(expectedPassword,actualName);
+        String actualPassword = emp.getPassword();
+        assertEquals(expectedPassword,actualPassword);
     }
 
     @Test

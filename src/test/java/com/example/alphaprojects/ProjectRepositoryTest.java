@@ -3,7 +3,7 @@ package com.example.alphaprojects;
 import com.example.alphaprojects.exceptions.ProjectAddException;
 import com.example.alphaprojects.exceptions.ProjectEditException;
 import com.example.alphaprojects.model.Project;
-import com.example.alphaprojects.repositories.ProjectRepositoryRepository;
+import com.example.alphaprojects.repositories.ProjectRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,7 +18,7 @@ import java.util.List;
 public class ProjectRepositoryTest {
 
     @Autowired
-    ProjectRepositoryRepository projectRepository;
+    ProjectRepository projectRepository;
 
     // Test projects:
     Project testProject = new Project(2, 3, "Usman", "testName", "this is a testproject", 0, 0, LocalDate.now(), "ARCHIVED");
