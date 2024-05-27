@@ -1,4 +1,4 @@
-package com.example.alphaprojects;
+package com.example.alphaprojects.repositoryTest;
 // <editor-fold desc="Task Test Packages and Import of libraries">
 
 import com.example.alphaprojects.repositories.TaskRepository;
