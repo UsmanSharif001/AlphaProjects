@@ -1,4 +1,4 @@
-package com.example.alphaprojects;
+package com.example.alphaprojects.repositoryTest;
 
 import com.example.alphaprojects.exceptions.SubprojectAddException;
 import com.example.alphaprojects.exceptions.SubprojectEditException;

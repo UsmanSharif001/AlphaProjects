@@ -17,7 +17,7 @@ import java.util.List;
 // </editor-fold>
 
 @Repository
-public class TaskRepositoryRepository implements TaskRepositoryInterface {
+public class TaskRepository implements TaskRepositoryInterface {
 
     @Value("${spring.datasource.url}")
     private String db_url;
@@ -206,7 +206,7 @@ public class TaskRepositoryRepository implements TaskRepositoryInterface {
         List<EmpSkillDTO> emps = new ArrayList<>();
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
-            SELECT emp.emp_id, emp.emp_name, skill.skill_id, skill.skill_name 
+            SELECT emp.emp_id, emp.emp_name, skill.skill_id, skill.skill_name
             FROM emp
             JOIN emp_skills ON emp.emp_id = emp_skills.emp_id
             JOIN skill ON emp_skills.skill_id = skill.skill_id
@@ -242,7 +242,7 @@ public class TaskRepositoryRepository implements TaskRepositoryInterface {
         List<EmpSkillDTO> empSkillDTOS = new ArrayList<>();
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
-            SELECT emp.emp_id, emp.emp_name, skill.skill_id, skill.skill_name 
+            SELECT emp.emp_id, emp.emp_name, skill.skill_id, skill.skill_name
             FROM emp
             JOIN emp_skills ON emp.emp_id = emp_skills.emp_id
             JOIN skill ON emp_skills.skill_id = skill.skill_id

@@ -1,7 +1,7 @@
-package com.example.alphaprojects;
+package com.example.alphaprojects.repositoryTest;
 // <editor-fold desc="Task Test Packages and Import of libraries">
 
-import com.example.alphaprojects.repositories.TaskRepositoryRepository;
+import com.example.alphaprojects.repositories.TaskRepository;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 public class TaskRepositoryTest {
 
     @Autowired
-    TaskRepositoryRepository taskRepository;
+    TaskRepository taskRepository;
 
 
 /* testeste
