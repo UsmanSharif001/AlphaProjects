@@ -154,10 +154,10 @@ public class EmpRepositoryTest {
     emp.setSkillList(List.of(new Skill(1,"Scrum Master")));
     empRepository.addEmp(emp);
 
-    Emp empFoound = empRepository.getEmpFromEmpID(emp.getEmpID());
+    Emp empFound = empRepository.getEmpFromEmpID(emp.getEmpID());
 
-    assertNotNull(emp);
-    assertEquals(empFoound.getName(),emp.getName());
+    assertNotNull(empFound);
+    assertEquals(empFound.getName(),emp.getName());
     }
 
     @Test
