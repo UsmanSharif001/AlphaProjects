@@ -37,8 +37,8 @@
         </g>
     </svg>
 
-    <p th:if="${wrongCredentials}" class="error" role="alert">
-        Wrong username or password. Try again!
+    <p th:if="${wrongCredentials}" class="error alert alert-warning" role="alert">
+        Det indtastede brugernavn eller kodeord er forkert
     </p>
 
     <form th:action="@{/login}" method="POST"

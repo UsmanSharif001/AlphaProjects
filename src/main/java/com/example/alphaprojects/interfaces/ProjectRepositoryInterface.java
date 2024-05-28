@@ -1,13 +1,13 @@
 package com.example.alphaprojects.interfaces;
 
-import com.example.alphaprojects.Exceptions.ProjectAddException;
-import com.example.alphaprojects.Exceptions.ProjectEditException;
+import com.example.alphaprojects.exceptions.ProjectAddException;
+import com.example.alphaprojects.exceptions.ProjectEditException;
 import com.example.alphaprojects.model.Project;
 import com.example.alphaprojects.model.ProjectManagerDTO;
 
 import java.util.List;
 
-public interface ProjectInterface {
+public interface ProjectRepositoryInterface {
 
     List<Project> getListOfProjects();
 

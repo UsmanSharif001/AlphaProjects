@@ -1,6 +1,6 @@
 package com.example.alphaprojects.repositories;
 
-import com.example.alphaprojects.Exceptions.EmpDeleteException;
+import com.example.alphaprojects.exceptions.EmpDeleteException;
 import com.example.alphaprojects.interfaces.EmployeeRepositoryInterface;
 import com.example.alphaprojects.model.*;
 import com.example.alphaprojects.util.ConnectionManager;
@@ -32,7 +32,7 @@ public class EmpRepository implements EmployeeRepositoryInterface {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """ 
                 SELECT * FROM emp
-                WHERE emp_email = ? and emp_password = ?        
+                WHERE emp_email = ? and emp_password = ?
                 """;
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ps.setString(1, email);
@@ -62,9 +62,9 @@ public class EmpRepository implements EmployeeRepositoryInterface {
                 SELECT  emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password,
                         emp.role_id,role.role_name,skill.skill_id,skill.skill_name
                 FROM emp
-                JOIN emp_skills on emp.emp_id = emp_skills.emp_id
-                JOIN skill on emp_skills.skill_id = skill.skill_id
-                JOIN role on emp.role_id = role.role_id
+                LEFT JOIN emp_skills on emp.emp_id = emp_skills.emp_id
+                LEFT JOIN skill on emp_skills.skill_id = skill.skill_id
+                LEFT JOIN role on emp.role_id = role.role_id
                 ORDER BY emp.role_id;
                 """;
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
@@ -101,9 +101,9 @@ public class EmpRepository implements EmployeeRepositoryInterface {
                 SELECT  emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password,
                         emp.role_id,role.role_name,skill.skill_id,skill.skill_name
                 FROM emp
-                JOIN emp_skills on emp.emp_id = emp_skills.emp_id
-                JOIN skill on emp_skills.skill_id = skill.skill_id
-                JOIN role on emp.role_id = role.role_id
+                LEFT JOIN emp_skills on emp.emp_id = emp_skills.emp_id
+                LEFT JOIN skill on emp_skills.skill_id = skill.skill_id
+                LEFT JOIN role on emp.role_id = role.role_id
                 WHERE emp.emp_id = ?
                 """;
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
@@ -175,7 +175,7 @@ public class EmpRepository implements EmployeeRepositoryInterface {
 
         String SQLupdateEmp = """
                      UPDATE emp SET emp_name = ?, emp_email = ?, emp_password = ?, role_id = ?
-                     WHERE emp_id = ? 
+                     WHERE emp_id = ?
                 """;
         try (PreparedStatement ps = con.prepareStatement(SQLupdateEmp)) {
             ps.setString(1, emp.getName());
@@ -193,14 +193,15 @@ public class EmpRepository implements EmployeeRepositoryInterface {
             psSkill.executeUpdate();
 
             String SQLinsertSkills = """
-                    INSERT INTO emp_skills (skill_id,emp_id) VALUES (?,?)   
-                     """;
+                    INSERT INTO emp_skills (skill_id,emp_id) VALUES (?,?)
+                    """;
             PreparedStatement psEmpSkill = con.prepareStatement(SQLinsertSkills);
             for (Skill skill : emp.getSkillList()) {
                 int skillID = getSkillIdFromSkillTable(skill.getSkillName());
-                psEmpSkill.setInt(1, skillID);
-                psEmpSkill.setInt(2, emp.getEmpID());
-                psEmpSkill.executeUpdate();
+                    psEmpSkill.setInt(1, skillID);
+                    psEmpSkill.setInt(2, emp.getEmpID());
+                    psEmpSkill.executeUpdate();
+
             }
 
         } catch (SQLException e) {

@@ -1,8 +1,8 @@
 // <editor-fold desc="Task Package Declaration & Import of Libraries">
 package com.example.alphaprojects.repositories;
-import com.example.alphaprojects.Exceptions.TaskAddException;
-import com.example.alphaprojects.Exceptions.TaskEditException;
-import com.example.alphaprojects.interfaces.TaskInterface;
+import com.example.alphaprojects.exceptions.TaskAddException;
+import com.example.alphaprojects.exceptions.TaskEditException;
+import com.example.alphaprojects.interfaces.TaskRepositoryInterface;
 import com.example.alphaprojects.model.EmpSkillDTO;
 import com.example.alphaprojects.model.Skill;
 import com.example.alphaprojects.model.Task;
@@ -17,7 +17,7 @@ import java.util.List;
 // </editor-fold>
 
 @Repository
-public class TaskRepository implements TaskInterface {
+public class TaskRepository implements TaskRepositoryInterface {
 
     @Value("${spring.datasource.url}")
     private String db_url;
@@ -206,7 +206,7 @@ public class TaskRepository implements TaskInterface {
         List<EmpSkillDTO> emps = new ArrayList<>();
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
-            SELECT emp.emp_id, emp.emp_name, skill.skill_id, skill.skill_name 
+            SELECT emp.emp_id, emp.emp_name, skill.skill_id, skill.skill_name
             FROM emp
             JOIN emp_skills ON emp.emp_id = emp_skills.emp_id
             JOIN skill ON emp_skills.skill_id = skill.skill_id
@@ -242,7 +242,7 @@ public class TaskRepository implements TaskInterface {
         List<EmpSkillDTO> empSkillDTOS = new ArrayList<>();
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
-            SELECT emp.emp_id, emp.emp_name, skill.skill_id, skill.skill_name 
+            SELECT emp.emp_id, emp.emp_name, skill.skill_id, skill.skill_name
             FROM emp
             JOIN emp_skills ON emp.emp_id = emp_skills.emp_id
             JOIN skill ON emp_skills.skill_id = skill.skill_id

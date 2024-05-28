@@ -1,9 +1,9 @@
 package com.example.alphaprojects.repositories;
 
-import com.example.alphaprojects.Exceptions.ProjectAddException;
-import com.example.alphaprojects.Exceptions.ProjectEditException;
+import com.example.alphaprojects.exceptions.ProjectAddException;
+import com.example.alphaprojects.exceptions.ProjectEditException;
 import com.example.alphaprojects.model.Project;
-import com.example.alphaprojects.interfaces.ProjectInterface;
+import com.example.alphaprojects.interfaces.ProjectRepositoryInterface;
 import com.example.alphaprojects.model.ProjectManagerDTO;
 import com.example.alphaprojects.util.ConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class ProjectRepository implements ProjectInterface {
+public class ProjectRepository implements ProjectRepositoryInterface {
 
     @Value("${spring.datasource.url}")
     private String db_url;

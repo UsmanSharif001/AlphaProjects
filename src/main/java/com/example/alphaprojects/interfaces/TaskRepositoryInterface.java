@@ -1,13 +1,13 @@
 package com.example.alphaprojects.interfaces;
 
-import com.example.alphaprojects.Exceptions.TaskAddException;
-import com.example.alphaprojects.Exceptions.TaskEditException;
+import com.example.alphaprojects.exceptions.TaskAddException;
+import com.example.alphaprojects.exceptions.TaskEditException;
 import com.example.alphaprojects.model.EmpSkillDTO;
 import com.example.alphaprojects.model.Task;
 
 import java.util.List;
 
-public interface TaskInterface {
+public interface TaskRepositoryInterface {
     void addTask(Task newTask) throws TaskAddException;
 
 

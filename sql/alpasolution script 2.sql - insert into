@@ -1,0 +1,142 @@
+INSERT into skill(skill_name)
+VALUES
+('Scrum Master'),
+('Project Manager'),
+('Java developer'),
+('Junior Python developer');
+
+INSERT into role(role_name)
+VALUES
+('Admin'),
+('User');
+
+INSERT into emp(emp_name,emp_email,emp_password,role_id)
+VALUES
+('Thea','Thea@alphasolutions.com','123',1),
+('Marie','Marie@alphasolutions.com','123',2),
+('Usman','Usman@alphasolutions.com','123',2),
+('Nikolaj','Nikolaj@alphasolutions.com','123',1);
+
+INSERT into emp_skills(skill_id,emp_id)
+VALUES
+(1,1),
+(1,2),
+(2,3),
+(4,2),
+(1,4),
+(2,4),
+(3,4);
+
+INSERT into project(project_manager_id, project_name, project_description, project_time_estimate, project_dedicated_hours, project_deadline,project_status)
+VALUES
+(3, 'Atlantic Airways', 'Atlantic Airways eksisterende platform var ikke den rigtige løsning til deres behov. Flyselskabet efterspurgte en brugervenlig platform, hvor de kunne automatisere deres kommunikation, sende ad hoc nyhedsbreve samt indsamle nye leads på deres hjemmeside. Derfor spurgte de Alpha Solutions om hjælp til at udvælge en ny platform og få den på vingerne. Valget faldt på marketingplatformen Klaviyo, der var det perfekte match til Atlantic Airways’ ønsker.', 2000, 0, '2024-12-12', 'IN_PROGRESS'),
+(4, 'CIP', 'Copenhagen Infrastructure Partners (CIP) er en af verdens førende inden for investeringer i vedvarende energi. Deres globale tilstedeværelse og værdifulde position på markedet er dermed vigtig at fremvise på deres website, hvor formidling og kommunikation om deres arbejde og fonde skal efterlade et professionelt aftryk. Derfor kom CIP til Alpha Solutions med ønsket om at bygge et website. Både i det visuelle udtryk, men også hvad angår indhold og navigation, så vigtig information er let tilgængelig for relevante stakeholders. Samtidig var der behov for en større kontrol over den redaktionelle oplevelse. Med det for øje byggede Alpha Solutions CMS-oplevelsen fra bunden på Umbraco Cloud. Med den nye løsning er det let og gnidningsfrit at skabe og redigere indhold baseret på præ-konfigurerede komponenter. Det giver en markant forbedring og effektivisering i det daglige arbejde med hjemmesiden.', 3000, 0, '2024-08-08', 'IN_PROGRESS'),
+(1, 'Georg Jensen', 'Georg Jensen Damask har siden 1756 været kendetegnet ved kvalitet, funktionsdygtighed og holdbarhed, hvilket prædikatet Kongelig Hofleverandør vidner om. Deres tekstilprodukter og designs præges af årelange traditioner og er af luksuriøs karakter. Samme gode håndværk skulle også være gældende i deres online salgskanaler. Derfor søsatte man et projekt med at bygge et nyt, moderne website, hvor grundpillerne har været æstetik, funktion og fremtidssikring. Udover behovet for et designløft, ønskede Georg Jensen Damask at tilgå en modulær tilgang, hvor de frit ville vælge mellem alle komponenter.', 800, 0, '2024-06-05', 'DONE'),
+(2, 'Fritz Hansen', 'Fritz Hansens re-designede website kendetegnes som en best of breed-løsning, der åbner for den fulde købsoplevelse for både B2B og B2C. Baseret på en kompleks og ambitiøs teknologisk proces, som beror på et enormt datagrundlag, er resultatet en indsigt i et sortiment med 180 millioner produktmuligheder.', 1000, 0, '2025-02-02', 'NOT_STARTED'),
+(2, 'Alpha Projects', 'Projektkalkuleringsværktøj.', 1000, 0, '2025-02-02', 'ARCHIVED');
+
+INSERT into subproject(project_id, subproject_name, subproject_description, subproject_time_estimate, subproject_dedicated_hours, subproject_deadline,subproject_status)
+VALUES
+(1,'Backend','MySQL database', 250, 0,'2024-12-12','IN_PROGRESS'),
+(1,'Frontend','Thymeleaf og Pico', 250, 0,'2024-12-12','IN_PROGRESS'),
+(1,'Test','Automatiseret testing', 250, 0,'2024-12-12','IN_PROGRESS'),
+(2,'Frontend','Thymeleaf og Pico', 300, 0,'2024-12-12','IN_PROGRESS'),
+(2,'Backend','MySQL database', 200, 0,'2024-12-12','IN_PROGRESS'),
+(3,'Frontend','Thymeleaf og Pico', 400, 0,'2024-12-12','DONE'),
+(3,'Backend','MySQL database', 100, 0,'2024-12-12','DONE'),
+(3,'Test','Automatiseret testing', 100, 0,'2024-12-12','DONE'),
+(4,'Frontend','Thymeleaf og Pico', 250, 0,'2024-12-12','IN_PROGRESS'),
+(4,'Backend','MySQL database', 250, 0,'2024-12-12','IN_PROGRESS'),
+(4,'Test','Automatiseret testing', 250, 0,'2024-12-12','IN_PROGRESS'),
+(5,'Frontend','Thymeleaf og Pico', 250, 0,'2024-12-12','DONE'),
+(5,'Backend','MySQL database', 250, 0,'2024-12-12','DONE'),
+(5,'Test','Automatiseret testing', 250, 0,'2024-12-12','DONE');
+
+INSERT into task(subproject_id, task_name, task_description, task_time_estimate, task_deadline,task_status)
+VALUES
+(1,'Bygge MySQL Script','Brug ER-modellen', 3,'2024-10-12','IN_PROGRESS'),
+(1,'Tilføje triggers i script','På alle UPDATE, DELETE og INSERT', 3,'2024-06-06','NOT_STARTED'),
+(2,'Knap til arkiverede projekter','Skal ligge på oversigten', 4,'2024-06-06','IN_PROGRESS'),
+(2,'Formular til redigering','CRUD metode', 5,'2024-06-06','NOT_STARTED'),
+(3,'Integrationstest','Med H2 database', 7,'2024-06-06','DONE'),
+(3,'Unit tests','Repository klassen', 8,'2024-06-06','IN_PROGRESS'),
+(4,'Knap til arkiverede projekter','Skal ligge på Projektoversigten', 1,'2024-06-06','NOT_STARTED'),
+(4,'Slet projekt','Arkiverede projekter skal kunne slettes', 2,'2024-06-06','IN_PROGRESS'),
+(5,'Bygge MySQL Script','Brug ER-modellen', 2,'2024-06-06','DONE'),
+(5,'Tilføje triggers i script','På alle UPDATE, DELETE og INSERT', 2,'2024-06-06','IN_PROGRESS'),
+(6,'Knap til redigér projekt','På projekt-viewet', 2,'2024-06-06','DONE'),
+(6,'Rette Tablehead','Fra Engelsk til Dansk', 2,'2024-06-06','DONE'),
+(7,'Bygge MySQL Script','Brug ER-modellen', 2,'2024-06-06','DONE'),
+(7,'Tilføje triggers i script','På alle UPDATE, DELETE og INSERT', 2,'2024-06-06','DONE'),
+(8,'Integrationstest','Med H2 database', 2,'2024-06-06','DONE'),
+(8,'Unit tests','Repository klassen', 2,'2024-06-06','DONE'),
+(9,'Rette tilbageknap','På task view, så den redirecter til subproject', 2,'2024-06-06','NOT_STARTED'),
+(9,'Rette Tablehead','Fra Engelsk til Dansk', 2,'2024-06-06','NOT_STARTED'),
+(10,'Bygge MySQL Script','Brug ER-modellen', 2,'2024-06-06','NOT_STARTED'),
+(10,'Tilføje triggers i script','På alle UPDATE, DELETE og INSERT', 2,'2024-06-06','NOT_STARTED'),
+(11,'Integrationstest','Med H2 database', 2,'2024-06-06','NOT_STARTED'),
+(11,'Unit tests','Repository klassen', 2,'2024-06-06','NOT_STARTED'),
+(12,'Rette tilbageknap','På task view, så den redirecter til subproject', 2,'2024-06-06','NOT_STARTED'),
+(12,'Rette Tablehead','Fra Engelsk til Dansk', 2,'2024-06-06','NOT_STARTED'),
+(13,'Bygge MySQL Script','Brug ER-modellen', 2,'2024-06-06','NOT_STARTED'),
+(13,'Tilføje triggers i script','På alle UPDATE, DELETE og INSERT', 2,'2024-06-06','NOT_STARTED'),
+(14,'Integrationstest','Med H2 database', 2,'2024-06-06','NOT_STARTED'),
+(14,'Unit tests','Repository klassen', 2,'2024-06-06','NOT_STARTED');
+
+INSERT into task_emp(task_id,emp_id)
+VALUES
+(1,3),
+(1,2),
+(2,4),
+(3,1),
+(3,2),
+(3,3),
+(4,2),
+(4,1),
+(5,2),
+(6,4),
+(6,3),
+(7,4),
+(7,1),
+(7,2),
+(8,2),
+(9,3),
+(9,4),
+(9,1),
+(10,4),
+(11,1),
+(11,2),
+(12,2),
+(13,1),
+(13,2),
+(13,3),
+(13,4),
+(14,3),
+(15,4),
+(15,2),
+(16,3),
+(16,1),
+(17,2),
+(17,1),
+(17,3),
+(18,1),
+(19,3),
+(19,4),
+(20,4),
+(20,2),
+(21,1),
+(22,4),
+(22,3),
+(22,1),
+(22,2),
+(23,4),
+(23,2),
+(24,3),
+(24,1),
+(25,2),
+(26,1),
+(27,3),
+(27,4),
+(27,1),
+(28,2),
+(28,3);

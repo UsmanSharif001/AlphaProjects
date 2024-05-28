@@ -1,7 +1,7 @@
-package com.example.alphaprojects;
+package com.example.alphaprojects.repositoryTest;
 
 
-import com.example.alphaprojects.Exceptions.EmpDeleteException;
+import com.example.alphaprojects.exceptions.EmpDeleteException;
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.EmpDTO;
 import com.example.alphaprojects.model.Skill;
@@ -28,7 +28,6 @@ public class EmpRepositoryTest {
     EmpRepository empRepository;
 
 
-    //TODO husk at slette det her husk igen at slette
     @Test
     @Order(1)
     void loginCorrect(){
@@ -99,8 +98,8 @@ public class EmpRepositoryTest {
         int idForNikolaj = 4;
         String expectedEmail = "Nikolaj@gmail.com";
         Emp emp = empRepository.getEmpFromEmpID(idForNikolaj);
-        String actualName = emp.getEmail();
-        assertEquals(expectedEmail,actualName);
+        String actualEmail = emp.getEmail();
+        assertEquals(expectedEmail,actualEmail);
     }
 
     @Test
@@ -109,8 +108,8 @@ public class EmpRepositoryTest {
         int idForNikolaj = 4;
         String expectedPassword = "123";
         Emp emp = empRepository.getEmpFromEmpID(idForNikolaj);
-        String actualName = emp.getPassword();
-        assertEquals(expectedPassword,actualName);
+        String actualPassword = emp.getPassword();
+        assertEquals(expectedPassword,actualPassword);
     }
 
     @Test
@@ -147,13 +146,18 @@ public class EmpRepositoryTest {
     @Order(13)
     void createEmp(){
     Emp emp = new Emp();
+    emp.setEmpID(5);
     emp.setName("Niels");
     emp.setEmail("Niels@Alphasolutions.com");
     emp.setPassword("123");
     emp.setRoleID(1);
     emp.setSkillList(List.of(new Skill(1,"Scrum Master")));
     empRepository.addEmp(emp);
-    assertNotNull(emp);
+
+    Emp empFound = empRepository.getEmpFromEmpID(emp.getEmpID());
+
+    assertNotNull(empFound);
+    assertEquals(empFound.getName(),emp.getName());
     }
 
     @Test

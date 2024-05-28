@@ -14,7 +14,7 @@ Programmet giver mulighed for at nedbryde projekter i subprojekter og opgaver. D
 AlphaSolutions udtrykte begejstring for konceptet 'shared vision', hvorfor der i projektoverblikket, er implementeret en mulighed for at tilgå netop dette. Denne funktion er med til at skabe en fælles vision blandt projektdeltagerne, således de får en fælles vision og forståelse, og arbejder i samme retning. 
 Hele webapplikationen er selfølgelig pakket pænt ind i en UI (picoCSS) der skaber sammenhæng og intuitiv brugervenlighed. 
 
-Link til deployed version(ikke indsat endnu)
+Link til deployed version: https://projectalphanumt.azurewebsites.net/
 
 ## Teknologier
 * Backend: SpringBoot (Java)
