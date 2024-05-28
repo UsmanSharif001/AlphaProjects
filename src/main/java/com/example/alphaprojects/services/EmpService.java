@@ -39,7 +39,7 @@ public class EmpService {
         empRepository.updateEmp(empDTO);
     }
 
-    public void deleteEmp(int empID) throws EmpDeleteException {
+    public void deleteEmp(int empID){
         empRepository.deleteEmp(empID);
     }
 

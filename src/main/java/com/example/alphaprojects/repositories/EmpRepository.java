@@ -1,16 +1,14 @@
 package com.example.alphaprojects.repositories;
 
 import com.example.alphaprojects.exceptions.EmpDeleteException;
+import com.example.alphaprojects.exceptions.UniqueLoginException;
 import com.example.alphaprojects.interfaces.EmployeeRepositoryInterface;
 import com.example.alphaprojects.model.*;
 import com.example.alphaprojects.util.ConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -162,7 +160,8 @@ public class EmpRepository implements EmployeeRepositoryInterface {
                 psSkill.executeUpdate();
             }
 
-
+        } catch (SQLIntegrityConstraintViolationException e){
+            throw new UniqueLoginException("Mailen er allerede brugt");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -198,9 +197,9 @@ public class EmpRepository implements EmployeeRepositoryInterface {
             PreparedStatement psEmpSkill = con.prepareStatement(SQLinsertSkills);
             for (Skill skill : empDTO.getSkillList()) {
                 int skillID = getSkillIdFromSkillTable(skill.getSkillName());
-                    psEmpSkill.setInt(1, skillID);
-                    psEmpSkill.setInt(2, empDTO.getEmpID());
-                    psEmpSkill.executeUpdate();
+                psEmpSkill.setInt(1, skillID);
+                psEmpSkill.setInt(2, empDTO.getEmpID());
+                psEmpSkill.executeUpdate();
 
             }
 
@@ -210,7 +209,7 @@ public class EmpRepository implements EmployeeRepositoryInterface {
     }
 
     @Override
-    public void deleteEmp(int empID) throws EmpDeleteException {
+    public void deleteEmp(int empID) {
 
         try {
 
@@ -218,31 +217,32 @@ public class EmpRepository implements EmployeeRepositoryInterface {
 
             String SQLGetProjectManagerID = "SELECT project_manager_id FROM project WHERE project_manager_id = ?";
             PreparedStatement ps = con.prepareStatement(SQLGetProjectManagerID);
-            ps.setInt(1, empID);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                throw new EmpDeleteException("Medarbejderen er projektleder på et eller flere projekter og kan derfor ikke slettes");
-            }
+                ps.setInt(1, empID);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                }
 
             String SQLdeleteFromEmpSkill = "DELETE FROM emp_skills WHERE emp_id = ?";
-            PreparedStatement psDeleteEmpSKill = con.prepareStatement(SQLdeleteFromEmpSkill);
-            psDeleteEmpSKill.setInt(1, empID);
-            psDeleteEmpSKill.executeUpdate();
+               PreparedStatement psDeleteEmpSKill = con.prepareStatement(SQLdeleteFromEmpSkill);
+               psDeleteEmpSKill.setInt(1, empID);
+               psDeleteEmpSKill.executeUpdate();
 
 
-            String SQLdeleteFromTaskEmp = "DELETE FROM task_emp WHERE emp_id = ?";
-            PreparedStatement psDeleteTask = con.prepareStatement(SQLdeleteFromTaskEmp);
-            psDeleteTask.setInt(1, empID);
-            psDeleteTask.executeUpdate();
+               String SQLdeleteFromTaskEmp = "DELETE FROM task_emp WHERE emp_id = ?";
+               PreparedStatement psDeleteTask = con.prepareStatement(SQLdeleteFromTaskEmp);
+               psDeleteTask.setInt(1, empID);
+               psDeleteTask.executeUpdate();
 
 
-            String SQLdeleteFromEmp = "DELETE FROM emp WHERE emp_id = ?";
-            PreparedStatement psDelete = con.prepareStatement(SQLdeleteFromEmp);
-            psDelete.setInt(1, empID);
-            psDelete.executeUpdate();
-
+               String SQLdeleteFromEmp = "DELETE FROM emp WHERE emp_id = ?";
+               PreparedStatement psDelete = con.prepareStatement(SQLdeleteFromEmp);
+               psDelete.setInt(1, empID);
+               psDelete.executeUpdate();
 
         } catch (SQLException e) {
+            if (e instanceof SQLIntegrityConstraintViolationException) {
+                throw new EmpDeleteException("Medarbejderen er projektleder på en eller flere projekter, og kan derfor ikke slettes");
+            }
             throw new RuntimeException(e);
         }
 

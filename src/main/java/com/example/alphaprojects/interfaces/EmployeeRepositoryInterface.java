@@ -18,7 +18,7 @@ public interface EmployeeRepositoryInterface {
 
     EmpDTO addEmp(EmpDTO empDTO);
 
-    void deleteEmp(int empID) throws EmpDeleteException;
+    void deleteEmp(int empID);
 
     EmpDTO getEmpFromEmpID(int empID);
 

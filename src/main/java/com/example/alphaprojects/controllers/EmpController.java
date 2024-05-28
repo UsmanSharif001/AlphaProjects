@@ -2,6 +2,7 @@ package com.example.alphaprojects.controllers;
 
 
 import com.example.alphaprojects.exceptions.EmpDeleteException;
+import com.example.alphaprojects.exceptions.UniqueLoginException;
 import com.example.alphaprojects.model.EmpDTO;
 import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.Role;
@@ -133,7 +134,7 @@ public class EmpController {
     /*-----------------------------Delete Emp--------------------------*/
 
     @GetMapping("/{empID}/sletmedarbejder")
-    public String deleteEmp(@PathVariable int empID, HttpSession session)throws EmpDeleteException{
+    public String deleteEmp(@PathVariable int empID, HttpSession session){
         if(isLoggedIn(session)){
             empService.deleteEmp(empID);
             return "redirect:/medarbejdere";
@@ -194,6 +195,13 @@ public class EmpController {
         model.addAttribute("message", exception.getMessage());
         System.out.println(exception.getMessage());
         return "error/empDeleteError";
+    }
+
+    @ExceptionHandler(UniqueLoginException.class)
+    public String handleUniqueLoginError(Model model,Exception exception){
+        model.addAttribute("message", exception.getMessage());
+        System.out.println(exception.getMessage());
+        return "error/uniqueLoginError";
     }
 
 }
