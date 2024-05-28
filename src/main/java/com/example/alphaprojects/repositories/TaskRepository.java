@@ -219,7 +219,7 @@ public class TaskRepository implements TaskRepositoryInterface {
                 int skillID = rs.getInt("skill_id");
                 String skillName = rs.getString("skill_name");
 
-                //Samler alle skills fra employee indtil et EmpSkillDTO, Forsikre at der ikke er dobbelt EmpSkillDTO - kun en empSkillDTO per medarbejder med alle samlet skills pr. emp.
+                //Samler alle skills fra employee indtil et EmpSkillDTO, Forsikre at der ikke er dobbelt EmpSkillDTO - kun en empSkillDTO per medarbejder med alle samlet skills pr. empDTO.
                 EmpSkillDTO empSkillDTO = emps.stream()
                         .filter(e -> e.getEmpID() == empID)
                         .findFirst()
@@ -258,8 +258,8 @@ public class TaskRepository implements TaskRepositoryInterface {
                 int skillID = rs.getInt("skill_id");
                 String skillName = rs.getString("skill_name");
 
-                // 1 emp = 1 empSkillDTO - derved undgår vi duplikation v. tilfælde af emps med flere skills.
-                // Her samler vi alle skills i en liste i ét empSkillDTO -ved at vi undgår at duplére kan vi nu samle alle de skill(s) der er tilknyttet til emp i en liste
+                // 1 empDTO = 1 empSkillDTO - derved undgår vi duplikation v. tilfælde af emps med flere skills.
+                // Her samler vi alle skills i en liste i ét empSkillDTO -ved at vi undgår at duplére kan vi nu samle alle de skill(s) der er tilknyttet til empDTO i en liste
                 EmpSkillDTO empSkillDTO = empSkillDTOS.stream()
                         .filter(e -> e.getEmpID() == empID)
                         .findFirst()

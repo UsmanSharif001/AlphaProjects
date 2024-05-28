@@ -27,8 +27,8 @@ public class EmpRepository implements EmployeeRepositoryInterface {
 
 
     @Override
-    public EmpDTO login(String email, String password) {
-        EmpDTO empDTO = null;
+    public Emp login(String email, String password) {
+        Emp emp = null;
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """ 
                 SELECT * FROM emp
@@ -44,10 +44,10 @@ public class EmpRepository implements EmployeeRepositoryInterface {
                 String empEmail = rs.getString("emp_email");
                 String empPassword = rs.getString("emp_password");
                 int roleID = rs.getInt("role_id");
-                empDTO = new EmpDTO(empID, empName, empEmail, empPassword, roleID);
+                emp = new Emp(empID, empName, empEmail, empPassword, roleID);
 
             }
-            return empDTO;
+            return emp;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -55,8 +55,8 @@ public class EmpRepository implements EmployeeRepositoryInterface {
     }
 
     @Override
-    public List<Emp> getAllEmp() {
-        List<Emp> empList = new ArrayList<>();
+    public List<EmpDTO> getAllEmp() {
+        List<EmpDTO> empDTOList = new ArrayList<>();
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
                 SELECT  emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password,
@@ -70,7 +70,7 @@ public class EmpRepository implements EmployeeRepositoryInterface {
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
             String currentEmpName = "";
-            Emp currentEmp = null;
+            EmpDTO currentEmp = null;
             while (rs.next()) {
                 int empID = rs.getInt("emp_id");
                 String empName = rs.getString("emp_name");
@@ -82,20 +82,20 @@ public class EmpRepository implements EmployeeRepositoryInterface {
                 if (empName.equals(currentEmpName)) {
                     currentEmp.addSkill(skill);
                 } else {
-                    currentEmp = new Emp(empID, empName, empEmail, empPassword, roleID, rolename, new ArrayList<>(List.of(skill)));
+                    currentEmp = new EmpDTO(empID, empName, empEmail, empPassword, roleID, rolename, new ArrayList<>(List.of(skill)));
                     currentEmpName = empName;
-                    empList.add(currentEmp);
+                    empDTOList.add(currentEmp);
                 }
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return empList;
+        return empDTOList;
     }
 
-    public Emp getEmpFromEmpID(int empID) {
-        Emp emp = null;
+    public EmpDTO getEmpFromEmpID(int empID) {
+        EmpDTO empDTO = null;
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
                 SELECT  emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password,
@@ -119,30 +119,30 @@ public class EmpRepository implements EmployeeRepositoryInterface {
                 String rolename = rs.getString("role_name");
                 Skill skill = new Skill(rs.getInt("skill_id"), rs.getString("skill_name"));
                 if (empName.equals(currentEmpName)) {
-                    emp.addSkill(skill);
+                    empDTO.addSkill(skill);
                 } else {
-                    emp = new Emp(eID, empName, empEmail, empPassword, roleID, rolename, new ArrayList<>(List.of(skill)));
+                    empDTO = new EmpDTO(eID, empName, empEmail, empPassword, roleID, rolename, new ArrayList<>(List.of(skill)));
                     currentEmpName = empName;
                 }
             }
-            return emp;
+            return empDTO;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public Emp addEmp(Emp emp) {
+    public EmpDTO addEmp(EmpDTO empDTO) {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
         String SQL = """
                 INSERT INTO emp (emp_name, emp_email, emp_password, role_id) VALUES (?, ?, ?, ?)
                 """;
         try (PreparedStatement ps = con.prepareStatement(SQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-            ps.setString(1, emp.getName());
-            ps.setString(2, emp.getEmail());
-            ps.setString(3, emp.getPassword());
-            ps.setInt(4, emp.getRoleID());
+            ps.setString(1, empDTO.getName());
+            ps.setString(2, empDTO.getEmail());
+            ps.setString(3, empDTO.getPassword());
+            ps.setInt(4, empDTO.getRoleID());
             ps.executeUpdate();
 
             //Get the generated key
@@ -152,10 +152,10 @@ public class EmpRepository implements EmployeeRepositoryInterface {
                 empID = generatedKeys.getInt(1);
             }
 
-            //Associate the new emp with the skills
+            //Associate the new empDTO with the skills
             String skillSQL = "INSERT INTO emp_skills(skill_id,emp_id) VALUES(?,?)";
             PreparedStatement psSkill = con.prepareStatement(skillSQL);
-            for (Skill skill : emp.getSkillList()) {
+            for (Skill skill : empDTO.getSkillList()) {
                 int skillID = getSkillIdFromSkillTable(skill.getSkillName());
                 psSkill.setInt(1, skillID);
                 psSkill.setInt(2, empID);
@@ -167,10 +167,10 @@ public class EmpRepository implements EmployeeRepositoryInterface {
             throw new RuntimeException(e);
         }
 
-        return emp;
+        return empDTO;
     }
 
-    public void updateEmp(Emp emp) {
+    public void updateEmp(EmpDTO empDTO) {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);
 
         String SQLupdateEmp = """
@@ -178,28 +178,28 @@ public class EmpRepository implements EmployeeRepositoryInterface {
                      WHERE emp_id = ?
                 """;
         try (PreparedStatement ps = con.prepareStatement(SQLupdateEmp)) {
-            ps.setString(1, emp.getName());
-            ps.setString(2, emp.getEmail());
-            ps.setString(3, emp.getPassword());
-            ps.setInt(4, emp.getRoleID());
-            ps.setInt(5, emp.getEmpID());
+            ps.setString(1, empDTO.getName());
+            ps.setString(2, empDTO.getEmail());
+            ps.setString(3, empDTO.getPassword());
+            ps.setInt(4, empDTO.getRoleID());
+            ps.setInt(5, empDTO.getEmpID());
             ps.executeUpdate();
 
             String SQLdeleteEmpSkills = """
                     DELETE FROM emp_skills WHERE emp_id = ?
                     """;
             PreparedStatement psSkill = con.prepareStatement(SQLdeleteEmpSkills);
-            psSkill.setInt(1, emp.getEmpID());
+            psSkill.setInt(1, empDTO.getEmpID());
             psSkill.executeUpdate();
 
             String SQLinsertSkills = """
                     INSERT INTO emp_skills (skill_id,emp_id) VALUES (?,?)
                     """;
             PreparedStatement psEmpSkill = con.prepareStatement(SQLinsertSkills);
-            for (Skill skill : emp.getSkillList()) {
+            for (Skill skill : empDTO.getSkillList()) {
                 int skillID = getSkillIdFromSkillTable(skill.getSkillName());
                     psEmpSkill.setInt(1, skillID);
-                    psEmpSkill.setInt(2, emp.getEmpID());
+                    psEmpSkill.setInt(2, empDTO.getEmpID());
                     psEmpSkill.executeUpdate();
 
             }

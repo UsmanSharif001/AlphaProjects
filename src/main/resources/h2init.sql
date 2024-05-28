@@ -25,7 +25,7 @@ CREATE table emp_skills(
                            emp_id INTEGER NOT NULL,
                            PRIMARY KEY(skill_id,emp_id),
                            FOREIGN KEY(skill_id) REFERENCES skill(skill_id),
-                           FOREIGN KEY(emp_id) REFERENCES emp(emp_id)
+                           FOREIGN KEY(emp_id) REFERENCES empDTO(emp_id)
 );
 
 CREATE table project(
@@ -38,7 +38,7 @@ CREATE table project(
                         project_deadline DATE,
                         project_status VARCHAR(200),
                         PRIMARY KEY(project_id),
-                        FOREIGN KEY(project_manager_id) REFERENCES emp(emp_id)
+                        FOREIGN KEY(project_manager_id) REFERENCES empDTO(emp_id)
 );
 
 CREATE table subproject(
@@ -71,7 +71,7 @@ CREATE table task_emp(
                          emp_id INT NOT NULL,
                          PRIMARY KEY(task_id,emp_id),
                          FOREIGN KEY(task_id) REFERENCES task(task_id)ON DELETE CASCADE,
-                         FOREIGN KEY(emp_id) REFERENCES emp(emp_id)
+                         FOREIGN KEY(emp_id) REFERENCES empDTO(emp_id)
 );
 
 INSERT into skill(skill_name)
@@ -86,7 +86,7 @@ VALUES
     ('Admin'),
     ('User');
 
-INSERT into emp(emp_name,emp_email,emp_password,role_id)
+INSERT into empDTO(emp_name,emp_email,emp_password,role_id)
 VALUES
     ('Thea','Thea@gmail.com','123',1),
     ('Marie','Marie@gmail.com','123',2),
