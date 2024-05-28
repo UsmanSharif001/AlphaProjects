@@ -175,7 +175,7 @@ public class EmpRepository implements EmployeeRepositoryInterface {
 
         String SQLupdateEmp = """
                      UPDATE emp SET emp_name = ?, emp_email = ?, emp_password = ?, role_id = ?
-                     WHERE emp_id = ? 
+                     WHERE emp_id = ?
                 """;
         try (PreparedStatement ps = con.prepareStatement(SQLupdateEmp)) {
             ps.setString(1, emp.getName());
@@ -193,8 +193,8 @@ public class EmpRepository implements EmployeeRepositoryInterface {
             psSkill.executeUpdate();
 
             String SQLinsertSkills = """
-                    INSERT INTO emp_skills (skill_id,emp_id) VALUES (?,?)   
-                     """;
+                    INSERT INTO emp_skills (skill_id,emp_id) VALUES (?,?)
+                    """;
             PreparedStatement psEmpSkill = con.prepareStatement(SQLinsertSkills);
             for (Skill skill : emp.getSkillList()) {
                 int skillID = getSkillIdFromSkillTable(skill.getSkillName());
