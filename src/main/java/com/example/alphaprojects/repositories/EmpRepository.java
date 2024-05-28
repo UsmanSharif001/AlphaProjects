@@ -101,9 +101,9 @@ public class EmpRepository implements EmployeeRepositoryInterface {
                 SELECT  emp.emp_id, emp.emp_name, emp.emp_email, emp.emp_password,
                         emp.role_id,role.role_name,skill.skill_id,skill.skill_name
                 FROM emp
-                JOIN emp_skills on emp.emp_id = emp_skills.emp_id
-                JOIN skill on emp_skills.skill_id = skill.skill_id
-                JOIN role on emp.role_id = role.role_id
+                LEFT JOIN emp_skills on emp.emp_id = emp_skills.emp_id
+                LEFT JOIN skill on emp_skills.skill_id = skill.skill_id
+                LEFT JOIN role on emp.role_id = role.role_id
                 WHERE emp.emp_id = ?
                 """;
         try (PreparedStatement ps = con.prepareStatement(SQL)) {
@@ -198,9 +198,10 @@ public class EmpRepository implements EmployeeRepositoryInterface {
             PreparedStatement psEmpSkill = con.prepareStatement(SQLinsertSkills);
             for (Skill skill : emp.getSkillList()) {
                 int skillID = getSkillIdFromSkillTable(skill.getSkillName());
-                psEmpSkill.setInt(1, skillID);
-                psEmpSkill.setInt(2, emp.getEmpID());
-                psEmpSkill.executeUpdate();
+                    psEmpSkill.setInt(1, skillID);
+                    psEmpSkill.setInt(2, emp.getEmpID());
+                    psEmpSkill.executeUpdate();
+
             }
 
         } catch (SQLException e) {
