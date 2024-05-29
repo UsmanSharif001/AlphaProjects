@@ -2,8 +2,8 @@ package com.example.alphaprojects.repositoryTest;
 
 
 import com.example.alphaprojects.exceptions.EmpDeleteException;
-import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.EmpDTO;
+import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.Skill;
 import com.example.alphaprojects.repositories.EmpRepository;
 import org.junit.jupiter.api.MethodOrderer;
@@ -33,7 +33,7 @@ public class EmpRepositoryTest {
     void loginCorrect(){
     String email = "Nikolaj@gmail.com";
     String password = "123";
-    EmpDTO emp = empRepository.login(email, password);
+    Emp emp = empRepository.login(email, password);
         assertNotNull(emp);
 
     }
@@ -43,7 +43,7 @@ public class EmpRepositoryTest {
     void loginWrongEmail(){
         String email = "Niko@gmail.com";
         String password = "123";
-        EmpDTO emp = empRepository.login(email, password);
+        Emp emp = empRepository.login(email, password);
         assertNull(emp);
     }
 
@@ -53,7 +53,7 @@ public class EmpRepositoryTest {
     void loginWrongPassword(){
         String email = "Nikolaj@gmail.com";
         String password = "Forkert kode";
-        EmpDTO emp = empRepository.login(email, password);
+        Emp emp = empRepository.login(email, password);
         assertNull(emp);
     }
 
@@ -69,16 +69,16 @@ public class EmpRepositoryTest {
     @Order(5)
     void getEmpByCorrectEmpID(){
         int idForNikolaj = 4;
-        Emp expectedEmp = empRepository.getEmpFromEmpID(idForNikolaj);
-        assertNotNull(expectedEmp);
+        EmpDTO expectedEmpDTO = empRepository.getEmpFromEmpID(idForNikolaj);
+        assertNotNull(expectedEmpDTO);
     }
 
     @Test
     @Order(6)
     void getEmpByIncorrectEmpID(){
         int incorrectEmpID = 10;
-        Emp expectedIncorrectEmp = empRepository.getEmpFromEmpID(incorrectEmpID);
-        assertNull(expectedIncorrectEmp);
+        EmpDTO expectedIncorrectEmpDTO = empRepository.getEmpFromEmpID(incorrectEmpID);
+        assertNull(expectedIncorrectEmpDTO);
     }
 
     @Test
@@ -86,8 +86,8 @@ public class EmpRepositoryTest {
     void getEmpName(){
         int idForNikolaj = 4;
         String expectedName = "Nikolaj";
-        Emp emp = empRepository.getEmpFromEmpID(idForNikolaj);
-        String actualName = emp.getName();
+        EmpDTO empDTO = empRepository.getEmpFromEmpID(idForNikolaj);
+        String actualName = empDTO.getName();
         assertEquals(expectedName,actualName);
 
     }
@@ -97,8 +97,8 @@ public class EmpRepositoryTest {
     void getEmpEmail(){
         int idForNikolaj = 4;
         String expectedEmail = "Nikolaj@gmail.com";
-        Emp emp = empRepository.getEmpFromEmpID(idForNikolaj);
-        String actualEmail = emp.getEmail();
+        EmpDTO empDTO = empRepository.getEmpFromEmpID(idForNikolaj);
+        String actualEmail = empDTO.getEmail();
         assertEquals(expectedEmail,actualEmail);
     }
 
@@ -107,8 +107,8 @@ public class EmpRepositoryTest {
     void getEmpPassword(){
         int idForNikolaj = 4;
         String expectedPassword = "123";
-        Emp emp = empRepository.getEmpFromEmpID(idForNikolaj);
-        String actualPassword = emp.getPassword();
+        EmpDTO empDTO = empRepository.getEmpFromEmpID(idForNikolaj);
+        String actualPassword = empDTO.getPassword();
         assertEquals(expectedPassword,actualPassword);
     }
 
@@ -117,8 +117,8 @@ public class EmpRepositoryTest {
     void getEmpRoleID(){
         int idForNikolaj = 4;
         int expectedRoleID = 1;
-        Emp emp = empRepository.getEmpFromEmpID(idForNikolaj);
-        int actualRoleID = emp.getRoleID();
+        EmpDTO empDTO = empRepository.getEmpFromEmpID(idForNikolaj);
+        int actualRoleID = empDTO.getRoleID();
         assertEquals(expectedRoleID,actualRoleID);
     }
 
@@ -127,8 +127,8 @@ public class EmpRepositoryTest {
     void getEmpRoleName(){
         int idforNikolaj = 4;
         String expectedRoleName = "Admin";
-        Emp emp = empRepository.getEmpFromEmpID(idforNikolaj);
-        String actualRoleName = emp.getRoleName();
+        EmpDTO empDTO = empRepository.getEmpFromEmpID(idforNikolaj);
+        String actualRoleName = empDTO.getRoleName();
         assertEquals(expectedRoleName,actualRoleName);
     }
 
@@ -137,27 +137,27 @@ public class EmpRepositoryTest {
     void getEmpSkillList(){
         int idForNikolaj = 4;
         List<Skill> expectedSkillList = new ArrayList<>(List.of(new Skill(1,"Scrum Master"),new Skill(2,"Project Manager"),new Skill(3,"Java developer")));
-        Emp emp = empRepository.getEmpFromEmpID(idForNikolaj);
-        List<Skill> actualSkillList = emp.getSkillList();
+        EmpDTO empDTO = empRepository.getEmpFromEmpID(idForNikolaj);
+        List<Skill> actualSkillList = empDTO.getSkillList();
         assertEquals(expectedSkillList,actualSkillList);
     }
 
     @Test
     @Order(13)
     void createEmp(){
-    Emp emp = new Emp();
-    emp.setEmpID(5);
-    emp.setName("Niels");
-    emp.setEmail("Niels@Alphasolutions.com");
-    emp.setPassword("123");
-    emp.setRoleID(1);
-    emp.setSkillList(List.of(new Skill(1,"Scrum Master")));
-    empRepository.addEmp(emp);
+    EmpDTO empDTO = new EmpDTO();
+    empDTO.setEmpID(5);
+    empDTO.setName("Niels");
+    empDTO.setEmail("Niels@Alphasolutions.com");
+    empDTO.setPassword("123");
+    empDTO.setRoleID(1);
+    empDTO.setSkillList(List.of(new Skill(1,"Scrum Master")));
+    empRepository.addEmp(empDTO);
 
-    Emp empFound = empRepository.getEmpFromEmpID(emp.getEmpID());
+    EmpDTO empDTOFound = empRepository.getEmpFromEmpID(empDTO.getEmpID());
 
-    assertNotNull(empFound);
-    assertEquals(empFound.getName(),emp.getName());
+    assertNotNull(empDTOFound);
+    assertEquals(empDTOFound.getName(), empDTO.getName());
     }
 
     @Test
@@ -168,18 +168,18 @@ public class EmpRepositoryTest {
     String expectedPassword = "987";
     int expectedRoleID = 2;
 
-    Emp emp = empRepository.getEmpFromEmpID(4);
-    emp.setName(expectedName);
-    emp.setEmail(expectedEmail);
-    emp.setPassword(expectedPassword);
-    emp.setRoleID(expectedRoleID);
+    EmpDTO empDTO = empRepository.getEmpFromEmpID(4);
+    empDTO.setName(expectedName);
+    empDTO.setEmail(expectedEmail);
+    empDTO.setPassword(expectedPassword);
+    empDTO.setRoleID(expectedRoleID);
 
-    empRepository.updateEmp(emp);
+    empRepository.updateEmp(empDTO);
 
-    String actualName = emp.getName();
-    String actualEmail = emp.getEmail();
-    String actualPassword = emp.getPassword();
-    int actualRoleID = emp.getRoleID();
+    String actualName = empDTO.getName();
+    String actualEmail = empDTO.getEmail();
+    String actualPassword = empDTO.getPassword();
+    int actualRoleID = empDTO.getRoleID();
 
     assertEquals(expectedName,actualName);
     assertEquals(expectedEmail,actualEmail);

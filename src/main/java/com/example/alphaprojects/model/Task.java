@@ -17,7 +17,7 @@ public class Task {
     private LocalDate taskDeadline;
     private String taskStatus;
     private List<Integer> selectedEmpIDs;
-    private List<Emp> assignedEmployees;
+    private List<EmpDTO> assignedEmployees;
     private List<EmpSkillDTO> assignedEmployeesWithSkills;
 
     public Task() {}
@@ -32,7 +32,7 @@ public class Task {
         this.taskStatus = taskStatus;
     }
 
-    public Task(int taskID, int subprojectID, String taskName, String taskDescription, int taskEstimate, LocalDate taskDeadline, String taskStatus, List<Integer> selectedEmpIDs, List<Emp> assignedEmployees, List<EmpSkillDTO> assignedEmployeesWithSkills) {
+    public Task(int taskID, int subprojectID, String taskName, String taskDescription, int taskEstimate, LocalDate taskDeadline, String taskStatus, List<Integer> selectedEmpIDs, List<EmpDTO> assignedEmployees, List<EmpSkillDTO> assignedEmployeesWithSkills) {
         this.taskID = taskID;
         this.subprojectID = subprojectID;
         this.taskName = taskName;
@@ -53,11 +53,11 @@ public class Task {
         this.assignedEmployeesWithSkills = assignedEmployeesWithSkills;
     }
 
-    public List<Emp> getAssignedEmployees() {
+    public List<EmpDTO> getAssignedEmployees() {
         return assignedEmployees;
     }
 
-    public void setAssignedEmployees(List<Emp> assignedEmployees) {
+    public void setAssignedEmployees(List<EmpDTO> assignedEmployees) {
         this.assignedEmployees = assignedEmployees;
     }
 

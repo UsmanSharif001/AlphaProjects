@@ -32,7 +32,7 @@ public class ProjectController {
     @GetMapping("/projekter")
     private String getProjects(Model model, HttpSession session) {
         if (isLoggedIn(session)) {
-            EmpDTO emp = (EmpDTO) session.getAttribute("emp");
+            Emp emp = (Emp) session.getAttribute("emp");
             if (emp.getRoleID() == 1) {
                 model.addAttribute("isAdmin", true);
             }
