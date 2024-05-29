@@ -29,7 +29,7 @@ public class TaskRepository implements TaskRepositoryInterface {
 
     // <editor-fold desc="Task CRUD-Management Methods">
 
-    @GetMapping("/{subprojectid}/tasks")
+
     @Override
     public void addTask(Task newTask) throws TaskAddException {
         Connection con = ConnectionManager.getConnection(db_url, username, pwd);

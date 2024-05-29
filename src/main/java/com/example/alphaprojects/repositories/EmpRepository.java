@@ -241,7 +241,7 @@ public class EmpRepository implements EmployeeRepositoryInterface {
 
         } catch (SQLException e) {
             if (e instanceof SQLIntegrityConstraintViolationException) {
-                throw new EmpDeleteException("Medarbejderen er projektleder på en eller flere projekter, og kan derfor ikke slettes");
+                throw new EmpDeleteException("Medarbejderen er projektleder på et eller flere projekter, og kan derfor ikke slettes");
             }
             throw new RuntimeException(e);
         }
