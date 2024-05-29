@@ -152,4 +152,18 @@ BEGIN
 END;
 //
 
+CREATE TRIGGER trg_update_project_hours_on_subproject_delete
+AFTER DELETE ON subproject
+FOR EACH ROW
+BEGIN
+    UPDATE project
+    SET project_dedicated_hours = (
+        SELECT SUM(subproject_dedicated_hours)
+        FROM subproject
+        WHERE project_id = OLD.project_id
+    )
+    WHERE project_id = OLD.project_id;
+END;
+//
+
 DELIMITER ;

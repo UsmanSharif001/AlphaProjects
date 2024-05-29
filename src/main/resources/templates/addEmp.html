@@ -16,10 +16,10 @@
         <label for="email">Email</label>
         <input id="email" type="email" th:field="*{email}" required placeholder="Navn@Alphasolutions.com"/>
 
-        <label for="password">Password</label>
+        <label for="password">Kodeord</label>
         <input id="password" type="password" th:field="*{password}" required/>
 
-        <label for="role">Role</label>
+        <label for="role">Rettighedsprofil</label>
         <select id="role" name="role" th:field="*{roleID}">
             <option th:each="role: ${listOfRoles}"
                     th:value="${role.role_id}"
@@ -28,7 +28,7 @@
         </select>
 
 
-        <label>Skills</label>
+        <label>Kompetence(r)</label>
         <div th:each="skill : ${listOfSkills}">
             <input type="checkbox"
                    th:field="*{skillList}"

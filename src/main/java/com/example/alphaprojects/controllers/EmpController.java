@@ -2,8 +2,9 @@ package com.example.alphaprojects.controllers;
 
 
 import com.example.alphaprojects.exceptions.EmpDeleteException;
-import com.example.alphaprojects.model.Emp;
+import com.example.alphaprojects.exceptions.UniqueLoginException;
 import com.example.alphaprojects.model.EmpDTO;
+import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.Role;
 import com.example.alphaprojects.model.Skill;
 import com.example.alphaprojects.services.EmpService;
@@ -28,7 +29,7 @@ public class EmpController {
     }
 
     private void isAdmin(HttpSession session, Model model) {
-        EmpDTO emp = (EmpDTO) session.getAttribute("emp");
+        Emp emp = (Emp) session.getAttribute("emp");
         if(emp.getRoleID() == 1){
             model.addAttribute("isAdmin", true);
         }
@@ -44,7 +45,7 @@ public class EmpController {
     @PostMapping("/login")
     public String login(@RequestParam String email, @RequestParam String password,
                         HttpSession session, Model model) {
-        EmpDTO emp = empService.login(email,password);
+        Emp emp = empService.login(email,password);
         if (emp != null){
             session.setAttribute("emp", emp);
             session.setMaxInactiveInterval(1200);
@@ -72,7 +73,7 @@ public class EmpController {
     public String getListofEmployees(HttpSession session, Model model){
         if(isLoggedIn(session)){
             isAdmin(session,model);
-            List<Emp> empList = empService.getAllEmp();
+            List<EmpDTO> empList = empService.getAllEmp();
             model.addAttribute("empList", empList);
             return "employeelist";
         }
@@ -85,7 +86,7 @@ public class EmpController {
     public String addEmp(HttpSession session, Model model) {
     if(isLoggedIn(session)){
         isAdmin(session,model);
-        model.addAttribute("emp", new Emp());
+        model.addAttribute("emp", new EmpDTO());
         List<Skill> skillList = empService.getSkills();
         model.addAttribute("listOfSkills", skillList);
         List<Role> roleList = empService.getRoles();
@@ -96,9 +97,9 @@ public class EmpController {
     }
 
     @PostMapping("/gemmedarbejder")
-    public String saveEmp(@ModelAttribute Emp emp, HttpSession session) {
+    public String saveEmp(@ModelAttribute EmpDTO empDTO, HttpSession session) {
         if(isLoggedIn(session)){
-        empService.addEmp(emp);
+        empService.addEmp(empDTO);
         return "redirect:/medarbejdere";
         }
         return "redirect:login";
@@ -110,7 +111,7 @@ public class EmpController {
     private String editEmp(@PathVariable int empID, HttpSession session, Model model) {
         if(isLoggedIn(session)){
             isAdmin(session,model);
-            Emp editEmp = empService.getEmpFromEmpID(empID);
+            EmpDTO editEmp = empService.getEmpFromEmpID(empID);
             model.addAttribute("emp", editEmp);
             List<Skill> skillList = empService.getSkills();
             model.addAttribute("listOfSkills", skillList);
@@ -122,9 +123,9 @@ public class EmpController {
     }
 
     @PostMapping("/{empID}/opdatermedarbejder")
-    public String updateEmp(@ModelAttribute Emp emp, HttpSession session) {
+    public String updateEmp(@ModelAttribute EmpDTO empDTO, HttpSession session) {
         if(isLoggedIn(session)){
-            empService.updateEmp(emp);
+            empService.updateEmp(empDTO);
             return "redirect:/medarbejdere";
         }
         return "redirect:login";
@@ -133,7 +134,7 @@ public class EmpController {
     /*-----------------------------Delete Emp--------------------------*/
 
     @GetMapping("/{empID}/sletmedarbejder")
-    public String deleteEmp(@PathVariable int empID, HttpSession session)throws EmpDeleteException{
+    public String deleteEmp(@PathVariable int empID, HttpSession session){
         if(isLoggedIn(session)){
             empService.deleteEmp(empID);
             return "redirect:/medarbejdere";
@@ -194,6 +195,13 @@ public class EmpController {
         model.addAttribute("message", exception.getMessage());
         System.out.println(exception.getMessage());
         return "error/empDeleteError";
+    }
+
+    @ExceptionHandler(UniqueLoginException.class)
+    public String handleUniqueLoginError(Model model,Exception exception){
+        model.addAttribute("message", exception.getMessage());
+        System.out.println(exception.getMessage());
+        return "error/uniqueLoginError";
     }
 
 }

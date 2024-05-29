@@ -1,8 +1,8 @@
 package com.example.alphaprojects.interfaces;
 
 import com.example.alphaprojects.exceptions.EmpDeleteException;
-import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.EmpDTO;
+import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.Role;
 import com.example.alphaprojects.model.Skill;
 
@@ -12,17 +12,17 @@ public interface EmployeeRepositoryInterface {
 
 
 
-    EmpDTO login(String username, String password);
+    Emp login(String username, String password);
 
-    List<Emp> getAllEmp();
+    List<EmpDTO> getAllEmp();
 
-    Emp addEmp(Emp emp);
+    EmpDTO addEmp(EmpDTO empDTO);
 
-    void deleteEmp(int empID) throws EmpDeleteException;
+    void deleteEmp(int empID);
 
-    Emp getEmpFromEmpID(int empID);
+    EmpDTO getEmpFromEmpID(int empID);
 
-    void updateEmp(Emp emp);
+    void updateEmp(EmpDTO empDTO);
 
     List<Role> getRoles();
 

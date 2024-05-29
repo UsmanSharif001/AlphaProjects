@@ -2,8 +2,8 @@ package com.example.alphaprojects.services;
 
 import com.example.alphaprojects.exceptions.EmpDeleteException;
 import com.example.alphaprojects.interfaces.EmployeeRepositoryInterface;
-import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.EmpDTO;
+import com.example.alphaprojects.model.Emp;
 import com.example.alphaprojects.model.Role;
 import com.example.alphaprojects.model.Skill;
 import org.springframework.stereotype.Service;
@@ -19,27 +19,27 @@ public class EmpService {
     }
 
 
-    public EmpDTO login(String email, String password) {
+    public Emp login(String email, String password) {
         return empRepository.login(email, password);
     }
 
-    public List<Emp> getAllEmp(){
+    public List<EmpDTO> getAllEmp(){
         return empRepository.getAllEmp();
     }
 
-    public Emp addEmp(Emp emp) {
-        return empRepository.addEmp(emp);
+    public EmpDTO addEmp(EmpDTO empDTO) {
+        return empRepository.addEmp(empDTO);
     }
 
-    public Emp getEmpFromEmpID(int empId) {
+    public EmpDTO getEmpFromEmpID(int empId) {
         return empRepository.getEmpFromEmpID(empId);
     }
 
-    public void updateEmp(Emp emp) {
-        empRepository.updateEmp(emp);
+    public void updateEmp(EmpDTO empDTO) {
+        empRepository.updateEmp(empDTO);
     }
 
-    public void deleteEmp(int empID) throws EmpDeleteException {
+    public void deleteEmp(int empID){
         empRepository.deleteEmp(empID);
     }
 
